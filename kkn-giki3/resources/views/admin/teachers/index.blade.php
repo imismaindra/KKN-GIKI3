@@ -53,8 +53,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-slate-600">
                                     {{ $teacher->position }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-slate-500 font-mono">
-                                    {{ $teacher->order }}
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center justify-center px-2.5 py-1 text-xs font-semibold text-slate-500 bg-slate-50 rounded-lg border border-slate-200/50 font-mono">
+                                        Urutan: {{ $teacher->order }}
+                                    </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-xs space-x-2">
                                     <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="inline-block px-3 py-1.5 bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 font-semibold rounded-lg transition duration-150">

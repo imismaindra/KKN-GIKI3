@@ -49,7 +49,14 @@
                                     {{ $facility->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-mono">{{ $facility->icon ?? '-' }}</span>
+                                    @if($facility->icon)
+                                        <div class="flex items-center space-x-2">
+                                            <span class="material-symbols-outlined text-xl text-slate-700 bg-slate-50 p-2 rounded-xl border border-slate-100">{{ $facility->icon }}</span>
+                                            <span class="text-xs text-slate-400 font-mono">{{ $facility->icon }}</span>
+                                        </div>
+                                    @else
+                                        <span class="text-slate-300">-</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 max-w-xs truncate">
                                     {{ $facility->description }}

@@ -34,25 +34,52 @@
                         <div class="hero-preview-slide absolute inset-0 w-full h-full opacity-0 transition-all duration-700 ease-in-out flex items-center" data-index="{{ $index }}">
                             <!-- Background Image Layer -->
                             <div class="absolute inset-0 z-0">
-                                <img src="{{ Storage::url($banner->image_path) }}" alt="{{ $banner->title }}" class="w-full h-full object-cover brightness-[0.55] transition-transform duration-[4000ms] ease-out scale-100">
-                                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/30 to-transparent"></div>
+                                <img src="{{ Storage::url($banner->image_path) }}" 
+                                     onerror="this.onerror=null; this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
+                                     alt="{{ $banner->title }}" 
+                                     class="w-full h-full object-cover transition-transform duration-[4000ms] ease-out scale-100">
+                                <div class="hidden absolute inset-0 bg-slate-800 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-slate-600/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="absolute inset-0 bg-[#0f172a]" style="opacity: {{ ($banner->overlay_opacity ?? 60) / 100 }}"></div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-transparent"></div>
                             </div>
                             
                             <!-- Content -->
-                            <div class="relative z-10 w-full max-w-xl pl-8 md:pl-16 pr-8 text-white space-y-3.5 transform translate-y-4 transition-all duration-700 delay-100">
+                            @php
+                                $ctaColorClasses = [
+                                    'amber' => 'bg-amber-500 hover:bg-amber-600 text-slate-950',
+                                    'blue' => 'bg-blue-600 hover:bg-blue-700 text-white',
+                                    'emerald' => 'bg-emerald-600 hover:bg-emerald-700 text-white',
+                                    'red' => 'bg-red-600 hover:bg-red-700 text-white',
+                                    'indigo' => 'bg-indigo-600 hover:bg-indigo-700 text-white',
+                                    'slate' => 'bg-slate-700 hover:bg-slate-800 text-white',
+                                ][$banner->cta_color ?? 'amber'] ?? 'bg-amber-500 hover:bg-amber-600 text-slate-950';
+
+                                $alignmentClasses = [
+                                    'left' => 'items-start text-left pl-8 md:pl-16 pr-8 mr-auto',
+                                    'center' => 'items-center text-center px-8 mx-auto',
+                                    'right' => 'items-end text-right pl-8 pr-8 md:pr-16 ml-auto',
+                                ][$banner->alignment ?? 'left'] ?? 'items-start text-left pl-8 md:pl-16 pr-8 mr-auto';
+                            @endphp
+                            <div class="relative z-10 w-full max-w-xl text-white space-y-3.5 transform translate-y-4 transition-all duration-700 delay-100 flex flex-col {{ $alignmentClasses }}">
                                 <span class="inline-flex items-center gap-1.5 bg-indigo-500/10 backdrop-blur-md px-3 py-1 rounded-full border border-indigo-500/25 text-[10px] text-indigo-300 font-bold tracking-wider uppercase">
                                     <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse"></span>
                                     Urutan ke-{{ $banner->order }}
                                 </span>
-                                <h1 class="text-xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.4)]">
+                                <h1 class="text-xl md:text-3xl lg:text-4xl font-black tracking-tight leading-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.3)]
+                                    {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-900' : 'text-white' }}">
                                     {{ $banner->title }}
                                 </h1>
-                                <p class="text-slate-300 text-xs md:text-sm max-w-md line-clamp-2 leading-relaxed [text-shadow:_0_1px_2px_rgba(0,0,0,0.3)]">
+                                <p class="text-xs md:text-sm max-w-md line-clamp-2 leading-relaxed [text-shadow:_0_1px_2px_rgba(0,0,0,0.2)]
+                                    {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-600' : 'text-slate-300' }}">
                                     {{ $banner->subtitle ?? '' }}
                                 </p>
                                 @if($banner->button_text)
                                     <div class="pt-1.5">
-                                        <a href="{{ $banner->button_url ?? '#' }}" target="_blank" class="inline-flex items-center space-x-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-full shadow-lg transition duration-200">
+                                        <a href="{{ $banner->button_url ?? '#' }}" target="_blank" class="inline-flex items-center space-x-2 active:scale-95 font-bold text-xs px-5 py-2.5 rounded-full shadow-lg transition duration-200 {{ $ctaColorClasses }}">
                                             <span>{{ $banner->button_text }}</span>
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                         </a>
@@ -94,31 +121,105 @@
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($banners as $banner)
-                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between">
-                    <div class="relative aspect-video bg-slate-100">
-                        <img src="{{ Storage::url($banner->image_path) }}" alt="{{ $banner->title }}" class="w-full h-full object-cover">
-                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-xs px-2.5 py-1 rounded-full font-semibold">
+                @php
+                    $ctaPreviewClasses = [
+                        'amber' => 'bg-amber-500/10 text-amber-700 border-amber-500/20',
+                        'blue' => 'bg-blue-500/10 text-blue-700 border-blue-500/20',
+                        'emerald' => 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
+                        'red' => 'bg-red-500/10 text-red-700 border-red-500/20',
+                        'indigo' => 'bg-indigo-500/10 text-indigo-700 border-indigo-500/20',
+                        'slate' => 'bg-slate-500/10 text-slate-700 border-slate-500/20',
+                    ][$banner->cta_color ?? 'amber'] ?? 'bg-amber-500/10 text-amber-700 border-amber-500/20';
+                @endphp
+                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between group">
+                    <!-- Image container with hover zoom -->
+                    <div class="relative aspect-video bg-slate-100 overflow-hidden">
+                        <img src="{{ Storage::url($banner->image_path) }}" 
+                             onerror="this.onerror=null; this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');"
+                             alt="{{ $banner->title }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        
+                        <!-- Beautiful fallback image -->
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+                            <svg class="w-10 h-10 text-slate-300 mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-xs font-medium text-slate-400">Gambar tidak ditemukan</span>
+                        </div>
+
+                        <!-- Urutan Badge overlay -->
+                        <span class="absolute top-3 left-3 bg-slate-950/60 backdrop-blur-md text-white text-[11px] px-2.5 py-1 rounded-full font-bold border border-white/10 z-10">
                             Urutan: {{ $banner->order }}
                         </span>
                     </div>
+
+                    <!-- Card Body -->
                     <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div class="space-y-2 mb-6">
-                            <h4 class="text-lg font-bold text-slate-800 line-clamp-1">{{ $banner->title }}</h4>
-                            <p class="text-slate-500 text-sm line-clamp-2">{{ $banner->subtitle ?? 'Tidak ada sub-judul' }}</p>
+                        <div class="space-y-4 mb-5">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-800 line-clamp-1 leading-snug group-hover:text-blue-600 transition-colors" title="{{ $banner->title }}">
+                                    {{ $banner->title }}
+                                </h4>
+                                <p class="text-slate-500 text-xs line-clamp-2 mt-1 leading-relaxed min-h-[2rem]">
+                                    {{ $banner->subtitle ?? 'Tidak ada sub-judul' }}
+                                </p>
+                            </div>
+
+                            <!-- Styled Action Button CTA preview -->
                             @if($banner->button_text)
-                                <div class="inline-flex items-center text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg font-medium">
-                                    CTA: {{ $banner->button_text }}
+                                <div class="pt-1">
+                                    <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase block mb-1">Aksi Tombol (CTA)</span>
+                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border {{ $ctaPreviewClasses }}">
+                                        <span>{{ $banner->button_text }}</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
                                 </div>
                             @endif
+
+                            <!-- Visual Settings Badges -->
+                            <div class="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+                                <span class="inline-flex items-center gap-1 text-[10px] bg-slate-50 text-slate-600 px-2 py-0.5 rounded-md font-medium border border-slate-100">
+                                    @if(($banner->alignment ?? 'left') === 'left')
+                                        <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path></svg>
+                                        Kiri
+                                    @elseif(($banner->alignment ?? 'left') === 'center')
+                                        <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M4 18h16"></path></svg>
+                                        Tengah
+                                    @else
+                                        <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M4 18h16"></path></svg>
+                                        Kanan
+                                    @endif
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[10px] bg-slate-50 text-slate-600 px-2 py-0.5 rounded-md font-medium border border-slate-100">
+                                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                                    Teks: {{ ($banner->text_color ?? 'light') === 'dark' ? 'Gelap' : 'Terang' }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[10px] bg-slate-50 text-slate-600 px-2 py-0.5 rounded-md font-medium border border-slate-100">
+                                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                    Overlay: {{ $banner->overlay_opacity ?? 60 }}%
+                                </span>
+                            </div>
                         </div>
-                        <div class="flex items-center space-x-2 pt-4 border-t border-slate-50">
-                            <a href="{{ route('admin.banners.edit', $banner->id) }}" class="flex-1 text-center py-2 bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-600 font-semibold rounded-xl text-xs transition duration-150">
+
+                        <!-- Card Actions -->
+                        <div class="flex items-center space-x-2 pt-4 border-t border-slate-100">
+                            <a href="{{ route('admin.banners.edit', $banner->id) }}" 
+                               class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 hover:bg-blue-50 border border-slate-200/60 hover:border-blue-200 text-slate-600 hover:text-blue-600 font-bold rounded-xl text-xs transition duration-150 active:scale-98">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
                                 Edit
                             </a>
                             <form action="{{ route('admin.banners.destroy', $banner->id) }}" method="POST" class="flex-1" onsubmit="return confirm('Apakah Anda yakin ingin menghapus banner ini?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="w-full text-center py-2 bg-slate-50 hover:bg-red-50 text-slate-600 hover:text-red-600 font-semibold rounded-xl text-xs transition duration-150">
+                                <button type="submit" 
+                                        class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 hover:bg-red-50 border border-slate-200/60 hover:border-red-200 text-slate-600 hover:text-red-600 font-bold rounded-xl text-xs transition duration-150 active:scale-98">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
                                     Hapus
                                 </button>
                             </form>

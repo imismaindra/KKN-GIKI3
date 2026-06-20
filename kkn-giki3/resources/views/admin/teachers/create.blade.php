@@ -24,24 +24,65 @@
 
         <div>
             <label for="position" class="block text-sm font-semibold text-slate-700 mb-1">Jabatan / Guru Bidang Studi</label>
-            <input type="text" name="position" id="position" value="{{ old('position') }}" required placeholder="Contoh: Guru Matematika / Kepala Sekolah"
+            <input type="text" name="position" id="position" value="{{ old('position') }}" required placeholder="Contoh: Guru Matematika / Kepala Sekolah" list="positions-list"
                 class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+            <datalist id="positions-list">
+                <option value="Kepala Sekolah">
+                <option value="Wakil Kepala Sekolah Bidang Kurikulum">
+                <option value="Wakil Kepala Sekolah Bidang Kesiswaan">
+                <option value="Wakil Kepala Sekolah Bidang Humas">
+                <option value="Wakil Kepala Sekolah Bidang Sarana & Prasarana">
+                <option value="Guru Bimbingan Konseling (BK)">
+                <option value="Guru Bahasa Indonesia">
+                <option value="Guru Bahasa Inggris">
+                <option value="Guru Matematika">
+                <option value="Guru Pendidikan Jasmani (PJOK)">
+                <option value="Guru Seni Budaya">
+                <option value="Guru IPA (Fisika/Kimia/Biologi)">
+                <option value="Guru IPS (Sejarah/Sosiologi/Ekonomi)">
+                <option value="Guru Pendidikan Agama & Budi Pekerti">
+                <option value="Staf Tata Usaha">
+                <option value="Pustakawan">
+            </datalist>
             @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div>
-            <label for="photo" class="block text-sm font-semibold text-slate-700 mb-1">Pilih Foto Profil (Opsional)</label>
-            <input type="file" name="photo" id="photo" accept="image/*"
-                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 cursor-pointer">
-            <p class="text-xs text-slate-400 mt-1">Foto formal rasio 3x4 atau pasfoto. Maksimal 2MB.</p>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Foto Profil / Pasfoto (Opsional)</label>
+            
+            <div id="image-dropzone" class="border-2 border-dashed border-slate-200 hover:border-blue-500 rounded-2xl p-6 bg-slate-50 transition cursor-pointer relative flex flex-col items-center justify-center text-center group min-h-[220px]">
+                <input type="file" name="photo" id="photo" accept="image/*" onchange="previewImage(event)"
+                    class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
+                
+                <div id="image-placeholder-wrapper" class="space-y-2">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto transition group-hover:scale-110">
+                        <span class="material-symbols-outlined text-2xl">account_box</span>
+                    </div>
+                    <div class="text-sm font-semibold text-slate-700">Pilih atau Tarik Pasfoto Guru</div>
+                    <div class="text-xs text-slate-400">Rasio pasfoto formal 3x4 diutamakan. Maksimal 2MB.</div>
+                </div>
+
+                <div id="image-preview-container" class="hidden w-36 h-48 rounded-xl overflow-hidden relative border border-slate-200 bg-white shadow-sm">
+                    <img id="image-preview-el" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 hover:opacity-100 flex items-center justify-center text-white font-semibold text-xs transition">
+                        Ganti Foto
+                    </div>
+                </div>
+            </div>
             @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label for="order" class="block text-sm font-semibold text-slate-700 mb-1">Nomor Urutan Tampil</label>
-            <input type="number" name="order" id="order" value="{{ old('order', 0) }}" min="0" required
-                class="w-48 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
-            <p class="text-xs text-slate-400 mt-1">Urutan tampil (Kepala sekolah biasanya diberi urutan 0 atau 1).</p>
+            <div class="flex items-center space-x-2">
+                <input type="number" name="order" id="order" value="{{ old('order', 0) }}" min="0" required
+                    class="w-32 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                <span class="text-xs text-slate-400">Mengatur posisi urutan tampil di web utama.</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-2 bg-slate-50 border border-slate-100 p-3 rounded-xl leading-relaxed">
+                <strong>💡 Info Urutan:</strong> Urutan tampil dimulai dari angka terkecil ke terbesar.
+                <br>Contoh: <strong>1</strong> (Kepala Sekolah), <strong>2</strong> (Wakil Kepala Sekolah), <strong>3</strong> (Guru Mata Pelajaran), dst.
+            </p>
             @error('order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -54,3 +95,25 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const reader = new FileReader();
+        reader.onload = function(){
+            const dataURL = reader.result;
+            const previewEl = document.getElementById('image-preview-el');
+            const previewContainer = document.getElementById('image-preview-container');
+            const placeholderWrapper = document.getElementById('image-placeholder-wrapper');
+            
+            previewEl.src = dataURL;
+            previewContainer.classList.remove('hidden');
+            placeholderWrapper.classList.add('hidden');
+        };
+        if (input.files && input.files[0]) {
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endpush

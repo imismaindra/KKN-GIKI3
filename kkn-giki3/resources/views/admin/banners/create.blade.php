@@ -64,6 +64,58 @@
                     @error('order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
+                <!-- Custom Styling Selectors -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-slate-100">
+                    <div>
+                        <label for="alignment" class="block text-sm font-semibold text-slate-700 mb-1">Penyelarasan Teks & Tombol</label>
+                        <select name="alignment" id="alignment" required
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                            <option value="left" {{ old('alignment', 'left') === 'left' ? 'selected' : '' }}>Kiri (Default)</option>
+                            <option value="center" {{ old('alignment') === 'center' ? 'selected' : '' }}>Tengah</option>
+                            <option value="right" {{ old('alignment') === 'right' ? 'selected' : '' }}>Kanan</option>
+                        </select>
+                        @error('alignment') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="cta_color" class="block text-sm font-semibold text-slate-700 mb-1">Warna Tombol CTA</label>
+                        <select name="cta_color" id="cta_color" required
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                            <option value="amber" {{ old('cta_color', 'amber') === 'amber' ? 'selected' : '' }}>Amber / Kuning</option>
+                            <option value="blue" {{ old('cta_color') === 'blue' ? 'selected' : '' }}>Biru / Blue</option>
+                            <option value="emerald" {{ old('cta_color') === 'emerald' ? 'selected' : '' }}>Hijau / Emerald</option>
+                            <option value="red" {{ old('cta_color') === 'red' ? 'selected' : '' }}>Merah / Red</option>
+                            <option value="indigo" {{ old('cta_color') === 'indigo' ? 'selected' : '' }}>Indigo</option>
+                            <option value="slate" {{ old('cta_color') === 'slate' ? 'selected' : '' }}>Slate / Abu-abu</option>
+                        </select>
+                        @error('cta_color') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label for="overlay_opacity" class="block text-sm font-semibold text-slate-700 mb-1">Kekuatan Gelap Latar Belakang</label>
+                        <select name="overlay_opacity" id="overlay_opacity" required
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                            <option value="20" {{ old('overlay_opacity') == 20 ? 'selected' : '' }}>Sangat Terang (20%)</option>
+                            <option value="40" {{ old('overlay_opacity') == 40 ? 'selected' : '' }}>Sedang (40%)</option>
+                            <option value="60" {{ old('overlay_opacity', 60) == 60 ? 'selected' : '' }}>Gelap (60% - Default)</option>
+                            <option value="80" {{ old('overlay_opacity') == 80 ? 'selected' : '' }}>Sangat Gelap (80%)</option>
+                        </select>
+                        @error('overlay_opacity') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="text_color" class="block text-sm font-semibold text-slate-700 mb-1">Tema Warna Tulisan</label>
+                        <select name="text_color" id="text_color" required
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                            <option value="light" {{ old('text_color', 'light') === 'light' ? 'selected' : '' }}>Terang / Putih (Default)</option>
+                            <option value="dark" {{ old('text_color') === 'dark' ? 'selected' : '' }}>Gelap / Hitam (Slate)</option>
+                        </select>
+                        @error('text_color') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
                 <div class="flex justify-end pt-4 border-t border-slate-50">
                     <button type="submit"
                         class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition duration-150 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20">
@@ -97,11 +149,13 @@
                             </svg>
                             <span class="text-xs font-semibold text-slate-600">Pilih gambar untuk melihat latar belakang</span>
                         </div>
-                        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent"></div>
+                        <!-- Inline overlay div to dynamically adjust opacity via JS -->
+                        <div id="live-preview-overlay" class="absolute inset-0 bg-[#0f172a] transition-all duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-transparent"></div>
                     </div>
                     
                     <!-- Content -->
-                    <div class="relative z-10 w-full text-white space-y-3">
+                    <div id="live-preview-content" class="relative z-10 w-full text-white space-y-3 flex flex-col items-start text-left">
                         <span id="live-preview-order-tag" class="inline-flex items-center gap-1.5 bg-indigo-500/10 backdrop-blur-md px-3 py-1 rounded-full border border-indigo-500/25 text-[10px] text-indigo-300 font-bold tracking-wider uppercase">
                             <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping"></span>
                             Urutan ke-<span id="live-preview-order">0</span>
@@ -113,7 +167,7 @@
                             Deskripsi pendek atau sub-judul banner yang akan ditampilkan di bawah judul utama.
                         </p>
                         <div id="live-preview-cta-container" class="pt-2 hidden">
-                            <span id="live-preview-cta" class="inline-flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold text-[10px] md:text-xs px-5 py-2.5 rounded-full shadow-lg">
+                            <span id="live-preview-cta" class="inline-flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold text-[10px] md:text-xs px-5 py-2.5 rounded-full shadow-lg transition duration-200">
                                 <span id="live-preview-cta-text">Tombol CTA</span>
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </span>
@@ -135,39 +189,95 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonTextInput = document.getElementById('button_text');
     const imageInput = document.getElementById('image_path');
     
+    // Style settings inputs
+    const alignmentInput = document.getElementById('alignment');
+    const ctaColorInput = document.getElementById('cta_color');
+    const overlayOpacityInput = document.getElementById('overlay_opacity');
+    const textColorInput = document.getElementById('text_color');
+    
+    // Live preview elements
     const previewTitle = document.getElementById('live-preview-title');
     const previewSubtitle = document.getElementById('live-preview-subtitle');
     const previewOrder = document.getElementById('live-preview-order');
     const previewCtaText = document.getElementById('live-preview-cta-text');
     const previewCtaContainer = document.getElementById('live-preview-cta-container');
+    const previewCta = document.getElementById('live-preview-cta');
     const previewBg = document.getElementById('live-preview-bg');
     const previewPlaceholder = document.getElementById('live-preview-placeholder');
+    const previewOverlay = document.getElementById('live-preview-overlay');
+    const previewContent = document.getElementById('live-preview-content');
     
-    // Live update title
-    titleInput.addEventListener('input', function() {
-        previewTitle.textContent = this.value || 'Judul Utama Banner';
-    });
-    
-    // Live update subtitle
-    subtitleInput.addEventListener('input', function() {
-        previewSubtitle.textContent = this.value || 'Deskripsi pendek atau sub-judul banner yang akan ditampilkan di bawah judul utama.';
-    });
-    
-    // Live update order
-    orderInput.addEventListener('input', function() {
-        previewOrder.textContent = this.value || '0';
-    });
-    
-    // Live update button text
-    buttonTextInput.addEventListener('input', function() {
-        if (this.value.trim() !== '') {
-            previewCtaText.textContent = this.value;
+    // CTA Colors Mapping
+    const ctaColors = {
+        amber: 'bg-amber-500 text-slate-950 hover:bg-amber-600',
+        blue: 'bg-blue-600 text-white hover:bg-blue-700',
+        emerald: 'bg-emerald-600 text-white hover:bg-emerald-700',
+        red: 'bg-red-600 text-white hover:bg-red-700',
+        indigo: 'bg-indigo-600 text-white hover:bg-indigo-700',
+        slate: 'bg-slate-700 text-white hover:bg-slate-800'
+    };
+
+    // Update Functions
+    function updateTexts() {
+        previewTitle.textContent = titleInput.value || 'Judul Utama Banner';
+        previewSubtitle.textContent = subtitleInput.value || 'Deskripsi pendek atau sub-judul banner.';
+        previewOrder.textContent = orderInput.value || '0';
+        
+        if (buttonTextInput.value.trim() !== '') {
+            previewCtaText.textContent = buttonTextInput.value;
             previewCtaContainer.classList.remove('hidden');
         } else {
             previewCtaContainer.classList.add('hidden');
         }
+    }
+    
+    function updateStyles() {
+        // 1. Text alignment
+        const alignment = alignmentInput.value;
+        previewContent.classList.remove('items-start', 'text-left', 'items-center', 'text-center', 'items-end', 'text-right');
+        
+        if (alignment === 'left') {
+            previewContent.classList.add('items-start', 'text-left');
+        } else if (alignment === 'center') {
+            previewContent.classList.add('items-center', 'text-center');
+        } else if (alignment === 'right') {
+            previewContent.classList.add('items-end', 'text-right');
+        }
+        
+        // 2. CTA Color
+        const ctaColor = ctaColorInput.value;
+        previewCta.className = 'inline-flex items-center space-x-1.5 font-bold text-[10px] md:text-xs px-5 py-2.5 rounded-full shadow-lg transition duration-200';
+        const colorClasses = ctaColors[ctaColor] || ctaColors.amber;
+        colorClasses.split(' ').forEach(cls => previewCta.classList.add(cls));
+        
+        // 3. Overlay Darkness
+        const opacity = parseInt(overlayOpacityInput.value);
+        previewOverlay.style.backgroundColor = `rgba(15, 23, 42, ${opacity / 100})`;
+        
+        // 4. Text Color Theme
+        const textColor = textColorInput.value;
+        previewTitle.classList.remove('text-white', 'text-slate-900');
+        previewSubtitle.classList.remove('text-slate-300', 'text-slate-600');
+        
+        if (textColor === 'light') {
+            previewTitle.classList.add('text-white');
+            previewSubtitle.classList.add('text-slate-300');
+        } else {
+            previewTitle.classList.add('text-slate-900');
+            previewSubtitle.classList.add('text-slate-600');
+        }
+    }
+
+    // Add event listeners for text inputs
+    [titleInput, subtitleInput, orderInput, buttonTextInput].forEach(input => {
+        input.addEventListener('input', updateTexts);
     });
     
+    // Add event listeners for style selects
+    [alignmentInput, ctaColorInput, overlayOpacityInput, textColorInput].forEach(select => {
+        select.addEventListener('change', updateStyles);
+    });
+
     // Image reader for background
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
@@ -183,6 +293,10 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.readAsDataURL(file);
         }
     });
+
+    // Run initial rendering
+    updateTexts();
+    updateStyles();
 });
 </script>
 @endpush

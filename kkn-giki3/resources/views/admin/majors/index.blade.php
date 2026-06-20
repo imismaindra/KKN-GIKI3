@@ -50,7 +50,14 @@
                                     <span class="block text-xs font-normal text-slate-400 mt-0.5">{{ $major->slug }}</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-mono">{{ $major->icon ?? '-' }}</span>
+                                    @if($major->icon)
+                                        <div class="flex items-center space-x-2">
+                                            <span class="material-symbols-outlined text-xl text-slate-700 bg-slate-50 p-2 rounded-xl border border-slate-100">{{ $major->icon }}</span>
+                                            <span class="text-xs text-slate-400 font-mono">{{ $major->icon }}</span>
+                                        </div>
+                                    @else
+                                        <span class="text-slate-300">-</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 max-w-xs truncate">
                                     {{ $major->description }}

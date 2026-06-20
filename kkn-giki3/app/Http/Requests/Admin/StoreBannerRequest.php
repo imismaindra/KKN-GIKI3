@@ -20,6 +20,10 @@ class StoreBannerRequest extends FormRequest
             'button_text' => ['nullable', 'string', 'max:100'],
             'button_url' => ['nullable', 'url', 'max:255'],
             'order' => ['nullable', 'integer', 'min:0'],
+            'alignment' => ['required', 'string', 'in:left,center,right'],
+            'cta_color' => ['required', 'string', 'in:amber,blue,emerald,red,indigo,slate'],
+            'overlay_opacity' => ['required', 'integer', 'in:20,40,60,80'],
+            'text_color' => ['required', 'string', 'in:light,dark'],
         ];
     }
 

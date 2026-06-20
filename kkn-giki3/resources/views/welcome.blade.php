@@ -288,14 +288,37 @@
                             <!-- Background Image Layer -->
                             <div class="absolute inset-0 z-0">
                                 <img alt="{{ $banner->title }}"
-                                    class="w-full h-full object-cover brightness-[0.6] scale-100 transition-transform duration-[6000ms] ease-out"
-                                    src="{{ Storage::url($banner->image_path) }}" />
-                                <div class="absolute inset-0 bg-gradient-to-r from-[#112240]/90 via-[#112240]/40 to-transparent"></div>
+                                    class="w-full h-full object-cover scale-100 transition-transform duration-[6000ms] ease-out"
+                                    src="{{ Storage::url($banner->image_path) }}"
+                                    onerror="this.onerror=null; this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
+                                <div class="hidden absolute inset-0 bg-slate-900 flex items-center justify-center">
+                                    <svg class="w-20 h-20 text-slate-700/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="absolute inset-0 bg-[#0f172a]" style="opacity: {{ ($banner->overlay_opacity ?? 60) / 100 }}"></div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-transparent"></div>
                             </div>
                             <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 w-full">
                                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                                     <!-- Text Content -->
-                                    <div class="lg:col-span-8 flex flex-col items-start gap-6 transform translate-y-6 opacity-0 transition-all duration-1000">
+                                    @php
+                                        $ctaColorClasses = [
+                                            'amber' => 'bg-secondary text-on-secondary hover:shadow-secondary/40',
+                                            'blue' => 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/30',
+                                            'emerald' => 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-emerald-500/30',
+                                            'red' => 'bg-red-600 text-white hover:bg-red-700 hover:shadow-red-500/30',
+                                            'indigo' => 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30',
+                                            'slate' => 'bg-slate-700 text-white hover:bg-slate-800 hover:shadow-slate-600/30',
+                                        ][$banner->cta_color ?? 'amber'] ?? 'bg-secondary text-on-secondary hover:shadow-secondary/40';
+
+                                        $alignmentClasses = [
+                                            'left' => 'lg:col-span-8 flex flex-col items-start text-left mr-auto',
+                                            'center' => 'lg:col-span-8 lg:col-start-3 flex flex-col items-center text-center mx-auto',
+                                            'right' => 'lg:col-span-8 lg:col-start-5 flex flex-col items-end text-right ml-auto',
+                                        ][$banner->alignment ?? 'left'] ?? 'lg:col-span-8 flex flex-col items-start text-left mr-auto';
+                                    @endphp
+                                    <div class="{{ $alignmentClasses }} gap-6 transform translate-y-6 opacity-0 transition-all duration-1000">
                                         <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl px-4 py-1.5 rounded-full border border-white/10 shadow-sm">
                                             <span class="relative flex h-2 w-2">
                                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
@@ -303,18 +326,20 @@
                                             </span>
                                             <span class="font-label-md text-xs text-on-primary/90 tracking-widest uppercase">SMA GIKI 3 SURABAYA</span>
                                         </div>
-                                        <h1 class="font-display-lg-mobile text-4xl md:text-6xl text-on-primary font-black leading-tight tracking-tight [text-shadow:_0_4px_16px_rgba(0,0,0,0.4)]">
+                                        <h1 class="font-display-lg-mobile text-4xl md:text-6xl font-black leading-tight tracking-tight [text-shadow:_0_4px_16px_rgba(0,0,0,0.3)]
+                                            {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-900' : 'text-on-primary' }}">
                                             {{ $banner->title }}
                                         </h1>
                                         @if($banner->subtitle)
-                                            <p class="font-body-lg text-body-lg text-on-primary/80 max-w-2xl leading-relaxed [text-shadow:_0_2px_8px_rgba(0,0,0,0.3)]">
+                                            <p class="font-body-lg text-body-lg max-w-2xl leading-relaxed [text-shadow:_0_2px_8px_rgba(0,0,0,0.2)]
+                                                {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-700' : 'text-on-primary/80' }}">
                                                 {{ $banner->subtitle }}
                                             </p>
                                         @endif
                                         @if($banner->button_text)
                                             <div class="flex flex-wrap gap-6 mt-2">
                                                 <a href="{{ $banner->button_url ?? '#' }}"
-                                                    class="btn-primary bg-secondary text-on-secondary font-bold text-label-md px-10 py-4.5 rounded-full shadow-lg hover:shadow-secondary/40 hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-2">
+                                                    class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-2 {{ $ctaColorClasses }}">
                                                     <span>{{ $banner->button_text }}</span>
                                                     <span class="material-symbols-outlined text-xl">arrow_forward</span>
                                                 </a>

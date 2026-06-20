@@ -16,5 +16,9 @@ class Banner extends Model
         'button_text',
         'button_url',
         'order',
+        'alignment',
+        'cta_color',
+        'overlay_opacity',
+        'text_color',
     ];
 }
