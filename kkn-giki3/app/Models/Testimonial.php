@@ -15,5 +15,15 @@ class Testimonial extends Model
         'relationship',
         'content',
         'rating',
+        'is_approved',
     ];
+
+    protected $casts = [
+        'is_approved' => 'boolean',
+    ];
+
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', true);
+    }
 }

@@ -89,16 +89,16 @@ class ImageOptimizer
         // Generate a unique filename with .webp extension
         $filename = Str::random(40) . '.webp';
         $relativeWebpPath = $directory . '/' . $filename;
-        $fullWebpPath = storage_path('app/public/' . $relativeWebpPath);
-
-        // Ensure target directory exists in public storage
-        $dirPath = dirname($fullWebpPath);
-        if (!file_exists($dirPath)) {
-            mkdir($dirPath, 0755, true);
+        // Save as WebP via Laravel Storage disk (supporting fake storage in tests)
+        $tempFile = tempnam(sys_get_temp_dir(), 'webp');
+        $success = false;
+        if ($tempFile) {
+            $success = imagewebp($dstImage, $tempFile, $quality);
+            if ($success) {
+                Storage::disk('public')->put($relativeWebpPath, file_get_contents($tempFile));
+                @unlink($tempFile);
+            }
         }
-
-        // Save as WebP
-        $success = imagewebp($dstImage, $fullWebpPath, $quality);
 
         // Free up memory resources
         imagedestroy($srcImage);

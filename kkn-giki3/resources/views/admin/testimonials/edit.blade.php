@@ -68,6 +68,15 @@
             @error('content') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
+        <div class="flex items-center">
+            <input type="checkbox" name="is_approved" id="is_approved" value="1" {{ old('is_approved', $testimonial->is_approved) ? 'checked' : '' }}
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded transition duration-150">
+            <label for="is_approved" class="ml-2 block text-sm text-slate-700 font-semibold">
+                Setujui testimoni ini (Tampilkan langsung di halaman utama)
+            </label>
+            @error('is_approved') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
         <div class="flex justify-end pt-4 border-t border-slate-50">
             <button type="submit"
                 class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition duration-150 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20">

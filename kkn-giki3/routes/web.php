@@ -21,12 +21,17 @@ Route::get('/', function () {
         ->take(4)
         ->get();
     $galleries = \App\Models\Gallery::with('images')->latest()->get();
-    return view('welcome', compact('banners', 'articles', 'galleries'));
+    $testimonials = \App\Models\Testimonial::approved()->latest()->get();
+    return view('welcome', compact('banners', 'articles', 'galleries', 'testimonials'));
 });
 
 // Public Article Routes
 Route::get('/berita-artikel', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
 Route::get('/berita-artikel/{slug}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
+
+// Public Testimonial Routes
+Route::get('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'create'])->name('testimonials.create.public');
+Route::post('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'store'])->name('testimonials.store.public');
 
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
@@ -48,6 +53,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('teachers', TeacherController::class);
     Route::resource('articles', ArticleController::class);
     Route::resource('galleries', GalleryController::class);
+    Route::patch('testimonials/{testimonial}/toggle-approval', [TestimonialController::class, 'toggleApproval'])->name('testimonials.toggle-approval');
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('contact-messages', ContactMessageController::class)->only(['index', 'show', 'destroy']);
 });

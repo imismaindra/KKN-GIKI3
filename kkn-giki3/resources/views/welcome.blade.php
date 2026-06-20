@@ -515,6 +515,78 @@
             </section>
         @endif
 
+        <!-- Testimonials Section -->
+        @if(isset($testimonials) && !$testimonials->isEmpty())
+            <section id="testimoni" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 fade-up">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-2xl">
+                        <span class="text-secondary font-label-md tracking-widest uppercase mb-4 block">Testimoni</span>
+                        <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4">
+                            Kata Mereka Tentang Kami
+                        </h2>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant">
+                            Ulasan jujur dan cerita inspiratif dari siswa, alumni, guru, serta orang tua/wali murid SMA GIKI 3 Surabaya.
+                        </p>
+                    </div>
+                    @if($testimonials->count() > 1)
+                        <div class="flex gap-4">
+                            <button id="testi-prev-btn" class="w-14 h-14 rounded-full border-2 border-outline-variant/30 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-surface-container-lowest transition-all duration-300 group">
+                                <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                            </button>
+                            <button id="testi-next-btn" class="w-14 h-14 rounded-full border-2 border-outline-variant/30 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-surface-container-lowest transition-all duration-300 group">
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Testimonial Cards Slider Container -->
+                <div class="relative overflow-hidden py-4">
+                    <div id="testi-slider" class="flex gap-8 transition-transform duration-500 ease-in-out snap-x snap-mandatory hide-scrollbar overflow-x-auto">
+                        @foreach($testimonials as $testimonial)
+                            <div class="testi-card min-w-[280px] sm:min-w-[380px] md:min-w-[420px] max-w-[450px] bg-white rounded-3xl p-8 border border-outline-variant/10 shadow-md hover:shadow-xl transition-all duration-300 snap-center flex flex-col justify-between relative group hover:-translate-y-1">
+                                <!-- Quote Icon Decoration -->
+                                <span class="absolute top-6 right-8 text-slate-100 group-hover:text-amber-100/40 text-7xl font-serif select-none transition duration-300">”</span>
+                                
+                                <div>
+                                    <!-- Stars Rating -->
+                                    @if($testimonial->rating)
+                                        <div class="flex items-center gap-1 mb-6">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <svg class="w-5 h-5 {{ $i <= $testimonial->rating ? 'text-amber-400 fill-current' : 'text-slate-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.238.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.18 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118L2.98 9.42c-.771-.572-.372-1.81.588-1.81h4.906a1 1 0 00.951-.69l1.519-4.674z"/>
+                                                </svg>
+                                            @endfor
+                                        </div>
+                                    @endif
+
+                                    <!-- Content -->
+                                    <p class="font-body-md text-slate-600 leading-relaxed italic mb-8 relative z-10">
+                                        "{{ $testimonial->content }}"
+                                    </p>
+                                </div>
+
+                                <!-- Author Info -->
+                                <div class="flex items-center gap-4 mt-auto border-t border-slate-50 pt-6">
+                                    <div class="w-12 h-12 rounded-full overflow-hidden border border-slate-100 flex-shrink-0 bg-slate-50 flex items-center justify-center font-bold text-primary">
+                                        @if($testimonial->avatar)
+                                            <img src="{{ Storage::url($testimonial->avatar) }}" alt="{{ $testimonial->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            <span>{{ substr($testimonial->name, 0, 2) }}</span>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <h4 class="font-title-lg text-base text-primary font-bold">{{ $testimonial->name }}</h4>
+                                        <p class="text-xs text-secondary font-semibold mt-0.5 tracking-wider uppercase">{{ $testimonial->relationship }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @endif
+
         <!-- News & Announcements Redesign -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 fade-up visible">
             <div class="flex justify-between items-end mb-12 border-b border-outline-variant/30 pb-6">
@@ -905,6 +977,33 @@
                 else if (e.key === 'ArrowLeft') prevLightboxImage();
             }
         });
+
+        // Testimonials Slider Navigation
+        const testiSlider = document.getElementById('testi-slider');
+        const testiPrevBtn = document.getElementById('testi-prev-btn');
+        const testiNextBtn = document.getElementById('testi-next-btn');
+
+        if (testiSlider) {
+            const scrollAmount = 450; // Approximated card width + gap
+            
+            if (testiNextBtn) {
+                testiNextBtn.addEventListener('click', () => {
+                    testiSlider.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            if (testiPrevBtn) {
+                testiPrevBtn.addEventListener('click', () => {
+                    testiSlider.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        }
     });
 </script>
 @endsection

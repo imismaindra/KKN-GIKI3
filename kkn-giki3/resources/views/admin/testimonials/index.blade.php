@@ -5,12 +5,18 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex justify-between items-center">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <p class="text-slate-500 text-sm">Kelola testimoni atau ulasan positif dari alumni, siswa, maupun orang tua/wali murid.</p>
-        <a href="{{ route('admin.testimonials.create') }}" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition duration-150 shadow-lg shadow-blue-500/10 flex items-center space-x-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span>Tambah Testimoni</span>
-        </a>
+        <div class="flex items-center space-x-3 flex-shrink-0">
+            <button onclick="copyFormLink()" class="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl text-sm border border-slate-200 shadow-sm transition duration-150 flex items-center space-x-2">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                <span>Salin Link Form</span>
+            </button>
+            <a href="{{ route('admin.testimonials.create') }}" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition duration-150 shadow-lg shadow-blue-500/10 flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                <span>Tambah Testimoni</span>
+            </a>
+        </div>
     </div>
 
     <!-- Testimonials Table -->
@@ -29,6 +35,7 @@
                             <th class="px-6 py-4">Pemberi Ulasan</th>
                             <th class="px-6 py-4">Hubungan / Status</th>
                             <th class="px-6 py-4">Rating</th>
+                            <th class="px-6 py-4">Status Tampil</th>
                             <th class="px-6 py-4">Ulasan</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
@@ -64,10 +71,30 @@
                                         -
                                     @endif
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if($testimonial->is_approved)
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                                            <span class="w-1.5 h-1.5 mr-1.5 bg-emerald-500 rounded-full"></span>
+                                            Disetujui
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                                            <span class="w-1.5 h-1.5 mr-1.5 bg-amber-500 rounded-full animate-pulse"></span>
+                                            Menunggu
+                                        </span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 max-w-xs truncate text-slate-600">
                                     "{{ $testimonial->content }}"
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-xs space-x-2">
+                                    <form action="{{ route('admin.testimonials.toggle-approval', $testimonial->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold transition duration-155 {{ $testimonial->is_approved ? 'bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 hover:text-emerald-800' }}">
+                                            {{ $testimonial->is_approved ? 'Batal Setuju' : 'Setujui' }}
+                                        </button>
+                                    </form>
                                     <a href="{{ route('admin.testimonials.edit', $testimonial->id) }}" class="inline-block px-3 py-1.5 bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 font-semibold rounded-lg transition duration-150">
                                         Edit
                                     </a>
@@ -88,3 +115,38 @@
     @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function copyFormLink() {
+        const link = "{{ route('testimonials.create.public') }}";
+        
+        // Use Clipboard API if available, fallback to copy text area
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert("Link form pengisian testimoni publik berhasil disalin ke clipboard!");
+            }).catch(err => {
+                fallbackCopyText(link);
+            });
+        } else {
+            fallbackCopyText(link);
+        }
+    }
+    
+    function fallbackCopyText(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";  // Avoid scrolling to bottom
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert("Link form pengisian testimoni publik berhasil disalin ke clipboard!");
+        } catch (err) {
+            alert("Gagal menyalin link: " + err);
+        }
+        document.body.removeChild(textArea);
+    }
+</script>
+@endpush

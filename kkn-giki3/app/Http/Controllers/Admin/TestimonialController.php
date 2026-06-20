@@ -15,6 +15,7 @@ class TestimonialController extends Controller
 {
     public function index(): View
     {
+        // Display latest testimonials
         $testimonials = Testimonial::latest()->get();
         return view('admin.testimonials.index', compact('testimonials'));
     }
@@ -27,6 +28,7 @@ class TestimonialController extends Controller
     public function store(StoreTestimonialRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_approved'] = $request->has('is_approved') ? $request->boolean('is_approved') : true; // default true if created by admin
 
         if ($request->hasFile('avatar')) {
             $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
@@ -45,6 +47,7 @@ class TestimonialController extends Controller
     public function update(UpdateTestimonialRequest $request, Testimonial $testimonial): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_approved'] = $request->boolean('is_approved'); // will be false if unchecked
 
         if ($request->hasFile('avatar')) {
             if ($testimonial->avatar) {
@@ -58,6 +61,16 @@ class TestimonialController extends Controller
         $testimonial->update($data);
 
         return redirect()->route('admin.testimonials.index')->with('success', 'Testimoni berhasil diperbarui.');
+    }
+
+    public function toggleApproval(Testimonial $testimonial): RedirectResponse
+    {
+        $testimonial->update([
+            'is_approved' => !$testimonial->is_approved
+        ]);
+
+        $statusText = $testimonial->is_approved ? 'Disetujui' : 'Batal Disetujui';
+        return redirect()->back()->with('success', "Status persetujuan testimoni \"{$testimonial->name}\" berhasil diubah menjadi: {$statusText}.");
     }
 
     public function destroy(Testimonial $testimonial): RedirectResponse
