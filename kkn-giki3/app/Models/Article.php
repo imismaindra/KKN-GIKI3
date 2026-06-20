@@ -14,6 +14,9 @@ class Article extends Model
         'slug',
         'content',
         'thumbnail',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
         'status',
         'published_at',
     ];

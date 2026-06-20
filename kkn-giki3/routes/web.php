@@ -16,8 +16,16 @@ use App\Models\Banner;
 
 Route::get('/', function () {
     $banners = Banner::orderBy('order')->get();
-    return view('welcome', compact('banners'));
+    $articles = \App\Models\Article::where('status', 'published')
+        ->orderBy('published_at', 'desc')
+        ->take(4)
+        ->get();
+    return view('welcome', compact('banners', 'articles'));
 });
+
+// Public Article Routes
+Route::get('/berita-artikel', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
+Route::get('/berita-artikel/{slug}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
 
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {

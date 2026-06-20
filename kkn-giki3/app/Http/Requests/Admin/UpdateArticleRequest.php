@@ -17,6 +17,9 @@ class UpdateArticleRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'thumbnail' => ['nullable', 'image', 'max:2048'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string'],
+            'meta_keywords' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:draft,published'],
             'published_at' => ['nullable', 'date'],
         ];
