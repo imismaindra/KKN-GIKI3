@@ -23,27 +23,32 @@
         </div>
 
         <div>
-            <label for="position" class="block text-sm font-semibold text-slate-700 mb-1">Jabatan / Guru Bidang Studi</label>
-            <input type="text" name="position" id="position" value="{{ old('position') }}" required placeholder="Contoh: Guru Matematika / Kepala Sekolah" list="positions-list"
-                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
-            <datalist id="positions-list">
-                <option value="Kepala Sekolah">
-                <option value="Wakil Kepala Sekolah Bidang Kurikulum">
-                <option value="Wakil Kepala Sekolah Bidang Kesiswaan">
-                <option value="Wakil Kepala Sekolah Bidang Humas">
-                <option value="Wakil Kepala Sekolah Bidang Sarana & Prasarana">
-                <option value="Guru Bimbingan Konseling (BK)">
-                <option value="Guru Bahasa Indonesia">
-                <option value="Guru Bahasa Inggris">
-                <option value="Guru Matematika">
-                <option value="Guru Pendidikan Jasmani (PJOK)">
-                <option value="Guru Seni Budaya">
-                <option value="Guru IPA (Fisika/Kimia/Biologi)">
-                <option value="Guru IPS (Sejarah/Sosiologi/Ekonomi)">
-                <option value="Guru Pendidikan Agama & Budi Pekerti">
-                <option value="Staf Tata Usaha">
-                <option value="Pustakawan">
-            </datalist>
+            <!-- Hidden input to store comma-separated values -->
+            <input type="hidden" name="position" id="position" value="{{ old('position') }}">
+            
+            <div class="relative" id="multiselect-container">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Jabatan / Guru Bidang Studi</label>
+                
+                <!-- Custom Multi-Select Input Box -->
+                <div id="multiselect-trigger" class="min-h-[46px] w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 text-slate-800 transition duration-150 flex flex-wrap gap-2 items-center cursor-pointer">
+                    <!-- Selected items will be inserted here by JS -->
+                    <span id="multiselect-placeholder" class="text-slate-400 text-sm select-none">Pilih satu atau lebih jabatan...</span>
+                    
+                    <!-- Input field for filtering/adding custom values -->
+                    <input type="text" id="multiselect-search" class="flex-grow min-w-[120px] bg-transparent border-none outline-none p-0 text-sm focus:ring-0 text-slate-800">
+                    
+                    <!-- Dropdown arrow -->
+                    <div class="ml-auto flex items-center pl-2">
+                        <span class="material-symbols-outlined text-slate-400 text-xl transition-transform duration-200" id="multiselect-arrow">expand_more</span>
+                    </div>
+                </div>
+                
+                <!-- Dropdown Options List -->
+                <div id="multiselect-dropdown" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-60 overflow-y-auto z-50 py-1 divide-y divide-slate-50">
+                    <!-- Predefined options populated by JS -->
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-1.5">Anda dapat memilih lebih dari satu jabatan. Tekan <strong>Enter</strong> setelah mengetik untuk menambahkan jabatan baru.</p>
             @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -70,20 +75,6 @@
                 </div>
             </div>
             @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
-
-        <div>
-            <label for="order" class="block text-sm font-semibold text-slate-700 mb-1">Nomor Urutan Tampil</label>
-            <div class="flex items-center space-x-2">
-                <input type="number" name="order" id="order" value="{{ old('order', 0) }}" min="0" required
-                    class="w-32 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
-                <span class="text-xs text-slate-400">Mengatur posisi urutan tampil di web utama.</span>
-            </div>
-            <p class="text-xs text-slate-400 mt-2 bg-slate-50 border border-slate-100 p-3 rounded-xl leading-relaxed">
-                <strong>💡 Info Urutan:</strong> Urutan tampil dimulai dari angka terkecil ke terbesar.
-                <br>Contoh: <strong>1</strong> (Kepala Sekolah), <strong>2</strong> (Wakil Kepala Sekolah), <strong>3</strong> (Guru Mata Pelajaran), dst.
-            </p>
-            @error('order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div class="flex justify-end pt-4 border-t border-slate-50">
@@ -115,5 +106,175 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const predefinedOptions = @json(\App\Models\Teacher::getPredefinedPositions());
+        let selectedOptions = [];
+
+        const container = document.getElementById('multiselect-container');
+        const trigger = document.getElementById('multiselect-trigger');
+        const searchInput = document.getElementById('multiselect-search');
+        const dropdown = document.getElementById('multiselect-dropdown');
+        const arrow = document.getElementById('multiselect-arrow');
+        const hiddenInput = document.getElementById('position');
+        const placeholder = document.getElementById('multiselect-placeholder');
+
+        // Initialize selected options from existing value
+        const rawPositionVal = hiddenInput.value;
+        if (rawPositionVal) {
+            selectedOptions = rawPositionVal.split(',').map(s => s.trim()).filter(Boolean);
+        }
+
+        function renderBadges() {
+            // Remove existing badges
+            const existingBadges = trigger.querySelectorAll('.selected-badge');
+            existingBadges.forEach(b => b.remove());
+            
+            if (selectedOptions.length > 0) {
+                placeholder.classList.add('hidden');
+                // Insert badges before the search input
+                selectedOptions.forEach(opt => {
+                    const badge = document.createElement('span');
+                    badge.className = 'selected-badge inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg border border-blue-100/50';
+                    badge.innerHTML = `
+                        <span>${opt}</span>
+                        <button type="button" class="ml-1.5 inline-flex items-center justify-center w-3.5 h-3.5 rounded-full text-blue-400 hover:text-blue-600 hover:bg-blue-100/50 transition duration-150 focus:outline-none" data-option="${opt}">
+                            <span class="material-symbols-outlined text-[10px] font-black pointer-events-none">close</span>
+                        </button>
+                    `;
+                    trigger.insertBefore(badge, searchInput);
+                });
+                
+                // Add event listeners to delete buttons
+                trigger.querySelectorAll('button[data-option]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const opt = btn.getAttribute('data-option');
+                        removeOption(opt);
+                    });
+                });
+            } else {
+                placeholder.classList.remove('hidden');
+            }
+            
+            // Update hidden input value
+            hiddenInput.value = selectedOptions.join(', ');
+        }
+
+        function removeOption(option) {
+            selectedOptions = selectedOptions.filter(o => o !== option);
+            renderBadges();
+            renderDropdownOptions();
+        }
+
+        function addOption(option) {
+            option = option.trim();
+            if (option && !selectedOptions.includes(option)) {
+                selectedOptions.push(option);
+                renderBadges();
+            }
+            searchInput.value = '';
+            renderDropdownOptions();
+        }
+
+        function renderDropdownOptions() {
+            dropdown.innerHTML = '';
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Filter predefined options that are not already selected and match query
+            let filtered = predefinedOptions.filter(opt => !selectedOptions.includes(opt));
+            if (query) {
+                filtered = filtered.filter(opt => opt.toLowerCase().includes(query));
+            }
+            
+            if (filtered.length > 0) {
+                filtered.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = 'px-4 py-2.5 hover:bg-slate-50 cursor-pointer text-slate-700 text-sm transition';
+                    item.innerText = opt;
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        addOption(opt);
+                    });
+                    dropdown.appendChild(item);
+                });
+            }
+            
+            // Add custom typed option if it's not already in predefined/selected list
+            if (query && !predefinedOptions.includes(searchInput.value) && !selectedOptions.includes(searchInput.value)) {
+                const customItem = document.createElement('div');
+                customItem.className = 'px-4 py-2.5 hover:bg-slate-50 cursor-pointer text-blue-600 font-semibold text-sm transition border-t border-slate-50';
+                customItem.innerHTML = `Tambah "<strong>${searchInput.value}</strong>"...`;
+                customItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addOption(searchInput.value);
+                });
+                dropdown.appendChild(customItem);
+            }
+            
+            if (dropdown.children.length === 0) {
+                const noItem = document.createElement('div');
+                noItem.className = 'px-4 py-2.5 text-slate-400 text-xs italic';
+                noItem.innerText = 'Tidak ada pilihan';
+                dropdown.appendChild(noItem);
+            }
+        }
+
+        // Show/Hide dropdown
+        function showDropdown() {
+            dropdown.classList.remove('hidden');
+            arrow.classList.add('rotate-180');
+            renderDropdownOptions();
+        }
+
+        function hideDropdown() {
+            dropdown.classList.add('hidden');
+            arrow.classList.remove('rotate-180');
+        }
+
+        // Events
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            searchInput.focus();
+            showDropdown();
+        });
+
+        searchInput.addEventListener('focus', showDropdown);
+        searchInput.addEventListener('input', showDropdown);
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const val = searchInput.value.trim();
+                if (val) {
+                    addOption(val);
+                }
+            } else if (e.key === 'Backspace' && !searchInput.value && selectedOptions.length > 0) {
+                // Remove last item on backspace if input is empty
+                selectedOptions.pop();
+                renderBadges();
+                renderDropdownOptions();
+            }
+        });
+
+        // Close dropdown on click outside
+        document.addEventListener('click', (e) => {
+            if (!container.contains(e.target)) {
+                hideDropdown();
+            }
+        });
+
+        // Initial render
+        renderBadges();
+
+        // Sync and validate on submit
+        const form = trigger.closest('form');
+        form.addEventListener('submit', (e) => {
+            if (selectedOptions.length === 0) {
+                e.preventDefault();
+                alert('Silakan pilih atau ketik minimal satu jabatan terlebih dahulu.');
+            }
+        });
+    });
 </script>
 @endpush

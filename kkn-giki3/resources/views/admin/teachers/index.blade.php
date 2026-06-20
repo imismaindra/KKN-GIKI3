@@ -29,7 +29,6 @@
                             <th class="px-6 py-4">Foto</th>
                             <th class="px-6 py-4">Nama Lengkap</th>
                             <th class="px-6 py-4">Jabatan / Mapel</th>
-                            <th class="px-6 py-4">Urutan</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -50,13 +49,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap font-semibold text-slate-800">
                                     {{ $teacher->name }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-slate-600">
+                                <td class="px-6 py-4 text-slate-600 max-w-xs truncate md:max-w-md whitespace-normal">
                                     {{ $teacher->position }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center justify-center px-2.5 py-1 text-xs font-semibold text-slate-500 bg-slate-50 rounded-lg border border-slate-200/50 font-mono">
-                                        Urutan: {{ $teacher->order }}
-                                    </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-xs space-x-2">
                                     <a href="{{ route('admin.teachers.edit', $teacher->id) }}" class="inline-block px-3 py-1.5 bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 font-semibold rounded-lg transition duration-150">

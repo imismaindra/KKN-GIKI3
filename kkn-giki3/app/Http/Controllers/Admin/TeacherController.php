@@ -14,7 +14,46 @@ class TeacherController extends Controller
 {
     public function index(): View
     {
-        $teachers = Teacher::orderBy('order')->get();
+        $predefined = Teacher::getPredefinedPositions();
+        $teachers = Teacher::all()->sort(function ($a, $b) use ($predefined) {
+            // Get positions as arrays
+            $posA = array_map('trim', explode(',', $a->position));
+            $posB = array_map('trim', explode(',', $b->position));
+            
+            // Find highest priority for A (lowest index)
+            $priorityA = 999;
+            foreach ($posA as $p) {
+                $idx = array_search($p, $predefined);
+                if ($idx !== false && $idx < $priorityA) {
+                    $priorityA = $idx;
+                }
+            }
+            
+            // Find highest priority for B (lowest index)
+            $priorityB = 999;
+            foreach ($posB as $p) {
+                $idx = array_search($p, $predefined);
+                if ($idx !== false && $idx < $priorityB) {
+                    $priorityB = $idx;
+                }
+            }
+            
+            if ($priorityA !== $priorityB) {
+                return $priorityA <=> $priorityB;
+            }
+            
+            // If priority is the same, sort by the positions string alphabetically
+            $posStringA = implode(', ', $posA);
+            $posStringB = implode(', ', $posB);
+            $posComp = strcasecmp($posStringA, $posStringB);
+            if ($posComp !== 0) {
+                return $posComp;
+            }
+            
+            // 2. Name alphabetically
+            return strcasecmp($a->name, $b->name);
+        })->values();
+
         return view('admin.teachers.index', compact('teachers'));
     }
 
