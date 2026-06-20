@@ -1,0 +1,189 @@
+@extends('layouts.admin')
+
+@section('title', 'Edit Banner')
+@section('page_title', 'Edit Banner')
+
+@section('content')
+<div class="space-y-6">
+    <div class="mb-6">
+        <a href="{{ route('admin.banners.index') }}" class="inline-flex items-center space-x-2 text-sm text-slate-500 hover:text-blue-600 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span>Kembali ke Daftar</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Form (Left Column) -->
+        <div class="lg:col-span-6">
+            <form action="{{ route('admin.banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
+                @csrf
+                @method('PUT')
+                
+                <div>
+                    <label for="title" class="block text-sm font-semibold text-slate-700 mb-1">Judul Utama Banner</label>
+                    <input type="text" name="title" id="title" value="{{ old('title', $banner->title) }}" required autofocus
+                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                    @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="subtitle" class="block text-sm font-semibold text-slate-700 mb-1">Sub-judul / Deskripsi Pendek</label>
+                    <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle', $banner->subtitle) }}"
+                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                    @error('subtitle') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="image_path" class="block text-sm font-semibold text-slate-700 mb-1">Ganti Gambar Banner (Opsional)</label>
+                    <input type="file" name="image_path" id="image_path" accept="image/*"
+                        class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 cursor-pointer">
+                    <p class="text-xs text-slate-400 mt-1">Biarkan kosong jika tidak ingin mengganti gambar. Maksimal 2MB.</p>
+                    @error('image_path') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label for="button_text" class="block text-sm font-semibold text-slate-700 mb-1">Teks Tombol CTA (Opsional)</label>
+                        <input type="text" name="button_text" id="button_text" value="{{ old('button_text', $banner->button_text) }}"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                        @error('button_text') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="button_url" class="block text-sm font-semibold text-slate-700 mb-1">Tautan Tombol CTA (Opsional)</label>
+                        <input type="url" name="button_url" id="button_url" value="{{ old('button_url', $banner->button_url) }}"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                        @error('button_url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label for="order" class="block text-sm font-semibold text-slate-700 mb-1">Nomor Urutan Tampil</label>
+                    <input type="number" name="order" id="order" value="{{ old('order', $banner->order) }}" min="0" required
+                        class="w-48 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                    <p class="text-xs text-slate-400 mt-1">Urutan tampil terkecil akan dimunculkan paling pertama.</p>
+                    @error('order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="flex justify-end pt-4 border-t border-slate-50">
+                    <button type="submit"
+                        class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition duration-150 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Live Preview (Right Column) -->
+        <div class="lg:col-span-6 lg:sticky lg:top-6">
+            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        Pratinjau Instan (Real-time Preview)
+                    </h3>
+                    <p class="text-slate-400 text-xs mt-0.5">Tampilan banner secara langsung saat Anda mengedit formulir.</p>
+                </div>
+                
+                <div class="relative overflow-hidden rounded-xl bg-slate-900 border border-slate-800 aspect-[16/10] flex items-center p-6 md:p-8 shadow-inner">
+                    <!-- Background Image Layer -->
+                    <div class="absolute inset-0 z-0">
+                        <img id="live-preview-bg" src="{{ Storage::url($banner->image_path) }}" class="w-full h-full object-cover brightness-[0.55]">
+                        <div id="live-preview-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 bg-slate-950/90 border border-dashed border-slate-800 rounded-xl hidden">
+                            <svg class="w-10 h-10 text-slate-700 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-xs font-semibold text-slate-600">Pilih gambar untuk melihat latar belakang</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/45 to-transparent"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="relative z-10 w-full text-white space-y-3">
+                        <span id="live-preview-order-tag" class="inline-flex items-center gap-1.5 bg-indigo-500/10 backdrop-blur-md px-3 py-1 rounded-full border border-indigo-500/25 text-[10px] text-indigo-300 font-bold tracking-wider uppercase">
+                            <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping"></span>
+                            Urutan ke-<span id="live-preview-order">{{ $banner->order }}</span>
+                        </span>
+                        <h1 id="live-preview-title" class="text-xl md:text-2xl font-black tracking-tight leading-tight break-words [text-shadow:_0_2px_4px_rgba(0,0,0,0.5)]">
+                            {{ $banner->title }}
+                        </h1>
+                        <p id="live-preview-subtitle" class="text-slate-300 text-xs md:text-sm line-clamp-3 leading-relaxed break-words [text-shadow:_0_1px_2px_rgba(0,0,0,0.4)]">
+                            {{ $banner->subtitle ?? 'Deskripsi pendek atau sub-judul banner yang akan ditampilkan di bawah judul utama.' }}
+                        </p>
+                        <div id="live-preview-cta-container" class="pt-2 {{ $banner->button_text ? '' : 'hidden' }}">
+                            <span id="live-preview-cta" class="inline-flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold text-[10px] md:text-xs px-5 py-2.5 rounded-full shadow-lg">
+                                <span id="live-preview-cta-text">{{ $banner->button_text ?? 'Tombol CTA' }}</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.getElementById('title');
+    const subtitleInput = document.getElementById('subtitle');
+    const orderInput = document.getElementById('order');
+    const buttonTextInput = document.getElementById('button_text');
+    const imageInput = document.getElementById('image_path');
+    
+    const previewTitle = document.getElementById('live-preview-title');
+    const previewSubtitle = document.getElementById('live-preview-subtitle');
+    const previewOrder = document.getElementById('live-preview-order');
+    const previewCtaText = document.getElementById('live-preview-cta-text');
+    const previewCtaContainer = document.getElementById('live-preview-cta-container');
+    const previewBg = document.getElementById('live-preview-bg');
+    const previewPlaceholder = document.getElementById('live-preview-placeholder');
+    
+    // Live update title
+    titleInput.addEventListener('input', function() {
+        previewTitle.textContent = this.value || 'Judul Utama Banner';
+    });
+    
+    // Live update subtitle
+    subtitleInput.addEventListener('input', function() {
+        previewSubtitle.textContent = this.value || '';
+    });
+    
+    // Live update order
+    orderInput.addEventListener('input', function() {
+        previewOrder.textContent = this.value || '0';
+    });
+    
+    // Live update button text
+    buttonTextInput.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            previewCtaText.textContent = this.value;
+            previewCtaContainer.classList.remove('hidden');
+        } else {
+            previewCtaContainer.classList.add('hidden');
+        }
+    });
+    
+    // Image reader for background
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewBg.src = e.target.result;
+                previewBg.classList.remove('hidden');
+                if (previewPlaceholder) {
+                    previewPlaceholder.classList.add('hidden');
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+@endpush
