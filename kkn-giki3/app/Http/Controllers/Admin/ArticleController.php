@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreArticleRequest;
 use App\Http\Requests\Admin\UpdateArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -34,7 +35,7 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $request->file('thumbnail')->store('articles', 'public');
+            $data['thumbnail'] = ImageOptimizer::optimize($request->file('thumbnail'), 'articles', 1000, 1000, 75);
         }
 
         Article::create($data);
@@ -62,7 +63,7 @@ class ArticleController extends Controller
             if ($article->thumbnail) {
                 Storage::disk('public')->delete($article->thumbnail);
             }
-            $data['thumbnail'] = $request->file('thumbnail')->store('articles', 'public');
+            $data['thumbnail'] = ImageOptimizer::optimize($request->file('thumbnail'), 'articles', 1000, 1000, 75);
         } else {
             unset($data['thumbnail']);
         }

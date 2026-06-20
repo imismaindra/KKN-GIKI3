@@ -23,11 +23,12 @@
         </div>
 
         <div>
-            <label for="image_path" class="block text-sm font-semibold text-slate-700 mb-1">Pilih File Foto</label>
-            <input type="file" name="image_path" id="image_path" accept="image/*" required
+            <label for="images" class="block text-sm font-semibold text-slate-700 mb-1">Pilih File Foto (Bisa lebih dari 1)</label>
+            <input type="file" name="images[]" id="images" accept="image/*" multiple required
                 class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 cursor-pointer">
-            <p class="text-xs text-slate-400 mt-1">Maksimal 2MB.</p>
-            @error('image_path') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <p class="text-xs text-slate-400 mt-1">Dapat memilih beberapa foto sekaligus. Maksimal 5MB per file.</p>
+            @error('images') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            @error('images.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div>

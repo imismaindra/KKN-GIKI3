@@ -396,6 +396,125 @@
                 }
             </style>
         </section>
+
+        <!-- Gallery Section -->
+        @if(isset($galleries) && !$galleries->isEmpty())
+            <section id="galeri" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 fade-up">
+                <div class="mb-16 text-center max-w-3xl mx-auto">
+                    <span class="text-secondary font-label-md tracking-widest uppercase mb-4 block">Dokumentasi</span>
+                    <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">
+                        Galeri Kegiatan Sekolah
+                    </h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Momen-momen berharga dan dokumentasi kegiatan belajar mengajar, ekstrakurikuler, serta acara sekolah kami.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    @foreach($galleries as $gallery)
+                        @php
+                            $coverImage = $gallery->images->first()?->image_path;
+                        @endphp
+                        @if($coverImage)
+                            <div class="group cursor-pointer bg-white rounded-3xl overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full animate-card"
+                                 onclick="openGalleryModal('{{ $gallery->id }}')">
+                                <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+                                    <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}"
+                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                        <span class="text-white font-semibold text-sm flex items-center gap-2 bg-secondary/80 backdrop-blur-sm px-4 py-2 rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                            <span class="material-symbols-outlined text-sm">visibility</span>
+                                            Lihat Foto
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4 bg-primary/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+                                        <span class="material-symbols-outlined text-xs">photo_library</span>
+                                        {{ $gallery->images->count() }} Foto
+                                    </div>
+                                </div>
+                                <div class="p-6 flex-grow flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-lg text-primary mb-2 line-clamp-1 group-hover:text-secondary transition-colors duration-200">
+                                            {{ $gallery->title }}
+                                        </h4>
+                                        <p class="text-on-surface-variant text-sm line-clamp-2 leading-relaxed">
+                                            {{ $gallery->description ?? 'Tidak ada deskripsi kegiatan.' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Gallery Modals Data -->
+                @foreach($galleries as $gallery)
+                    <div id="gallery-modal-{{ $gallery->id }}" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-primary/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
+                        <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-transform duration-300">
+                            <!-- Header -->
+                            <div class="px-6 py-5 border-b border-outline-variant/20 flex justify-between items-center bg-slate-50">
+                                <div>
+                                    <h3 class="font-bold text-xl text-primary">{{ $gallery->title }}</h3>
+                                    <p class="text-on-surface-variant text-xs mt-1">Dokumentasi Kegiatan • {{ $gallery->images->count() }} Foto</p>
+                                </div>
+                                <button onclick="closeGalleryModal('{{ $gallery->id }}')" class="w-10 h-10 rounded-full hover:bg-slate-200 flex items-center justify-center text-primary transition">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Body -->
+                            <div class="p-6 md:p-8 overflow-y-auto flex-grow">
+                                @if($gallery->description)
+                                    <p class="text-on-surface-variant text-sm md:text-base mb-6 leading-relaxed border-l-4 border-secondary pl-4">
+                                        {{ $gallery->description }}
+                                    </p>
+                                @endif
+                                
+                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+                                    @foreach($gallery->images as $index => $image)
+                                        <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition"
+                                             onclick="openLightbox('{{ $gallery->id }}', {{ $index }})">
+                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                                            <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                                <span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                <!-- Lightbox Shell (Shared across all galleries) -->
+                <div id="gallery-lightbox" class="fixed inset-0 z-[110] hidden flex flex-col items-center justify-center bg-black/95 transition-opacity duration-300 opacity-0 select-none">
+                    <!-- Close button -->
+                    <button onclick="closeLightbox()" class="absolute top-6 right-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md">
+                        <span class="material-symbols-outlined text-2xl">close</span>
+                    </button>
+
+                    <!-- Navigation arrows -->
+                    <button onclick="prevLightboxImage()" class="absolute left-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md">
+                        <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+                    </button>
+                    <button onclick="nextLightboxImage()" class="absolute right-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md">
+                        <span class="material-symbols-outlined text-2xl">arrow_forward_ios</span>
+                    </button>
+
+                    <!-- Image container -->
+                    <div class="w-full max-w-4xl max-h-[80vh] px-4 flex items-center justify-center">
+                        <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-transform duration-300 transform scale-95">
+                    </div>
+
+                    <!-- Caption & Counter -->
+                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-center text-white px-6 py-3 bg-white/5 border border-white/10 rounded-full backdrop-blur-md max-w-md">
+                        <p id="lightbox-caption" class="text-sm font-semibold truncate"></p>
+                        <p id="lightbox-counter" class="text-[10px] text-white/60 mt-0.5 font-bold uppercase tracking-wider"></p>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         <!-- News & Announcements Redesign -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 fade-up visible">
             <div class="flex justify-between items-end mb-12 border-b border-outline-variant/30 pb-6">
@@ -657,6 +776,135 @@
                 });
             }
         }
+
+        // Gallery Modals & Lightbox JavaScript
+        let activeGalleryId = null;
+        let activeImages = [];
+        let currentLightboxIndex = 0;
+
+        // Define globally accessible gallery images data
+        const galleryData = {
+            @if(isset($galleries))
+                @foreach($galleries as $gallery)
+                    '{{ $gallery->id }}': {
+                        title: '{{ addslashes($gallery->title) }}',
+                        images: [
+                            @foreach($gallery->images as $image)
+                                '{{ Storage::url($image->image_path) }}',
+                            @endforeach
+                        ]
+                    },
+                @endforeach
+            @endif
+        };
+
+        window.openGalleryModal = function(id) {
+            const modal = document.getElementById(`gallery-modal-${id}`);
+            if (!modal) return;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Force reflow for transitions
+            modal.offsetHeight;
+            
+            modal.classList.remove('opacity-0');
+            modal.querySelector('.transform').classList.remove('scale-95');
+            
+            // Prevent body scroll
+            document.body.classList.add('overflow-hidden');
+        };
+
+        window.closeGalleryModal = function(id) {
+            const modal = document.getElementById(`gallery-modal-${id}`);
+            if (!modal) return;
+            
+            modal.classList.add('opacity-0');
+            modal.querySelector('.transform').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        };
+
+        window.openLightbox = function(galleryId, index) {
+            activeGalleryId = galleryId;
+            activeImages = galleryData[galleryId].images;
+            currentLightboxIndex = index;
+
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+
+            img.src = activeImages[currentLightboxIndex];
+            caption.innerText = galleryData[galleryId].title;
+            counter.innerText = `Foto ${currentLightboxIndex + 1} dari ${activeImages.length}`;
+
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            
+            // Force reflow
+            lightbox.offsetHeight;
+            
+            lightbox.classList.remove('opacity-0');
+            img.classList.remove('scale-95');
+        };
+
+        window.closeLightbox = function() {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const img = document.getElementById('lightbox-img');
+
+            lightbox.classList.add('opacity-0');
+            img.classList.add('scale-95');
+
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+            }, 300);
+        };
+
+        window.nextLightboxImage = function() {
+            if (activeImages.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex + 1) % activeImages.length;
+            
+            const img = document.getElementById('lightbox-img');
+            const counter = document.getElementById('lightbox-counter');
+            
+            img.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                img.src = activeImages[currentLightboxIndex];
+                counter.innerText = `Foto ${currentLightboxIndex + 1} dari ${activeImages.length}`;
+                img.classList.remove('scale-95', 'opacity-0');
+            }, 150);
+        };
+
+        window.prevLightboxImage = function() {
+            if (activeImages.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex - 1 + activeImages.length) % activeImages.length;
+            
+            const img = document.getElementById('lightbox-img');
+            const counter = document.getElementById('lightbox-counter');
+            
+            img.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                img.src = activeImages[currentLightboxIndex];
+                counter.innerText = `Foto ${currentLightboxIndex + 1} dari ${activeImages.length}`;
+                img.classList.remove('scale-95', 'opacity-0');
+            }, 150);
+        };
+
+        // Keyboard support for Lightbox
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (lightbox && !lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                else if (e.key === 'ArrowRight') nextLightboxImage();
+                else if (e.key === 'ArrowLeft') prevLightboxImage();
+            }
+        });
     });
 </script>
 @endsection

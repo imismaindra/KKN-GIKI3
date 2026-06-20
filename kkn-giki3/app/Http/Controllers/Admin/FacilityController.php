@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreFacilityRequest;
 use App\Http\Requests\Admin\UpdateFacilityRequest;
 use App\Models\Facility;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class FacilityController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = $request->file('image_path')->store('facilities', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
         }
 
         Facility::create($data);
@@ -49,7 +50,7 @@ class FacilityController extends Controller
             if ($facility->image_path) {
                 Storage::disk('public')->delete($facility->image_path);
             }
-            $data['image_path'] = $request->file('image_path')->store('facilities', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
         } else {
             unset($data['image_path']);
         }

@@ -23,17 +23,41 @@
             @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
-        <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">Foto Saat Ini</label>
-            <div class="w-48 h-32 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden mb-3">
-                <img src="{{ Storage::url($gallery->image_path) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover">
+        <div class="space-y-4">
+            <label class="block text-sm font-semibold text-slate-700">Foto Saat Ini (Centang foto yang ingin dihapus)</label>
+            @error('images') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                @foreach($gallery->images as $image)
+                    <div class="relative aspect-square rounded-xl bg-slate-100 border border-slate-200 overflow-hidden group">
+                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" id="delete_img_{{ $image->id }}" class="hidden delete-checkbox">
+                        
+                        <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover transition duration-150">
+                        
+                        <!-- Overlay border and background when checked -->
+                        <div class="absolute inset-0 bg-red-950/20 opacity-0 transition duration-150 border-2 border-red-500 rounded-xl pointer-events-none delete-overlay"></div>
+                        
+                        <label for="delete_img_{{ $image->id }}" class="absolute inset-0 flex flex-col justify-between p-3 cursor-pointer select-none">
+                            <div class="flex justify-end">
+                                <!-- Styled custom checkbox circle -->
+                                <div class="w-6 h-6 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center transition duration-150 check-circle shadow-sm">
+                                    <svg class="w-3.5 h-3.5 opacity-0 transition duration-150 text-white check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="opacity-0 scale-95 bg-red-600 text-white text-[9px] font-bold py-1 px-2.5 rounded-lg text-center uppercase tracking-wider transition duration-150 self-center shadow-md delete-badge">
+                                Akan Dihapus
+                            </div>
+                        </label>
+                    </div>
+                @endforeach
             </div>
             
-            <label for="image_path" class="block text-sm font-semibold text-slate-700 mb-1">Ganti Foto (Opsional)</label>
-            <input type="file" name="image_path" id="image_path" accept="image/*"
-                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 cursor-pointer">
-            <p class="text-xs text-slate-400 mt-1">Biarkan kosong jika tidak ingin mengganti. Maksimal 2MB.</p>
-            @error('image_path') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <div class="pt-2">
+                <label for="images" class="block text-sm font-semibold text-slate-700 mb-1">Tambah Foto Baru (Opsional)</label>
+                <input type="file" name="images[]" id="images" accept="image/*" multiple
+                    class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition duration-150 cursor-pointer">
+                <p class="text-xs text-slate-400 mt-1">Dapat memilih beberapa foto sekaligus. Maksimal 5MB per file.</p>
+                @error('images.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
         </div>
 
         <div>
@@ -52,3 +76,27 @@
     </form>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .delete-checkbox:checked ~ img {
+        opacity: 0.3;
+        filter: grayscale(100%);
+    }
+    .delete-checkbox:checked ~ .delete-overlay {
+        opacity: 1;
+    }
+    .delete-checkbox:checked ~ label .check-circle {
+        background-color: #ef4444 !important;
+        border-color: #ef4444 !important;
+        color: #ffffff !important;
+    }
+    .delete-checkbox:checked ~ label .check-icon {
+        opacity: 1 !important;
+    }
+    .delete-checkbox:checked ~ label .delete-badge {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+</style>
+@endpush

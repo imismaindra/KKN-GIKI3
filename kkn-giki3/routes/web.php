@@ -20,7 +20,8 @@ Route::get('/', function () {
         ->orderBy('published_at', 'desc')
         ->take(4)
         ->get();
-    return view('welcome', compact('banners', 'articles'));
+    $galleries = \App\Models\Gallery::with('images')->latest()->get();
+    return view('welcome', compact('banners', 'articles', 'galleries'));
 });
 
 // Public Article Routes

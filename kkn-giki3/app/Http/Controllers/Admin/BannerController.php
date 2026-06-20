@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreBannerRequest;
 use App\Http\Requests\Admin\UpdateBannerRequest;
 use App\Models\Banner;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class BannerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = $request->file('image_path')->store('banners', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
         }
 
         Banner::create($data);
@@ -49,7 +50,7 @@ class BannerController extends Controller
             if ($banner->image_path) {
                 Storage::disk('public')->delete($banner->image_path);
             }
-            $data['image_path'] = $request->file('image_path')->store('banners', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
         } else {
             unset($data['image_path']);
         }

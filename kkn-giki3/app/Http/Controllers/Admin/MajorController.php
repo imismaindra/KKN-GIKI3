@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreMajorRequest;
 use App\Http\Requests\Admin\UpdateMajorRequest;
 use App\Models\Major;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -30,7 +31,7 @@ class MajorController extends Controller
         $data['slug'] = Str::slug($data['name']);
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = $request->file('image_path')->store('majors', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
         }
 
         Major::create($data);
@@ -52,7 +53,7 @@ class MajorController extends Controller
             if ($major->image_path) {
                 Storage::disk('public')->delete($major->image_path);
             }
-            $data['image_path'] = $request->file('image_path')->store('majors', 'public');
+            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
         } else {
             unset($data['image_path']);
         }

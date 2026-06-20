@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreTeacherRequest;
 use App\Http\Requests\Admin\UpdateTeacherRequest;
 use App\Models\Teacher;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -67,7 +68,7 @@ class TeacherController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('teachers', 'public');
+            $data['photo'] = ImageOptimizer::optimize($request->file('photo'), 'teachers', 500, 500, 75);
         }
 
         Teacher::create($data);
@@ -88,7 +89,7 @@ class TeacherController extends Controller
             if ($teacher->photo) {
                 Storage::disk('public')->delete($teacher->photo);
             }
-            $data['photo'] = $request->file('photo')->store('teachers', 'public');
+            $data['photo'] = ImageOptimizer::optimize($request->file('photo'), 'teachers', 500, 500, 75);
         } else {
             unset($data['photo']);
         }

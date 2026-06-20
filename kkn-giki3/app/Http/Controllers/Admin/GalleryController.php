@@ -14,7 +14,7 @@ class GalleryController extends Controller
 {
     public function index(): View
     {
-        $galleries = Gallery::latest()->get();
+        $galleries = Gallery::with('images')->latest()->get();
         return view('admin.galleries.index', compact('galleries'));
     }
 
@@ -27,17 +27,26 @@ class GalleryController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image_path')) {
-            $data['image_path'] = $request->file('image_path')->store('galleries', 'public');
-        }
+        $gallery = Gallery::create([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+        ]);
 
-        Gallery::create($data);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $optimizedPath = \App\Helpers\ImageOptimizer::optimize($image, 'galleries', 1200, 1200, 75);
+                $gallery->images()->create([
+                    'image_path' => $optimizedPath,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.galleries.index')->with('success', 'Galeri berhasil ditambahkan.');
     }
 
     public function edit(Gallery $gallery): View
     {
+        $gallery->load('images');
         return view('admin.galleries.edit', compact('gallery'));
     }
 
@@ -45,26 +54,56 @@ class GalleryController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image_path')) {
-            if ($gallery->image_path) {
-                Storage::disk('public')->delete($gallery->image_path);
+        // Handle image deletions
+        if ($request->has('delete_images')) {
+            $deleteImageIds = $request->input('delete_images');
+            
+            // Validate if user is trying to delete all images without uploading any new ones
+            $currentImagesCount = $gallery->images()->count();
+            $newImagesCount = $request->hasFile('images') ? count($request->file('images')) : 0;
+            $deletingCount = count($deleteImageIds);
+
+            if (($currentImagesCount - $deletingCount + $newImagesCount) < 1) {
+                return redirect()->back()->withErrors(['images' => 'Galeri harus memiliki setidaknya satu foto. Jika ingin menghapus seluruh galeri kegiatan, silakan gunakan tombol hapus di halaman daftar.'])->withInput();
             }
-            $data['image_path'] = $request->file('image_path')->store('galleries', 'public');
-        } else {
-            unset($data['image_path']);
+
+            $imagesToDelete = $gallery->images()->whereIn('id', $deleteImageIds)->get();
+            foreach ($imagesToDelete as $image) {
+                if ($image->image_path) {
+                    Storage::disk('public')->delete($image->image_path);
+                }
+                $image->delete();
+            }
         }
 
-        $gallery->update($data);
+        // Handle new image uploads
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $optimizedPath = \App\Helpers\ImageOptimizer::optimize($image, 'galleries', 1200, 1200, 75);
+                $gallery->images()->create([
+                    'image_path' => $optimizedPath,
+                ]);
+            }
+        }
+
+        $gallery->update([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+        ]);
 
         return redirect()->route('admin.galleries.index')->with('success', 'Galeri berhasil diperbarui.');
     }
 
     public function destroy(Gallery $gallery): RedirectResponse
     {
-        if ($gallery->image_path) {
-            Storage::disk('public')->delete($gallery->image_path);
+        // Delete all associated physical files
+        foreach ($gallery->images as $image) {
+            if ($image->image_path) {
+                Storage::disk('public')->delete($image->image_path);
+            }
         }
 
+        $gallery->images()->delete();
         $gallery->delete();
 
         return redirect()->route('admin.galleries.index')->with('success', 'Galeri berhasil dihapus.');

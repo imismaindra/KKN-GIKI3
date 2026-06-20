@@ -11,7 +11,11 @@ class Gallery extends Model
 
     protected $fillable = [
         'title',
-        'image_path',
         'description',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(GalleryImage::class);
+    }
 }

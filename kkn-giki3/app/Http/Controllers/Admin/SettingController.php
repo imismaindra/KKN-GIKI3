@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateSettingRequest;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class SettingController extends Controller
                 Storage::disk('public')->delete($setting->logo);
             }
             // Simpan logo baru
-            $data['logo'] = $request->file('logo')->store('settings', 'public');
+            $data['logo'] = ImageOptimizer::optimize($request->file('logo'), 'settings', 300, 300, 85);
         } else {
             unset($data['logo']);
         }

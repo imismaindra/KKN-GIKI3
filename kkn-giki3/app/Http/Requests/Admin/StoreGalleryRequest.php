@@ -15,7 +15,8 @@ class StoreGalleryRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'image_path' => ['required', 'image', 'max:2048'],
+            'images' => ['required', 'array', 'min:1'],
+            'images.*' => ['image', 'max:5120'],
             'description' => ['nullable', 'string'],
         ];
     }
@@ -24,9 +25,11 @@ class StoreGalleryRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul galeri wajib diisi.',
-            'image_path.required' => 'Gambar galeri wajib diunggah.',
-            'image_path.image' => 'Berkas harus berupa gambar.',
-            'image_path.max' => 'Gambar tidak boleh melebihi 2MB.',
+            'images.required' => 'Foto galeri wajib diunggah.',
+            'images.array' => 'Format berkas tidak valid.',
+            'images.min' => 'Wajib mengunggah minimal satu foto.',
+            'images.*.image' => 'Berkas harus berupa gambar.',
+            'images.*.max' => 'Setiap gambar tidak boleh melebihi 5MB.',
         ];
     }
 }

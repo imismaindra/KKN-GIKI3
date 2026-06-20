@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreTestimonialRequest;
 use App\Http\Requests\Admin\UpdateTestimonialRequest;
 use App\Models\Testimonial;
 use Illuminate\Http\RedirectResponse;
+use App\Helpers\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class TestimonialController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = $request->file('avatar')->store('testimonials', 'public');
+            $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
         }
 
         Testimonial::create($data);
@@ -49,7 +50,7 @@ class TestimonialController extends Controller
             if ($testimonial->avatar) {
                 Storage::disk('public')->delete($testimonial->avatar);
             }
-            $data['avatar'] = $request->file('avatar')->store('testimonials', 'public');
+            $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
         } else {
             unset($data['avatar']);
         }

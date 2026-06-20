@@ -15,7 +15,10 @@ class UpdateGalleryRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'image_path' => ['nullable', 'image', 'max:2048'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'max:5120'],
+            'delete_images' => ['nullable', 'array'],
+            'delete_images.*' => ['string', 'exists:gallery_images,id'],
             'description' => ['nullable', 'string'],
         ];
     }
@@ -24,8 +27,9 @@ class UpdateGalleryRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul galeri wajib diisi.',
-            'image_path.image' => 'Berkas harus berupa gambar.',
-            'image_path.max' => 'Gambar tidak boleh melebihi 2MB.',
+            'images.array' => 'Format berkas tidak valid.',
+            'images.*.image' => 'Berkas harus berupa gambar.',
+            'images.*.max' => 'Setiap gambar tidak boleh melebihi 5MB.',
         ];
     }
 }

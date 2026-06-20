@@ -193,6 +193,9 @@
                 <a class="text-title-lg font-semibold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="{{ request()->is('/') ? '#akademik' : url('/#akademik') }}">
                     Akademik
                 </a>
+                <a class="text-title-lg font-semibold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="{{ request()->is('/') ? '#galeri' : url('/#galeri') }}">
+                    Galeri
+                </a>
                 <a class="text-title-lg font-semibold {{ request()->routeIs('articles.*') ? 'text-secondary border-b-2 border-secondary pb-1' : 'text-on-surface-variant hover:text-secondary transition-colors duration-300' }}" href="{{ route('articles.index') }}">
                     Berita & Artikel
                 </a>
@@ -209,6 +212,7 @@
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ url('/') }}">Beranda</a>
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ url('/#profil') }}">Profil</a>
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ url('/#akademik') }}">Akademik</a>
+            <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ request()->is('/') ? '#galeri' : url('/#galeri') }}">Galeri</a>
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ route('articles.index') }}">Berita & Artikel</a>
             <a class="font-semibold text-secondary py-1" href="{{ url('/#contact') }}">Hubungi Kami</a>
         </div>
