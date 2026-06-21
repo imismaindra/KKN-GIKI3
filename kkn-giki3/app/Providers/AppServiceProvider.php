@@ -19,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        view()->composer('*', function ($view) {
+            try {
+                $view->with('setting', \App\Models\Setting::first());
+            } catch (\Exception $e) {
+                $view->with('setting', null);
+            }
+        });
     }
 }

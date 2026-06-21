@@ -82,6 +82,15 @@
                         <span class="text-sm">Guru & Staf</span>
                     </a>
 
+                    <!-- Ekstrakurikuler -->
+                    <a href="{{ route('admin.extracurriculars.index') }}" 
+                       class="flex items-center space-x-3.5 px-3 py-1.5 rounded-2xl transition duration-150 {{ request()->routeIs('admin.extracurriculars.*') ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700 font-medium group' }}">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-2xl transition duration-150 {{ request()->routeIs('admin.extracurriculars.*') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/10' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600' }}">
+                            <span class="material-symbols-outlined text-xl">sports_soccer</span>
+                        </span>
+                        <span class="text-sm">Ekstrakurikuler</span>
+                    </a>
+
                     <!-- Berita & Artikel -->
                     <a href="{{ route('admin.articles.index') }}" 
                        class="flex items-center space-x-3.5 px-3 py-1.5 rounded-2xl transition duration-150 {{ request()->routeIs('admin.articles.*') ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700 font-medium group' }}">

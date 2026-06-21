@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone', 50);
             $table->text('vision');
             $table->text('mission');
-            $table->string('facebook_url')->nullable();
+            $table->string('tiktok_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('youtube_url')->nullable();
             $table->timestamps();

@@ -21,7 +21,7 @@ class UpdateSettingRequest extends FormRequest
             'phone' => ['required', 'string', 'max:50'],
             'vision' => ['required', 'string'],
             'mission' => ['required', 'string'],
-            'facebook_url' => ['nullable', 'url', 'max:255'],
+            'tiktok_url' => ['nullable', 'url', 'max:255'],
             'instagram_url' => ['nullable', 'url', 'max:255'],
             'youtube_url' => ['nullable', 'url', 'max:255'],
         ];
@@ -39,7 +39,7 @@ class UpdateSettingRequest extends FormRequest
             'phone.required' => 'Nomor telepon wajib diisi.',
             'vision.required' => 'Visi sekolah wajib diisi.',
             'mission.required' => 'Misi sekolah wajib diisi.',
-            'facebook_url.url' => 'Format tautan Facebook tidak valid.',
+            'tiktok_url.url' => 'Format tautan TikTok tidak valid.',
             'instagram_url.url' => 'Format tautan Instagram tidak valid.',
             'youtube_url.url' => 'Format tautan YouTube tidak valid.',
         ];

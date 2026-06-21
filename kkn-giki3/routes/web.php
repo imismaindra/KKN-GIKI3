@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Models\Banner;
 
 Route::get('/', function () {
@@ -22,7 +23,8 @@ Route::get('/', function () {
         ->get();
     $galleries = \App\Models\Gallery::with('images')->latest()->get();
     $testimonials = \App\Models\Testimonial::approved()->latest()->get();
-    return view('welcome', compact('banners', 'articles', 'galleries', 'testimonials'));
+    $extracurriculars = \App\Models\Extracurricular::latest()->get();
+    return view('welcome', compact('banners', 'articles', 'galleries', 'testimonials', 'extracurriculars'));
 });
 
 // Public Article Routes
@@ -32,6 +34,9 @@ Route::get('/berita-artikel/{slug}', [\App\Http\Controllers\ArticleController::c
 // Public Testimonial Routes
 Route::get('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'create'])->name('testimonials.create.public');
 Route::post('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'store'])->name('testimonials.store.public');
+
+// Public Extracurricular Routes
+Route::get('/ekstrakurikuler', [\App\Http\Controllers\ExtracurricularController::class, 'index'])->name('ekstrakurikuler.index');
 
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
@@ -51,6 +56,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('majors', MajorController::class);
     Route::resource('facilities', FacilityController::class);
     Route::resource('teachers', TeacherController::class);
+    Route::resource('extracurriculars', ExtracurricularController::class);
     Route::resource('articles', ArticleController::class);
     Route::resource('galleries', GalleryController::class);
     Route::patch('testimonials/{testimonial}/toggle-approval', [TestimonialController::class, 'toggleApproval'])->name('testimonials.toggle-approval');

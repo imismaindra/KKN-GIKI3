@@ -94,10 +94,10 @@
             
             <div class="grid grid-cols-1 gap-6">
                 <div>
-                    <label for="facebook_url" class="block text-sm font-semibold text-slate-700 mb-1">Tautan Facebook</label>
-                    <input type="url" name="facebook_url" id="facebook_url" value="{{ old('facebook_url', $setting->facebook_url ?? '') }}" placeholder="https://facebook.com/..."
+                    <label for="tiktok_url" class="block text-sm font-semibold text-slate-700 mb-1">Tautan TikTok</label>
+                    <input type="url" name="tiktok_url" id="tiktok_url" value="{{ old('tiktok_url', $setting->tiktok_url ?? '') }}" placeholder="https://tiktok.com/@..."
                         class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
-                    @error('facebook_url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('tiktok_url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>

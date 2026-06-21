@@ -17,7 +17,7 @@ class Setting extends Model
         'phone',
         'vision',
         'mission',
-        'facebook_url',
+        'tiktok_url',
         'instagram_url',
         'youtube_url',
     ];

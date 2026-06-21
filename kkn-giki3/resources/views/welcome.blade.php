@@ -299,91 +299,95 @@
         <section class="max-w-[1600px] mx-auto px-margin-mobile md:px-margin-desktop my-32 overflow-hidden">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-up visible gap-6">
                 <div class="max-w-2xl">
-                    <span class="text-secondary font-label-md tracking-widest uppercase mb-4 block">Kegiatan
-                        Siswa</span>
-                    <h2
-                        class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4">
-                        Pengembangan Minat &amp; Bakat</h2>
-                    <p class="font-body-lg text-body-lg text-on-surface-variant">Lebih dari 20+ ekstrakurikuler aktif
-                        untuk mengeksplorasi potensi di luar kelas akademik.</p>
+                    <span class="text-secondary font-label-md tracking-widest uppercase mb-4 block">Kegiatan Siswa</span>
+                    <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4">
+                        Pengembangan Minat &amp; Bakat
+                    </h2>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Lebih dari 20+ ekstrakurikuler aktif untuk mengeksplorasi potensi di luar kelas akademik.</p>
                 </div>
                 <div class="flex gap-4">
-                    <button
-                        class="w-14 h-14 rounded-full border-2 border-outline-variant/30 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-surface-container-lowest transition-all duration-300 group"><span
-                            class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span></button>
-                    <button
-                        class="btn-primary bg-white/5 backdrop-blur-xl text-on-primary font-bold text-label-md px-10 py-5 rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300"><span
-                            class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span></button>
+                    <button id="ekskul-prev-btn"
+                        class="w-14 h-14 rounded-full border-2 border-outline-variant/30 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-surface-container-lowest transition-all duration-300 group">
+                        <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    </button>
+                    <button id="ekskul-next-btn"
+                        class="w-14 h-14 rounded-full border-2 border-outline-variant/30 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-surface-container-lowest transition-all duration-300 group">
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
                 </div>
             </div>
-            <div class="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar">
-                <!-- Card 1 -->
-                <div
-                    class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up visible shadow-lg">
-                    <img alt="Traditional Dance Extracurricular"
-                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO38iPlrza6vYZYAyX7PQAxDVL--q0_tE-V_UCbUGC-pyQolX8VgYMyo6iv_N-B6rc6XSyZRvI-NVKEhJsCU0038zo9-pIL4hcuBmOlUMAt_sjOCELOOTLqqJ01m1mjAqLnLUFZm6ovBKVj0Rf2dFR-TCG6_Joxy3aHzWCp7rQPkq8iazwqK9H-YdIFRWPeFrm7rsDCdyewWEzqCmZWrjfzYsE75wM8OzERM7JgOZbjm05LBnyVqE2G3HdyEpDYrdLah_a6LIItnQH" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+            <div id="ekskul-slider" class="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar">
+                @forelse($extracurriculars as $ekskul)
+                    <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up visible shadow-lg cursor-pointer"
+                         onclick="window.location.href='{{ route('ekstrakurikuler.index') }}'">
+                        @if($ekskul->image_path)
+                            @if(Str::startsWith($ekskul->image_path, 'http'))
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ $ekskul->image_path }}" />
+                            @else
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ Storage::url($ekskul->image_path) }}" />
+                            @endif
+                        @else
+                            <div class="w-full h-full bg-slate-900 flex items-center justify-center text-slate-700">
+                                <span class="material-symbols-outlined text-8xl">{{ $ekskul->icon ?: 'sports_soccer' }}</span>
+                            </div>
+                        @endif
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                            <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
+                            <span class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">{{ $ekskul->category ?: 'Kegiatan' }}</span>
+                            <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">{{ $ekskul->name }}</h3>
+                            <p class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 leading-relaxed">
+                                {{ $ekskul->description }}
+                            </p>
+                        </div>
                     </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
-                        <span
-                            class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Seni
-                            Budaya</span>
-                        <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Tari Tradisional
-                        </h3>
-                        <p
-                            class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                            Melestarikan warisan budaya nusantara melalui gerak dan harmoni, tampil di berbagai festival
-                            nasional.</p>
+                @empty
+                    <!-- Card 1 (Fallback) -->
+                    <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up visible shadow-lg">
+                        <img alt="Traditional Dance Extracurricular"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO38iPlrza6vYZYAyX7PQAxDVL--q0_tE-V_UCbUGC-pyQolX8VgYMyo6iv_N-B6rc6XSyZRvI-NVKEhJsCU0038zo9-pIL4hcuBmOlUMAt_sjOCELOOTLqqJ01m1mjAqLnLUFZm6ovBKVj0Rf2dFR-TCG6_Joxy3aHzWCp7rQPkq8iazwqK9H-YdIFRWPeFrm7rsDCdyewWEzqCmZWrjfzYsE75wM8OzERM7JgOZbjm05LBnyVqE2G3HdyEpDYrdLah_a6LIItnQH" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                            <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
+                            <span class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Seni Budaya</span>
+                            <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Tari Tradisional</h3>
+                            <p class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Melestarikan warisan budaya nusantara melalui gerak dan harmoni, tampil di berbagai festival nasional.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <!-- Card 2 -->
-                <div
-                    class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-100 visible shadow-lg">
-                    <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                        data-alt="A dynamic high-school basketball game in an indoor modern court. Bright, natural lighting streaming through high windows. Students in uniform playing competitively. The mood is energetic and athletic, fitting a modern academic institution's sports program. Color palette includes warm woods and bright whites."
-                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7MEGmBhEANV3w7U9898OXQr0DfDB-zyie1rzCazRqQCp2WDP5C__pIeFuFKDctbpiWNHws6BEY6szXryhToLKbq90tfdE6Y1O6Tn2VuaikLd557R3t7CYRg5y2Zn8RDHsWAysfVM_VGptUagChzGLzg0qNdYxTOerHcCq-UGFxfeKJvymE5ihuagw8igMUdFNuCiTwIonQkf1AcW_gusX6kYXgPFegt2B0KL6lHFNt_mbOpPhOtQNdrgWud58p_QmLn08xv1fi-')">
+                    <!-- Card 2 (Fallback) -->
+                    <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-100 visible shadow-lg">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7MEGmBhEANV3w7U9898OXQr0DfDB-zyie1rzCazRqQCp2WDP5C__pIeFuFKDctbpiWNHws6BEY6szXryhToLKbq90tfdE6Y1O6Tn2VuaikLd557R3t7CYRg5y2Zn8RDHsWAysfVM_VGptUagChzGLzg0qNdYxTOerHcCq-UGFxfeKJvymE5ihuagw8igMUdFNuCiTwIonQkf1AcW_gusX6kYXgPFegt2B0KL6lHFNt_mbOpPhOtQNdrgWud58p_QmLn08xv1fi-')">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                            <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
+                            <span class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Olahraga</span>
+                            <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Tim Basket</h3>
+                            <p class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Membangun sportivitas, disiplin, dan kerjasama tim di lapangan kompetisi.
+                            </p>
+                        </div>
                     </div>
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
+                    <!-- Card 3 (Fallback) -->
+                    <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-200 visible shadow-lg">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATkTVQBv3VR4_U_-0KyWt1VrqYlg0Oo46X8_esHSTLqZZwhJ5HjQJxpS5TSZtnrVJl0Q84yo_P66zUvitxlE7LEylw4kMDwPPXETHL878Q6NZTYouQSvswKvvHXMQ2qtIOMui0RTxV7pAxX0iuO5kNG3a0VFxo69QUbMTw087TaDgrdgnpLSQPmjIfyoYqAgVDv7UQMQ1bqbXvzFwulLmxV-bpJkcQaWV1G7QblZZiWCuqa0GpXIMS-6mBtMMG5lVz6S0cQwpf50K2')">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                            <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
+                            <span class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Sains &amp; Teknologi</span>
+                            <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Klub Robotika</h3>
+                            <p class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Inovasi teknologi masa depan dirancang hari ini melalui pemecahan masalah praktis.
+                            </p>
+                        </div>
                     </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
-                        <span
-                            class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Olahraga</span>
-                        <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Tim Basket</h3>
-                        <p
-                            class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                            Membangun sportivitas, disiplin, dan kerjasama tim di lapangan kompetisi.</p>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div
-                    class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-200 visible shadow-lg">
-                    <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                        data-alt="Students gathered around a robotics project in a bright, modern maker space. White tables, technological equipment, focused expressions. The lighting is crisp and cool, emphasizing innovation and STEM education in an academic setting. Soft ivory walls."
-                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATkTVQBv3VR4_U_-0KyWt1VrqYlg0Oo46X8_esHSTLqZZwhJ5HjQJxpS5TSZtnrVJl0Q84yo_P66zUvitxlE7LEylw4kMDwPPXETHL878Q6NZTYouQSvswKvvHXMQ2qtIOMui0RTxV7pAxX0iuO5kNG3a0VFxo69QUbMTw087TaDgrdgnpLSQPmjIfyoYqAgVDv7UQMQ1bqbXvzFwulLmxV-bpJkcQaWV1G7QblZZiWCuqa0GpXIMS-6mBtMMG5lVz6S0cQwpf50K2')">
-                    </div>
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500">
-                    </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                        <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
-                        <span
-                            class="font-label-md text-label-md text-secondary mb-3 block tracking-widest uppercase">Sains
-                            &amp; Teknologi</span>
-                        <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-primary mb-4">Klub Robotika
-                        </h3>
-                        <p
-                            class="font-body-lg text-body-lg text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                            Inovasi teknologi masa depan dirancang hari ini melalui pemecahan masalah praktis.</p>
-                    </div>
-                </div>
+                @endforelse
             </div>
             <style>
                 .hide-scrollbar::-webkit-scrollbar {
@@ -998,6 +1002,33 @@
             if (testiPrevBtn) {
                 testiPrevBtn.addEventListener('click', () => {
                     testiSlider.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        }
+
+        // Extracurriculars Slider Navigation
+        const ekskulSlider = document.getElementById('ekskul-slider');
+        const ekskulPrevBtn = document.getElementById('ekskul-prev-btn');
+        const ekskulNextBtn = document.getElementById('ekskul-next-btn');
+
+        if (ekskulSlider) {
+            const scrollAmount = 500; // Approximated card width + gap
+            
+            if (ekskulNextBtn) {
+                ekskulNextBtn.addEventListener('click', () => {
+                    ekskulSlider.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            if (ekskulPrevBtn) {
+                ekskulPrevBtn.addEventListener('click', () => {
+                    ekskulSlider.scrollBy({
                         left: -scrollAmount,
                         behavior: 'smooth'
                     });

@@ -176,9 +176,9 @@
         <div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
             <div class="flex items-center gap-4">
                 <a href="{{ url('/') }}" class="flex items-center gap-4">
-                    <img alt="SMA GIKI 3 Surabaya Logo" class="h-12 w-auto" src="{{ asset('smagiki3.webp') }}" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
+                    <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo" class="h-12 w-auto" src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
                     <span class="font-display-lg-mobile md:font-display-lg md:text-headline-sm text-primary tracking-tight hidden md:block">
-                        SMA GIKI 3 Surabaya
+                        {{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }}
                     </span>
                 </a>
             </div>
@@ -199,6 +199,9 @@
                 <a class="text-title-lg font-semibold {{ request()->routeIs('articles.*') ? 'text-secondary border-b-2 border-secondary pb-1' : 'text-on-surface-variant hover:text-secondary transition-colors duration-300' }}" href="{{ route('articles.index') }}">
                     Berita & Artikel
                 </a>
+                <a class="text-title-lg font-semibold {{ request()->routeIs('ekstrakurikuler.*') ? 'text-secondary border-b-2 border-secondary pb-1' : 'text-on-surface-variant hover:text-secondary transition-colors duration-300' }}" href="{{ route('ekstrakurikuler.index') }}">
+                    Ekstrakurikuler
+                </a>
             </div>
             <a href="{{ request()->is('/') ? '#contact' : url('/#contact') }}" class="hidden md:flex btn-primary bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-full border border-primary hover:bg-primary/90 hover:shadow-ambient active:scale-95 duration-200">
                 Hubungi Kami
@@ -214,6 +217,7 @@
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ url('/#akademik') }}">Akademik</a>
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ request()->is('/') ? '#galeri' : url('/#galeri') }}">Galeri</a>
             <a class="font-semibold text-primary hover:text-secondary py-1" href="{{ route('articles.index') }}">Berita & Artikel</a>
+            <a class="font-semibold {{ request()->routeIs('ekstrakurikuler.*') ? 'text-secondary' : 'text-primary' }} hover:text-secondary py-1" href="{{ route('ekstrakurikuler.index') }}">Ekstrakurikuler</a>
             <a class="font-semibold text-secondary py-1" href="{{ url('/#contact') }}">Hubungi Kami</a>
         </div>
     </nav>
@@ -229,20 +233,20 @@
                 <!-- Column 1: Brand Info -->
                 <div class="flex flex-col gap-6">
                     <div class="flex items-center gap-3">
-                        <img alt="SMA GIKI 3 Surabaya Logo" class="h-12 w-auto brightness-0 invert" src="{{ asset('smagiki3.webp') }}" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
-                        <span class="font-bold text-headline-sm text-on-primary tracking-tight">SMA GIKI 3</span>
+                        <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo" class="h-12 w-auto brightness-0 invert" src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
+                        <span class="font-bold text-headline-sm text-on-primary tracking-tight">{{ $setting->school_name ?? 'SMA GIKI 3 SURABAYA' }}</span>
                     </div>
                     <p class="font-body-md text-on-primary/70 leading-relaxed">
                         Membentuk karakter unggul dan mengukir prestasi gemilang melalui pendidikan holistik berbasis nilai-nilai luhur bangsa.
                     </p>
                     <div class="flex gap-4">
-                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="#">
-                            <span class="material-symbols-outlined">public</span>
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->tiktok_url) ? $setting->tiktok_url : 'https://www.tiktok.com/@smagiga_media' }}" target="_blank" title="TikTok">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.16 1.02 1.12 2.45 1.79 3.94 1.95v3.91a8.312 8.312 0 0 1-5.18-1.74c-.06 2.42-.02 4.84-.04 7.26-.06 1.83-.56 3.65-1.57 5.16-1.12 1.62-2.91 2.76-4.83 3.16-1.89.37-3.9-.03-5.53-1.07-1.78-1.16-2.95-3.15-3.1-5.26-.26-3.14 1.7-6.22 4.69-7.23.83-.28 1.71-.38 2.58-.33v4.03c-.63-.12-1.3-.06-1.88.21-.86.37-1.48 1.2-1.56 2.12-.13 1.25.75 2.42 1.99 2.58.91.13 1.89-.3 2.32-1.11.23-.42.33-.91.31-1.39-.02-3.86-.01-7.72-.02-11.58-.01-.1-.01-.2-.02-.3-.02-.19-.06-.39-.19-.54-.15-.17-.38-.2-.6-.2H12.525z"/></svg>
                         </a>
-                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="#">
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->instagram_url) ? $setting->instagram_url : 'https://instagram.com/smagiga' }}" target="_blank" title="Instagram">
                             <span class="material-symbols-outlined">photo_camera</span>
                         </a>
-                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="#">
+                        <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-on-primary hover:bg-secondary hover:text-primary transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->youtube_url) ? $setting->youtube_url : 'https://youtube.com/@smagiki3surabaya730' }}" target="_blank" title="YouTube">
                             <span class="material-symbols-outlined">play_arrow</span>
                         </a>
                     </div>
@@ -271,15 +275,15 @@
                     <ul class="flex flex-col gap-4 font-body-md text-on-primary/80">
                         <li class="flex items-start gap-3">
                             <span class="material-symbols-outlined text-secondary">location_on</span>
-                            <span>Jl. Raya Kertajaya Indah No.10, Surabaya</span>
+                            <span>{{ $setting->address ?? 'Jl. Klampis Jaya No. 11, Klampis Ngasem, Kec. Sukolilo, Surabaya, Jawa Timur 60117' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-secondary">phone</span>
-                            <span>(031) 5945133</span>
+                            <span>{{ $setting->phone ?? '031-5996405' }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-secondary">mail</span>
-                            <span>info@smagiki3surabaya.sch.id</span>
+                            <span>{{ $setting->email ?? 'info@smagiki3surabaya.sch.id' }}</span>
                         </li>
                     </ul>
                 </div>
@@ -287,7 +291,7 @@
             <!-- Bottom Bar -->
             <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
                 <p class="font-body-md text-on-primary/50 text-sm">
-                    © 2024 SMA GIKI 3 Surabaya. All Rights Reserved.
+                    © {{ date('Y') }} {{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }}. All Rights Reserved.
                 </p>
                 <button class="btn-primary bg-white/5 backdrop-blur-xl text-on-primary font-bold text-label-md px-10 py-5 rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                     <span class="font-label-md">Kembali ke Atas</span>
