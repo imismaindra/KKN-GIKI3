@@ -110,7 +110,131 @@
         z-index: -1;
     }
 
-    /* ── CTA Band ────────────────────────────── */
+    /* ── Akademik Bento Grid ───────────────────── */
+    .major-bento-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 20px;
+    }
+    @media (max-width: 1023px) {
+        .major-bento-grid { grid-template-columns: 1fr 1fr; }
+        .major-card-featured { grid-column: span 2; }
+    }
+    @media (max-width: 639px) {
+        .major-bento-grid { grid-template-columns: 1fr; }
+        .major-card-featured { grid-column: span 1; }
+    }
+    .major-card-featured { grid-column: span 2; grid-row: span 1; }
+
+    .major-card {
+        position: relative;
+        border-radius: 1.75rem;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .major-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 56px -12px rgba(15, 31, 61, 0.18);
+    }
+    .major-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 280px;
+    }
+    .major-card-featured .major-card-inner {
+        min-height: 340px;
+    }
+    /* Number badge in major cards */
+    .major-num {
+        font-size: clamp(80px, 10vw, 140px);
+        font-weight: 900;
+        line-height: 0.85;
+        letter-spacing: -0.05em;
+        opacity: 0.06;
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        color: white;
+        user-select: none;
+        pointer-events: none;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Fasilitas Masonry ───────────────────── */
+    .facility-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: minmax(180px, auto);
+        gap: 16px;
+    }
+    @media (max-width: 1023px) {
+        .facility-grid { grid-template-columns: repeat(6, 1fr); }
+        .facility-col-8 { grid-column: span 6 !important; }
+        .facility-col-4 { grid-column: span 6 !important; }
+        .facility-col-6 { grid-column: span 6 !important; }
+    }
+    @media (max-width: 639px) {
+        .facility-grid { grid-template-columns: 1fr; }
+        .facility-col-8, .facility-col-4, .facility-col-6 { grid-column: span 1 !important; }
+    }
+    .facility-col-8  { grid-column: span 8; }
+    .facility-col-4  { grid-column: span 4; }
+    .facility-col-6  { grid-column: span 6; }
+
+    .facility-card {
+        border-radius: 1.75rem;
+        overflow: hidden;
+        position: relative;
+        cursor: default;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .facility-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 48px rgba(15, 31, 61, 0.12);
+    }
+    .facility-card .fc-img {
+        width: 100%; height: 100%; min-height: inherit;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    .facility-card:hover .fc-img {
+        transform: scale(1.05);
+    }
+    /* Facility icon bg (no-image fallback) */
+    .fc-icon-bg {
+        width: 100%;
+        height: 100%;
+        min-height: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* ── Fasilitas Light Card ──────────────────── */
+    .fc-light-card {
+        background: #FFFFFF;
+        border-radius: 1.75rem;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 2px 12px rgba(15, 31, 61, 0.06),
+                    0 1px 3px rgba(15, 31, 61, 0.04);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fc-light-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 48px rgba(15, 31, 61, 0.10),
+                    0 4px 8px rgba(15, 31, 61, 0.06);
+    }
+
     .cta-band {
         background: linear-gradient(135deg, #0F1F3D 0%, #1A3366 40%, #0D1B3E 100%);
         position: relative;
@@ -446,77 +570,92 @@
 
         <!-- Program Keahlian / Majors Section -->
         <section id="akademik" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
-            <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
-                <span class="section-label">Program Akademik</span>
-                <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1">
-                    Program Peminatan Keahlian
-                </h2>
-                <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                    Kami menawarkan jalur peminatan kurikulum yang dirancang khusus untuk mengoptimalkan potensi akademis siswa menuju pendidikan tinggi dan industri masa depan.
+            <div class="mb-14 fade-up flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div class="max-w-xl">
+                    <span class="section-label">Program Akademik</span>
+                    <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
+                        Pilih Jalanmu,<br><span class="gradient-gold-text">Ukir Prestasimu</span>
+                    </h2>
+                </div>
+                <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed max-w-md">
+                    Jalur peminatan kurikulum yang dirancang khusus untuk mengoptimalkan potensi akademis siswa.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- BENTO GRID LAYOUT -->
+            <div class="major-bento-grid">
                 @forelse($majors as $major)
-                    @php $accentClasses = ['card-accent-red', 'card-accent-blue', 'card-accent-gold']; $accentClass = $accentClasses[$loop->index % 3]; @endphp
-                    <div class="glass-card-light rounded-3xl overflow-hidden border border-outline-variant/15 hover-lift group shadow-sm flex flex-col justify-between h-full fade-up {{ $accentClass }}">
-                        <div class="relative h-56 bg-slate-100 overflow-hidden">
-                            @if($major->image_path)
-                                <img src="{{ Storage::url($major->image_path) }}" alt="{{ $major->name }}" class="w-full h-full object-cover transition-transform duration-750 group-hover:scale-105" loading="lazy">
-                            @else
-                                <div class="w-full h-full bg-gradient-to-br from-primary to-indigo-950 flex flex-col items-center justify-center text-white relative">
-                                    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 16px 16px;"></div>
-                                    <span class="material-symbols-outlined text-5xl text-secondary animate-float">{{ $major->icon ?: 'science' }}</span>
+                    @php
+                        $bgGradients = [
+                            'linear-gradient(145deg, #0F1F3D 0%, #1A3A8F 100%)',
+                            'linear-gradient(145deg, #7A1828 0%, #C41E3A 100%)',
+                            'linear-gradient(145deg, #5C3A00 0%, #C8930A 100%)',
+                            'linear-gradient(145deg, #0A2844 0%, #1A5C8F 100%)',
+                            'linear-gradient(145deg, #1A2F0A 0%, #3A7A1A 100%)',
+                        ];
+                        $tagColors = ['bg-blue-500/20 text-blue-300 border-blue-400/20', 'bg-red-500/20 text-red-300 border-red-400/20', 'bg-amber-500/20 text-amber-300 border-amber-400/20', 'bg-sky-500/20 text-sky-300 border-sky-400/20', 'bg-green-500/20 text-green-300 border-green-400/20'];
+                        $bg = $bgGradients[$loop->index % count($bgGradients)];
+                        $tag = $tagColors[$loop->index % count($tagColors)];
+                        $isFirst = $loop->first;
+                    @endphp
+                    <div class="major-card {{ $isFirst ? 'major-card-featured' : '' }} fade-up fade-up-delay-{{ min($loop->index, 3) }}">
+                        <div class="major-card-inner flex flex-col justify-between p-8 md:p-10" style="background: {{ $bg }};">
+                            <!-- Big number watermark -->
+                            <span class="major-num">{{ $loop->iteration }}</span>
+                            <!-- Dot pattern -->
+                            <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1.5px 1.5px, white 1.5px, transparent 0); background-size: 22px 22px;"></div>
+
+                            <!-- Top row -->
+                            <div class="relative z-10 flex items-start justify-between gap-4">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/10 border border-white/15 backdrop-blur-sm flex-shrink-0">
+                                    @if($major->image_path)
+                                        <img src="{{ Storage::url($major->image_path) }}" class="w-10 h-10 object-cover rounded-xl" alt="">
+                                    @else
+                                        <span class="material-symbols-outlined text-3xl text-white" style="font-variation-settings:'FILL' 1">{{ $major->icon ?: 'school' }}</span>
+                                    @endif
                                 </div>
-                            @endif
-                            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-primary w-11 h-11 rounded-2xl flex items-center justify-center shadow-md border border-slate-100">
-                                <span class="material-symbols-outlined text-secondary">{{ $major->icon ?: 'menu_book' }}</span>
+                                <span class="text-xs font-bold uppercase tracking-widest border rounded-full px-3 py-1 {{ $tag }}">Peminatan</span>
                             </div>
-                        </div>
-                        
-                        <div class="p-8 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-xl text-primary mb-3 group-hover:text-secondary transition-colors duration-200">{{ $major->name }}</h3>
-                                <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-4 mb-6">
-                                    {{ $major->description ?? 'Deskripsi kurikulum peminatan belum tersedia.' }}
-                                </p>
+
+                            <!-- Content -->
+                            <div class="relative z-10 mt-auto pt-6">
+                                <h3 class="font-black text-white leading-tight mb-3 {{ $isFirst ? 'text-2xl md:text-3xl' : 'text-xl' }}">{{ $major->name }}</h3>
+                                <p class="text-white/65 text-sm leading-relaxed {{ $isFirst ? 'line-clamp-3' : 'line-clamp-2' }}">{{ $major->description ?? 'Deskripsi kurikulum peminatan belum tersedia.' }}</p>
+                                <a href="#contact" class="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors group/lnk">
+                                    Pelajari Program
+                                    <span class="material-symbols-outlined text-base group-hover/lnk:translate-x-1 transition-transform">arrow_forward</span>
+                                </a>
                             </div>
-                            
-                            <a href="#contact" class="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-primary transition-colors group/link border-t border-slate-50 pt-4 mt-auto">
-                                <span>Hubungi Pendaftaran</span>
-                                <span class="material-symbols-outlined text-sm transform group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
                         </div>
                     </div>
                 @empty
-                    <!-- Fallback Majors -->
+                    <!-- Fallback Bento -->
                     @php
                         $fallbackMajors = [
-                            ['name' => 'MIPA (Matematika & Ilmu Pengetahuan Alam)', 'icon' => 'science', 'desc' => 'Fokus pada pengembangan nalar saintifik melalui pendalaman ilmu matematika, fisika, kimia, dan biologi terapan.'],
-                            ['name' => 'IPS (Ilmu Pengetahuan Sosial)', 'icon' => 'public', 'desc' => 'Mempelajari interaksi kemanusiaan, ekonomi kreatif, sosiologi praktis, serta sejarah kebudayaan global.'],
-                            ['name' => 'Bahasa & Budaya', 'icon' => 'translate', 'desc' => 'Mengasah kemampuan komunikasi multinasional, sastra kreatif, serta kajian budaya antropologi daerah maupun internasional.']
+                            ['name' => 'MIPA — Matematika & Ilmu Pengetahuan Alam', 'icon' => 'science', 'desc' => 'Fokus pada pengembangan nalar saintifik melalui pendalaman ilmu matematika, fisika, kimia, dan biologi terapan berbasis laboratorium dan riset.', 'bg' => 'linear-gradient(145deg, #0F1F3D 0%, #1A3A8F 100%)', 'tag' => 'bg-blue-500/20 text-blue-300 border-blue-400/20'],
+                            ['name' => 'IPS — Ilmu Pengetahuan Sosial', 'icon' => 'public', 'desc' => 'Mempelajari interaksi kemanusiaan, ekonomi kreatif, sosiologi praktis, serta sejarah kebudayaan global.', 'bg' => 'linear-gradient(145deg, #7A1828 0%, #C41E3A 100%)', 'tag' => 'bg-red-500/20 text-red-300 border-red-400/20'],
+                            ['name' => 'Bahasa & Budaya', 'icon' => 'translate', 'desc' => 'Mengasah kemampuan komunikasi multinasional, sastra kreatif, serta kajian budaya antropologi.', 'bg' => 'linear-gradient(145deg, #5C3A00 0%, #C8930A 100%)', 'tag' => 'bg-amber-500/20 text-amber-300 border-amber-400/20'],
                         ];
                     @endphp
-                    @foreach($fallbackMajors as $major)
-                        <div class="glass-card-light rounded-3xl overflow-hidden border border-outline-variant/20 hover-lift group shadow-sm flex flex-col justify-between h-full fade-up">
-                            <div class="relative h-56 bg-gradient-to-br from-primary to-indigo-950 flex flex-col items-center justify-center text-white">
-                                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 16px 16px;"></div>
-                                <span class="material-symbols-outlined text-5xl text-secondary animate-float">{{ $major['icon'] }}</span>
-                                <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-primary w-11 h-11 rounded-2xl flex items-center justify-center shadow-md border border-slate-100">
-                                    <span class="material-symbols-outlined text-secondary">{{ $major['icon'] }}</span>
+                    @foreach($fallbackMajors as $idx => $major)
+                        <div class="major-card {{ $idx === 0 ? 'major-card-featured' : '' }} fade-up">
+                            <div class="major-card-inner flex flex-col justify-between p-8 md:p-10" style="background: {{ $major['bg'] }};">
+                                <span class="major-num">{{ $idx + 1 }}</span>
+                                <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1.5px 1.5px, white 1.5px, transparent 0); background-size: 22px 22px;"></div>
+                                <div class="relative z-10 flex items-start justify-between gap-4">
+                                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/10 border border-white/15">
+                                        <span class="material-symbols-outlined text-3xl text-white" style="font-variation-settings:'FILL' 1">{{ $major['icon'] }}</span>
+                                    </div>
+                                    <span class="text-xs font-bold uppercase tracking-widest border rounded-full px-3 py-1 {{ $major['tag'] }}">Peminatan</span>
                                 </div>
-                            </div>
-                            <div class="p-8 flex-grow flex flex-col justify-between">
-                                <div>
-                                    <h3 class="font-bold text-xl text-primary mb-3 group-hover:text-secondary transition-colors duration-200">{{ $major['name'] }}</h3>
-                                    <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-4 mb-6">
-                                        {{ $major['desc'] }}
-                                    </p>
+                                <div class="relative z-10 mt-auto pt-6">
+                                    <h3 class="font-black text-white leading-tight mb-3 {{ $idx === 0 ? 'text-2xl md:text-3xl' : 'text-xl' }}">{{ $major['name'] }}</h3>
+                                    <p class="text-white/65 text-sm leading-relaxed {{ $idx === 0 ? 'line-clamp-3' : 'line-clamp-2' }}">{{ $major['desc'] }}</p>
+                                    <a href="#contact" class="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors group/lnk">
+                                        Pelajari Program
+                                        <span class="material-symbols-outlined text-base group-hover/lnk:translate-x-1 transition-transform">arrow_forward</span>
+                                    </a>
                                 </div>
-                                <a href="#contact" class="inline-flex items-center gap-2 text-sm font-semibold text-secondary hover:text-primary transition-colors group/link border-t border-slate-50 pt-4 mt-auto">
-                                    <span>Tanyakan Program</span>
-                                    <span class="material-symbols-outlined text-sm transform group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -525,78 +664,106 @@
         </section>
 
         <!-- Fasilitas Section -->
-        <section id="fasilitas" class="relative my-32 scroll-mt-24" style="background: linear-gradient(180deg, #FAFAF5 0%, #F3F4EF 50%, #FAFAF5 100%);">
-            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
-            <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
+        <section id="fasilitas" class="relative my-32 scroll-mt-24">
+            <!-- Light warm background -->
+            <div class="absolute inset-0" style="background: linear-gradient(180deg, #FAFAF5 0%, #F0EDE4 50%, #FAFAF5 100%);"></div>
+            <div class="relative max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-20">
+
+            <!-- Section Header: centered, different from left-aligned akademik -->
+            <div class="mb-16 text-center max-w-2xl mx-auto fade-up">
                 <span class="section-label">Sarana &amp; Prasarana</span>
-                <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1">
-                    Fasilitas Pendukung Belajar
+                <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
+                    Fasilitas <span class="gradient-gold-text">Kelas Dunia</span>
                 </h2>
-                <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                    Kami menyediakan lingkungan belajar yang aman, nyaman, dan representatif lengkap dengan infrastruktur teknologi modern guna mendukung segala bentuk aktivitas pendidikan siswa.
+                <p class="text-on-surface-variant leading-relaxed text-base mt-4">
+                    Infrastruktur modern yang dirancang untuk memaksimalkan pengalaman belajar siswa setiap hari.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            @php
+                $fcAccents = [
+                    ['ring' => '#1A3A8F', 'bg' => '#EEF2FF', 'icon_color' => '#1A3A8F'],
+                    ['ring' => '#C41E3A', 'bg' => '#FFF0F2', 'icon_color' => '#C41E3A'],
+                    ['ring' => '#C8930A', 'bg' => '#FFF8EC', 'icon_color' => '#C8930A'],
+                    ['ring' => '#1A7A5A', 'bg' => '#EDFAF4', 'icon_color' => '#1A7A5A'],
+                    ['ring' => '#6A1A8F', 'bg' => '#F5EEFF', 'icon_color' => '#6A1A8F'],
+                    ['ring' => '#0A5A8F', 'bg' => '#EEF6FF', 'icon_color' => '#0A5A8F'],
+                ];
+            @endphp
+
+            <!-- LIGHT 3-COLUMN CARD GRID (contrasts with dark bento above) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($facilities as $facility)
-                    <div class="glass-card-light rounded-3xl overflow-hidden border border-outline-variant/20 hover-lift group shadow-sm flex flex-col h-full fade-up">
-                        <div class="relative h-64 bg-slate-100 overflow-hidden">
-                            @if($facility->image_path)
-                                <img src="{{ Storage::url($facility->image_path) }}" alt="{{ $facility->name }}" class="w-full h-full object-cover transition-transform duration-750 group-hover:scale-105" loading="lazy">
-                            @else
-                                <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
-                                    <span class="material-symbols-outlined text-6xl animate-float">{{ $facility->icon ?: 'business' }}</span>
+                    @php
+                        $accent = $fcAccents[$loop->index % count($fcAccents)];
+                    @endphp
+                    <div class="fc-light-card fade-up group" style="--fc-ring: {{ $accent['ring'] }}; --fc-bg: {{ $accent['bg'] }};">
+                        <!-- Top colored strip -->
+                        <div class="h-1.5 w-full rounded-t-3xl" style="background: {{ $accent['ring'] }};"></div>
+                        <div class="p-7 flex flex-col gap-5 h-full">
+                            <!-- Icon + Number Row -->
+                            <div class="flex items-start justify-between">
+                                <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style="background: {{ $accent['bg'] }}; border: 2px solid {{ $accent['ring'] }}20;">
+                                    @if($facility->image_path)
+                                        <img src="{{ Storage::url($facility->image_path) }}" class="w-9 h-9 object-cover rounded-xl" alt="" loading="lazy">
+                                    @else
+                                        <span class="material-symbols-outlined text-3xl" style="color: {{ $accent['ring'] }}; font-variation-settings:'FILL' 1">{{ $facility->icon ?: 'business' }}</span>
+                                    @endif
                                 </div>
-                            @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                                <span class="text-white text-xs font-bold tracking-wider uppercase flex items-center gap-1.5 bg-secondary/80 backdrop-blur-sm px-3.5 py-1.5 rounded-full">
-                                    <span class="material-symbols-outlined text-sm">info</span>
-                                    Infrastruktur Resmi
+                                <span class="text-xs font-black tracking-[0.15em] uppercase" style="color: {{ $accent['ring'] }}; opacity: 0.4;">
+                                    {{ sprintf('%02d', $loop->iteration) }}
                                 </span>
                             </div>
-                            <div class="absolute top-4 right-4 bg-primary/80 backdrop-blur-md text-white w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg">
-                                <span class="material-symbols-outlined text-secondary text-xl">{{ $facility->icon ?: 'home' }}</span>
+                            <!-- Content -->
+                            <div class="flex-grow">
+                                <h3 class="font-black text-primary text-lg leading-snug mb-2 group-hover:text-[var(--fc-ring)] transition-colors duration-200">{{ $facility->name }}</h3>
+                                <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-3">{{ $facility->description ?? 'Fasilitas pendukung proses pembelajaran dan pengembangan diri siswa.' }}</p>
                             </div>
-                        </div>
-                        <div class="p-8 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-xl text-primary mb-3">{{ $facility->name }}</h3>
-                                <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-3">
-                                    {{ $facility->description ?? 'Deskripsi fasilitas pendukung belum diunggah.' }}
-                                </p>
+                            <!-- Bottom tag -->
+                            <div class="pt-4 border-t border-slate-100 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm" style="color: {{ $accent['ring'] }}">verified</span>
+                                <span class="text-xs font-semibold" style="color: {{ $accent['ring'] }}">Infrastruktur Resmi</span>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <!-- Fallback Facilities -->
                     @php
                         $fallbackFacilities = [
-                            ['name' => 'Laboratorium Komputer & Multimedia', 'icon' => 'computer', 'desc' => 'Disediakan komputer mutakhir terhubung internet kecepatan tinggi untuk ujian, riset mandiri, dan materi informatika.'],
-                            ['name' => 'Perpustakaan Literasi Digital', 'icon' => 'menu_book', 'desc' => 'Menyimpan ribuan koleksi buku akademis cetak serta portal akses e-journal dan e-book gratis bagi siswa.'],
-                            ['name' => 'Lapangan Olahraga Terpadu', 'icon' => 'sports_soccer', 'desc' => 'Lapangan luas yang mendukung berbagai cabang olahraga seperti basket, voli, futsal, dan aktivitas atletik.']
+                            ['name' => 'Lab Komputer & Multimedia', 'icon' => 'computer', 'desc' => 'Komputer mutakhir terhubung internet kecepatan tinggi untuk ujian, riset mandiri, dan materi informatika terkini.'],
+                            ['name' => 'Perpustakaan Literasi Digital', 'icon' => 'menu_book', 'desc' => 'Ribuan koleksi buku akademis serta portal e-journal dan e-book gratis bagi seluruh siswa.'],
+                            ['name' => 'Lapangan Olahraga Terpadu', 'icon' => 'sports_soccer', 'desc' => 'Mendukung berbagai cabang olahraga: basket, voli, futsal, dan atletik.'],
+                            ['name' => 'Aula & Auditorium', 'icon' => 'event_seat', 'desc' => 'Aula modern kapasitas besar untuk upacara, seminar, dan pentas seni siswa.'],
+                            ['name' => 'Laboratorium Sains', 'icon' => 'science', 'desc' => 'Lab fisika, kimia, dan biologi lengkap dengan alat peraga dan bahan eksperimen terkini.'],
+                            ['name' => 'Kantin & Area Relaksasi', 'icon' => 'restaurant', 'desc' => 'Kantin bersih bergizi dan area bersantai yang nyaman untuk istirahat antar sesi belajar.'],
                         ];
                     @endphp
-                    @foreach($fallbackFacilities as $facility)
-                        <div class="glass-card-light rounded-3xl overflow-hidden border border-outline-variant/20 hover-lift group shadow-sm flex flex-col h-full fade-up">
-                            <div class="relative h-64 bg-slate-900 flex flex-col items-center justify-center text-white">
-                                <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 16px 16px;"></div>
-                                <span class="material-symbols-outlined text-6xl text-secondary animate-float">{{ $facility['icon'] }}</span>
-                                <div class="absolute top-4 right-4 bg-white/95 text-primary w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg border border-slate-100">
-                                    <span class="material-symbols-outlined text-secondary text-xl">{{ $facility['icon'] }}</span>
+                    @foreach($fallbackFacilities as $i => $facility)
+                        @php $accent = $fcAccents[$i % count($fcAccents)]; @endphp
+                        <div class="fc-light-card fade-up group" style="--fc-ring: {{ $accent['ring'] }}; --fc-bg: {{ $accent['bg'] }};">
+                            <div class="h-1.5 w-full rounded-t-3xl" style="background: {{ $accent['ring'] }};"></div>
+                            <div class="p-7 flex flex-col gap-5 h-full">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110" style="background: {{ $accent['bg'] }}; border: 2px solid {{ $accent['ring'] }}20;">
+                                        <span class="material-symbols-outlined text-3xl" style="color: {{ $accent['ring'] }}; font-variation-settings:'FILL' 1">{{ $facility['icon'] }}</span>
+                                    </div>
+                                    <span class="text-xs font-black tracking-[0.15em] uppercase" style="color: {{ $accent['ring'] }}; opacity: 0.4;">
+                                        {{ sprintf('%02d', $i + 1) }}
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="p-8 flex-grow flex flex-col justify-between">
-                                <div>
-                                    <h3 class="font-bold text-xl text-primary mb-3">{{ $facility['name'] }}</h3>
-                                    <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-3">
-                                        {{ $facility['desc'] }}
-                                    </p>
+                                <div class="flex-grow">
+                                    <h3 class="font-black text-primary text-lg leading-snug mb-2 group-hover:text-[var(--fc-ring)] transition-colors duration-200">{{ $facility['name'] }}</h3>
+                                    <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-3">{{ $facility['desc'] }}</p>
+                                </div>
+                                <div class="pt-4 border-t border-slate-100 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm" style="color: {{ $accent['ring'] }}">verified</span>
+                                    <span class="text-xs font-semibold" style="color: {{ $accent['ring'] }}">Infrastruktur Resmi</span>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @endforelse
             </div>
+
             </div>
         </section>
 
