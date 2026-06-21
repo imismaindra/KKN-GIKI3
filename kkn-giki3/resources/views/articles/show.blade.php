@@ -129,7 +129,7 @@
                         <div class="bento-card bg-white border border-slate-100 flex flex-col h-full hover:shadow-lg transition duration-200 p-4">
                             <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-100 mb-4">
                                 @if($related->thumbnail)
-                                    <img src="{{ Storage::url($related->thumbnail) }}" alt="{{ $related->title }}" class="w-full h-full object-cover" />
+                                    <img src="{{ Storage::url($related->thumbnail) }}" alt="{{ $related->title }}" class="w-full h-full object-cover" loading="lazy" />
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-slate-350">
                                         <span class="material-symbols-outlined text-4xl">image</span>

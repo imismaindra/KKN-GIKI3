@@ -65,9 +65,9 @@
                         <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 flex-shrink-0 group">
                             @if($ekskul->image_path)
                                 @if(Str::startsWith($ekskul->image_path, 'http'))
-                                    <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                                 @else
-                                    <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                                 @endif
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100">
@@ -139,9 +139,9 @@
                             <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
                                 @if($ekskul->image_path)
                                     @if(Str::startsWith($ekskul->image_path, 'http'))
-                                        <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover" />
+                                        <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover" loading="lazy" />
                                     @else
-                                        <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover" />
+                                        <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover" loading="lazy" />
                                     @endif
                                 @else
                                     <div class="w-full h-full flex flex-col items-center justify-center text-slate-400 gap-2">

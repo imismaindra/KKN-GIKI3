@@ -232,7 +232,8 @@
                         <div class="flex items-center gap-5 mt-auto">
                             <img alt="Headmaster Portrait"
                                 class="w-16 h-16 rounded-full border-2 border-secondary object-cover"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB" />
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB"
+                                loading="lazy" />
                             <div>
                                 <p class="font-title-lg text-title-lg text-on-primary">Drs. H. M. Zainuri, M.Si</p>
                                 <p class="font-body-md text-body-md text-secondary">Kepala Sekolah</p>
@@ -281,7 +282,8 @@
                     class="bento-card md:col-span-1 md:row-span-1 relative group fade-up delay-300 visible overflow-hidden">
                     <img alt="Modern Laboratory Facilities"
                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB" />
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB"
+                        loading="lazy" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity">
                     </div>
@@ -322,9 +324,9 @@
                          onclick="window.location.href='{{ route('ekstrakurikuler.index') }}'">
                         @if($ekskul->image_path)
                             @if(Str::startsWith($ekskul->image_path, 'http'))
-                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ $ekskul->image_path }}" />
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ $ekskul->image_path }}" loading="lazy" />
                             @else
-                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ Storage::url($ekskul->image_path) }}" />
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ Storage::url($ekskul->image_path) }}" loading="lazy" />
                             @endif
                         @else
                             <div class="w-full h-full bg-slate-900 flex items-center justify-center text-slate-700">
@@ -346,7 +348,8 @@
                     <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up visible shadow-lg">
                         <img alt="Traditional Dance Extracurricular"
                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO38iPlrza6vYZYAyX7PQAxDVL--q0_tE-V_UCbUGC-pyQolX8VgYMyo6iv_N-B6rc6XSyZRvI-NVKEhJsCU0038zo9-pIL4hcuBmOlUMAt_sjOCELOOTLqqJ01m1mjAqLnLUFZm6ovBKVj0Rf2dFR-TCG6_Joxy3aHzWCp7rQPkq8iazwqK9H-YdIFRWPeFrm7rsDCdyewWEzqCmZWrjfzYsE75wM8OzERM7JgOZbjm05LBnyVqE2G3HdyEpDYrdLah_a6LIItnQH" />
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO38iPlrza6vYZYAyX7PQAxDVL--q0_tE-V_UCbUGC-pyQolX8VgYMyo6iv_N-B6rc6XSyZRvI-NVKEhJsCU0038zo9-pIL4hcuBmOlUMAt_sjOCELOOTLqqJ01m1mjAqLnLUFZm6ovBKVj0Rf2dFR-TCG6_Joxy3aHzWCp7rQPkq8iazwqK9H-YdIFRWPeFrm7rsDCdyewWEzqCmZWrjfzYsE75wM8OzERM7JgOZbjm05LBnyVqE2G3HdyEpDYrdLah_a6LIItnQH"
+                            loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                             <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
@@ -359,9 +362,10 @@
                     </div>
                     <!-- Card 2 (Fallback) -->
                     <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-100 visible shadow-lg">
-                        <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7MEGmBhEANV3w7U9898OXQr0DfDB-zyie1rzCazRqQCp2WDP5C__pIeFuFKDctbpiWNHws6BEY6szXryhToLKbq90tfdE6Y1O6Tn2VuaikLd557R3t7CYRg5y2Zn8RDHsWAysfVM_VGptUagChzGLzg0qNdYxTOerHcCq-UGFxfeKJvymE5ihuagw8igMUdFNuCiTwIonQkf1AcW_gusX6kYXgPFegt2B0KL6lHFNt_mbOpPhOtQNdrgWud58p_QmLn08xv1fi-')">
-                        </div>
+                        <img alt="Tim Basket"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7MEGmBhEANV3w7U9898OXQr0DfDB-zyie1rzCazRqQCp2WDP5C__pIeFuFKDctbpiWNHws6BEY6szXryhToLKbq90tfdE6Y1O6Tn2VuaikLd557R3t7CYRg5y2Zn8RDHsWAysfVM_VGptUagChzGLzg0qNdYxTOerHcCq-UGFxfeKJvymE5ihuagw8igMUdFNuCiTwIonQkf1AcW_gusX6kYXgPFegt2B0KL6lHFNt_mbOpPhOtQNdrgWud58p_QmLn08xv1fi-"
+                            loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                             <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
@@ -374,9 +378,10 @@
                     </div>
                     <!-- Card 3 (Fallback) -->
                     <div class="min-w-[320px] md:min-w-[480px] h-[600px] rounded-[2rem] overflow-hidden relative group snap-center fade-up delay-200 visible shadow-lg">
-                        <div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATkTVQBv3VR4_U_-0KyWt1VrqYlg0Oo46X8_esHSTLqZZwhJ5HjQJxpS5TSZtnrVJl0Q84yo_P66zUvitxlE7LEylw4kMDwPPXETHL878Q6NZTYouQSvswKvvHXMQ2qtIOMui0RTxV7pAxX0iuO5kNG3a0VFxo69QUbMTw087TaDgrdgnpLSQPmjIfyoYqAgVDv7UQMQ1bqbXvzFwulLmxV-bpJkcQaWV1G7QblZZiWCuqa0GpXIMS-6mBtMMG5lVz6S0cQwpf50K2')">
-                        </div>
+                        <img alt="Klub Robotika"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuATkTVQBv3VR4_U_-0KyWt1VrqYlg0Oo46X8_esHSTLqZZwhJ5HjQJxpS5TSZtnrVJl0Q84yo_P66zUvitxlE7LEylw4kMDwPPXETHL878Q6NZTYouQSvswKvvHXMQ2qtIOMui0RTxV7pAxX0iuO5kNG3a0VFxo69QUbMTw087TaDgrdgnpLSQPmjIfyoYqAgVDv7UQMQ1bqbXvzFwulLmxV-bpJkcQaWV1G7QblZZiWCuqa0GpXIMS-6mBtMMG5lVz6S0cQwpf50K2"
+                            loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                             <div class="w-12 h-1 bg-secondary mb-6 rounded-full"></div>
@@ -424,7 +429,8 @@
                                  onclick="openGalleryModal('{{ $gallery->id }}')">
                                 <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
                                     <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}"
-                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                         loading="lazy">
                                     <div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                         <span class="text-white font-semibold text-sm flex items-center gap-2 bg-secondary/80 backdrop-blur-sm px-4 py-2 rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                                             <span class="material-symbols-outlined text-sm">visibility</span>
@@ -478,7 +484,7 @@
                                     @foreach($gallery->images as $index => $image)
                                         <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition"
                                              onclick="openLightbox('{{ $gallery->id }}', {{ $index }})">
-                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
                                             <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                                                 <span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
                                             </div>
@@ -574,7 +580,7 @@
                                 <div class="flex items-center gap-4 mt-auto border-t border-slate-50 pt-6">
                                     <div class="w-12 h-12 rounded-full overflow-hidden border border-slate-100 flex-shrink-0 bg-slate-50 flex items-center justify-center font-bold text-primary">
                                         @if($testimonial->avatar)
-                                            <img src="{{ Storage::url($testimonial->avatar) }}" alt="{{ $testimonial->name }}" class="w-full h-full object-cover">
+                                            <img src="{{ Storage::url($testimonial->avatar) }}" alt="{{ $testimonial->name }}" class="w-full h-full object-cover" loading="lazy">
                                         @else
                                             <span>{{ substr($testimonial->name, 0, 2) }}</span>
                                         @endif
@@ -623,7 +629,8 @@
                                 @if($featured->thumbnail)
                                     <img alt="{{ $featured->title }}"
                                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        src="{{ Storage::url($featured->thumbnail) }}" />
+                                        src="{{ Storage::url($featured->thumbnail) }}"
+                                        loading="lazy" />
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-slate-350">
                                         <span class="material-symbols-outlined text-5xl">image</span>
@@ -655,7 +662,8 @@
                                     @if($item->thumbnail)
                                         <img alt="{{ $item->title }}"
                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                            src="{{ Storage::url($item->thumbnail) }}" />
+                                            src="{{ Storage::url($item->thumbnail) }}"
+                                            loading="lazy" />
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-slate-350">
                                             <span class="material-symbols-outlined text-3xl">image</span>
