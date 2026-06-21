@@ -24,8 +24,57 @@ Route::get('/', function () {
     $galleries = \App\Models\Gallery::with('images')->latest()->get();
     $testimonials = \App\Models\Testimonial::approved()->latest()->get();
     $extracurriculars = \App\Models\Extracurricular::latest()->get();
-    return view('welcome', compact('banners', 'articles', 'galleries', 'testimonials', 'extracurriculars'));
+    
+    // Fetch and sort majors
+    $majors = \App\Models\Major::orderBy('name')->get();
+    
+    // Fetch facilities
+    $facilities = \App\Models\Facility::latest()->get();
+    
+    // Fetch and sort teachers based on predefined positions
+    $predefined = \App\Models\Teacher::getPredefinedPositions();
+    $teachers = \App\Models\Teacher::all()->sort(function ($a, $b) use ($predefined) {
+        $posA = array_map('trim', explode(',', $a->position));
+        $posB = array_map('trim', explode(',', $b->position));
+        
+        $priorityA = 999;
+        foreach ($posA as $p) {
+            $idx = array_search($p, $predefined);
+            if ($idx !== false && $idx < $priorityA) {
+                $priorityA = $idx;
+            }
+        }
+        
+        $priorityB = 999;
+        foreach ($posB as $p) {
+            $idx = array_search($p, $predefined);
+            if ($idx !== false && $idx < $priorityB) {
+                $priorityB = $idx;
+            }
+        }
+        
+        if ($priorityA !== $priorityB) {
+            return $priorityA <=> $priorityB;
+        }
+        
+        $posStringA = implode(', ', $posA);
+        $posStringB = implode(', ', $posB);
+        $posComp = strcasecmp($posStringA, $posStringB);
+        if ($posComp !== 0) {
+            return $posComp;
+        }
+        
+        return strcasecmp($a->name, $b->name);
+    })->values();
+
+    return view('welcome', compact(
+        'banners', 'articles', 'galleries', 'testimonials', 'extracurriculars', 
+        'majors', 'facilities', 'teachers'
+    ));
 });
+
+// Public Contact Form submission
+Route::post('/kontak', [\App\Http\Controllers\PublicContactController::class, 'store'])->name('contact.store');
 
 // Public Article Routes
 Route::get('/berita-artikel', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
