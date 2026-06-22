@@ -455,115 +455,188 @@
             </div>
         </section>
 
-        <!-- Profile & Visi Misi Section -->
+        <!-- Tentang Kami (About Us) & Visi Misi Section -->
         <section id="profil" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
-                <span class="section-label">Sambutan &amp; Profil</span>
-                <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1">
-                    Menyalakan Api Keingintahuan
+                <span class="section-label">Tentang Kami</span>
+                <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1 leading-tight">
+                    Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>
                 </h2>
                 <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
                     SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia.
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-                <!-- Principal Card (Left column) -->
-                <div class="lg:col-span-5 rounded-3xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden text-white shadow-2xl min-h-[500px] fade-up"
-                     style="background: linear-gradient(145deg, #0F1F3D 0%, #1A3366 60%, #0A1830 100%);">
-                    <!-- Diagonal stripe texture -->
-                    <div class="diagonal-stripe absolute inset-0"></div>
-                    <!-- Gold glow top-right -->
-                    <div class="absolute -top-12 -right-12 w-56 h-56 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(200,147,10,0.18), transparent 70%);"></div>
-                    <!-- Crimson glow bottom-left -->
-                    <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full blur-3xl" style="background: radial-gradient(circle, rgba(196,30,58,0.10), transparent 70%);"></div>
-                    <!-- Top accent line -->
-                    <div class="absolute top-0 left-0 right-0 h-0.5" style="background: linear-gradient(90deg, transparent, #C8930A 40%, #C41E3A 80%, transparent);"></div>
-
-                    <div class="relative z-10 flex flex-col h-full justify-between gap-8">
-                        <div>
-                            <div class="w-12 h-12 rounded-2xl bg-secondary/15 border border-secondary/25 flex items-center justify-center mb-6">
-                                <span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings:'FILL' 1">format_quote</span>
-                            </div>
-                            <p class="text-xl md:text-2xl font-semibold leading-relaxed tracking-wide text-white/90 italic">
-                                "Pendidikan bukan sekadar mengisi wadah yang kosong, melainkan menyalakan api keingintahuan."
-                            </p>
-                        </div>
-
-                        <div class="flex items-center gap-5 mt-auto pt-6 border-t border-white/10">
-                            <div class="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-secondary/50 flex-shrink-0 animate-float shadow-lg">
-                                <img alt="Kepala Sekolah Portrait"
-                                    class="w-full h-full object-cover"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB"
-                                    loading="lazy" />
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch mb-16">
+                <!-- Left Collage Column -->
+                <div class="lg:col-span-5 relative flex flex-col justify-center min-h-[400px] fade-up">
+                    <div class="relative w-full h-[380px] rounded-3xl overflow-hidden shadow-2xl group border border-outline-variant/10">
+                        <img alt="SMA GIKI 3 Surabaya Campus"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            src="https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E"
+                            loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        
+                        <!-- Floating Founding Badge -->
+                        <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur-md px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-white/40">
+                            <div class="w-10 h-10 rounded-xl bg-secondary/15 flex items-center justify-center text-secondary">
+                                <span class="material-symbols-outlined text-2xl font-bold">calendar_month</span>
                             </div>
                             <div>
-                                <h4 class="font-bold text-lg text-white">Drs. H. M. Zainuri, M.Si</h4>
-                                <p class="text-xs text-secondary font-bold uppercase tracking-[0.12em] mt-0.5">Kepala Sekolah</p>
+                                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Berdiri Sejak</p>
+                                <p class="font-extrabold text-primary text-sm">1993</p>
                             </div>
                         </div>
+
+                        <!-- Floating Accreditation Badge -->
+                        <div class="absolute top-6 right-6 bg-secondary text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 border border-secondary-fixed/20">
+                            <span class="material-symbols-outlined text-base font-bold">verified</span>
+                            <span class="font-black text-sm tracking-wide">Akreditasi A</span>
+                        </div>
                     </div>
+                    
+                    <!-- Decorative shapes in background -->
+                    <div class="absolute -z-10 -bottom-6 -left-6 w-32 h-32 bg-secondary/10 rounded-full blur-2xl"></div>
+                    <div class="absolute -z-10 -top-6 -right-6 w-48 h-48 bg-primary/5 rounded-full blur-2xl"></div>
                 </div>
 
-                <!-- Vision Mission Content (Right column) -->
-                <div class="lg:col-span-7 flex flex-col justify-between gap-8 fade-up">
-                    <!-- Visi Card -->
-                    <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/20 hover-lift flex flex-col gap-4">
-                        <div class="flex items-center gap-3 text-secondary">
-                            <span class="material-symbols-outlined text-3xl">lightbulb</span>
-                            <h3 class="font-bold text-xl text-primary tracking-tight">Visi Sekolah</h3>
+                <!-- Right About details + Visi Misi Column -->
+                <div class="lg:col-span-7 flex flex-col justify-between gap-6 fade-up">
+                    <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/10 shadow-sm hover-lift flex flex-col gap-4">
+                        <div class="flex items-center gap-3 text-primary">
+                            <span class="material-symbols-outlined text-3xl font-bold text-secondary">school</span>
+                            <h3 class="font-black text-xl text-primary tracking-tight">Pendidikan Holistik &amp; Karakter</h3>
                         </div>
-                        <p class="text-slate-600 leading-relaxed text-base md:text-lg italic font-medium pl-4 border-l-4 border-secondary">
-                            "{{ $setting->vision ?? 'Beriman dan bertaqwa, berilmu pengetahuan dan teknologi, berprestasi unggul, berkepribadian, berbudaya, berwawasan kebangsaan dan lingkungan demi terwujudnya kedamaian dan kesejahteraan.' }}"
+                        <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                            SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia, berbudaya, serta berwawasan kebangsaan dan lingkungan.
                         </p>
                     </div>
 
-                    <!-- Misi Card -->
-                    <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/20 hover-lift flex flex-col gap-4">
+                    <!-- Visi Card -->
+                    <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/10 shadow-sm hover-lift flex flex-col gap-4">
                         <div class="flex items-center gap-3 text-secondary">
-                            <span class="material-symbols-outlined text-3xl">task_alt</span>
-                            <h3 class="font-bold text-xl text-primary tracking-tight">Misi Utama Kami</h3>
+                            <span class="material-symbols-outlined text-3xl font-bold">lightbulb</span>
+                            <h3 class="font-black text-xl text-primary tracking-tight">Visi Sekolah</h3>
                         </div>
-                        
-                        <div class="flex flex-col gap-4 mt-2">
-                            @if(isset($setting->mission) && !empty($setting->mission))
-                                @php
-                                    $missions = array_filter(array_map('trim', explode("\n", $setting->mission)));
-                                @endphp
-                                @foreach($missions as $index => $mission)
-                                    <!-- Dynamic mission format -->
-                                    <div class="flex items-start gap-4">
-                                        <span class="w-7 h-7 rounded-full bg-secondary/15 text-secondary flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5 shadow-sm border border-secondary/10">
-                                            {{ $index + 1 }}
-                                        </span>
-                                        <p class="text-slate-600 text-sm md:text-base leading-relaxed">
-                                            {{ preg_replace('/^\d+\.\s*/', '', $mission) }}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            @else
-                                <!-- Fallback missions -->
-                                @php
-                                    $fallbackMissions = [
-                                        'Meningkatkan keimanan dan ketaqwaan terhadap Tuhan Yang Maha Esa.',
-                                        'Tanggap dan terampil terhadap perkembangan ilmu pengetahuan dan teknologi.',
-                                        'Meningkatkan kualitas sumber daya manusia dan berprestasi unggul.',
-                                        'Menanamkan disiplin dan loyalitas kebangsaan kepada almamater dan profesionalisme.'
-                                    ];
-                                @endphp
-                                @foreach($fallbackMissions as $index => $mission)
-                                    <div class="flex items-start gap-4">
-                                        <span class="w-7 h-7 rounded-full bg-secondary/15 text-secondary flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
-                                            {{ $index + 1 }}
-                                        </span>
-                                        <p class="text-slate-600 text-sm md:text-base leading-relaxed">
-                                            {{ $mission }}
-                                        </p>
-                                    </div>
-                                @endforeach
-                            @endif
+                        <p class="text-slate-600 leading-relaxed text-sm md:text-base italic font-medium pl-4 border-l-4 border-secondary">
+                            "{{ $setting->vision ?? 'Beriman dan bertaqwa, berilmu pengetahuan dan teknologi, berprestasi unggul, berkepribadian, berbudaya, berwawasan kebangsaan dan lingkungan demi terwujudnya kedamaian dan kesejahteraan.' }}"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visi & Misi detail layout (Misi Utama) -->
+            <div class="fade-up">
+                <div class="glass-card-light rounded-3xl p-8 md:p-10 border border-outline-variant/10 shadow-sm hover-lift flex flex-col gap-6">
+                    <div class="flex items-center gap-3 text-secondary">
+                        <span class="material-symbols-outlined text-3xl font-bold">task_alt</span>
+                        <h3 class="font-black text-xl text-primary tracking-tight">Misi Utama Kami</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                        @if(isset($setting->mission) && !empty($setting->mission))
+                            @php
+                                $missions = array_filter(array_map('trim', explode("\n", $setting->mission)));
+                            @endphp
+                            @foreach($missions as $index => $mission)
+                                <div class="flex items-start gap-4">
+                                    <span class="w-8 h-8 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-black text-sm flex-shrink-0 mt-0.5 shadow-sm border border-secondary/20">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                        {{ preg_replace('/^\d+\.\s*/', '', $mission) }}
+                                    </p>
+                                </div>
+                            @endforeach
+                        @else
+                            @php
+                                $fallbackMissions = [
+                                    'Meningkatkan keimanan dan ketaqwaan terhadap Tuhan Yang Maha Esa.',
+                                    'Tanggap dan terampil terhadap perkembangan ilmu pengetahuan dan teknologi.',
+                                    'Meningkatkan kualitas sumber daya manusia dan berprestasi unggul.',
+                                    'Menanamkan disiplin dan loyalitas kebangsaan kepada almamater dan profesionalisme.'
+                                ];
+                            @endphp
+                            @foreach($fallbackMissions as $index => $mission)
+                                <div class="flex items-start gap-4">
+                                    <span class="w-8 h-8 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-black text-sm flex-shrink-0 mt-0.5 shadow-sm border border-secondary/20">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                        {{ $mission }}
+                                    </p>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sambutan Kepala Sekolah Section -->
+        <section id="sambutan" class="relative my-32 py-24 scroll-mt-24" style="background: linear-gradient(180deg, #FAFAF5 0%, #F5F4EC 100%);">
+            <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background-image: radial-gradient(circle at 1.5px 1.5px, #0F1F3D 1.5px, transparent 0); background-size: 24px 24px;"></div>
+            
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left: Principal Image with Dribbble Card Style -->
+                    <div class="lg:col-span-5 flex justify-center fade-up">
+                        <div class="relative w-full max-w-[360px] md:max-w-[400px]">
+                            <!-- Outer background border accent -->
+                            <div class="absolute inset-0 bg-gradient-to-tr from-secondary to-accent rounded-[2.5rem] rotate-3 translate-x-2 translate-y-2 opacity-15 blur-sm -z-10"></div>
+                            
+                            <div class="bg-white p-4.5 rounded-[2.5rem] shadow-2xl border border-outline-variant/15 relative overflow-hidden group">
+                                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative">
+                                    <img alt="Drs. H. M. Zainuri, M.Si Portrait"
+                                         class="w-full h-full object-cover grayscale-[20%] transition-transform duration-700 group-hover:scale-103 group-hover:grayscale-0"
+                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB"
+                                         loading="lazy" />
+                                </div>
+                                <div class="mt-5 text-center">
+                                    <h4 class="font-black text-primary text-lg">Drs. H. M. Zainuri, M.Si</h4>
+                                    <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">Kepala Sekolah SMA GIKI 3 Surabaya</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Right: Speech Content -->
+                    <div class="lg:col-span-7 flex flex-col items-start gap-6 fade-up">
+                        <span class="section-label">Sambutan Kepala Sekolah</span>
+                        <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
+                            Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>
+                        </h2>
+                        
+                        <div class="relative pl-6 md:pl-10 mt-4 border-l-2 border-secondary/35">
+                            <!-- Large absolute quote icon -->
+                            <span class="absolute -top-6 -left-3 text-secondary/10 font-serif text-[120px] select-none pointer-events-none">“</span>
+                            
+                            <div class="flex flex-col gap-5 text-on-surface-variant font-body-md text-sm md:text-base leading-relaxed text-justify">
+                                <p class="font-bold text-primary">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+                                <p>
+                                    Salam sejahtera bagi kita sekalian. Selamat datang di laman resmi portal informasi SMA GIKI 3 Surabaya. Segala puji senantiasa kita panjatkan ke hadirat Allah Subhanahu Wata'ala atas limpahan rahmat, hidayah, serta kekuatan-Nya kepada kita semua.
+                                </p>
+                                <p>
+                                    Sebagai institusi pendidikan, SMA GIKI 3 Surabaya mengemban tanggung jawab besar untuk mencetak generasi muda yang cerdas, kompetitif, dan berkarakter mulia. Di era disrupsi digital ini, tantangan bagi peserta didik kian kompleks. Oleh karena itu, kami merancang lingkungan sekolah yang adaptif dan kondusif, memadukan keunggulan ilmu pengetahuan modern dengan pendalaman nilai ketaqwaan serta budi pekerti yang luhur.
+                                </p>
+                                <p>
+                                    Didukung oleh jajaran tenaga pendidik yang profesional dan sarana prasarana penunjang yang representatif, kami berkomitmen untuk menuntun setiap siswa mengenali minat, bakat, serta kapasitas terbaiknya demi menyongsong masa depan yang cerah dan kompetitif di kancah global.
+                                </p>
+                                <p class="font-bold text-primary">Wassalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+                            </div>
+                            
+                            <!-- Signature block -->
+                            <div class="mt-8 flex flex-col items-start gap-1">
+                                <div class="h-10 w-auto bg-transparent border-b border-primary/20 pb-2 mb-2 flex items-center justify-center font-serif text-primary/30 select-none">
+                                    <span class="italic text-lg tracking-widest font-semibold text-secondary/60">Drs. H. M. Zainuri, M.Si</span>
+                                </div>
+                                <h5 class="font-extrabold text-primary text-sm">Drs. H. M. Zainuri, M.Si</h5>
+                                <p class="text-xs text-on-surface-variant/80">Kepala SMA GIKI 3 Surabaya</p>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </section>

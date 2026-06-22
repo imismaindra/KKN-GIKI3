@@ -144,15 +144,68 @@
         }
 
         /* ── Navbar ─────────────────────────────── */
-        .glass-nav {
-            background: rgba(250, 250, 245, 0.82);
+        .glass-nav-transparent {
+            background: transparent;
+            border-bottom-color: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        
+        .glass-nav-transparent.scrolled, .glass-nav {
+            background: rgba(250, 250, 245, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            border-bottom-color: rgba(15, 31, 61, 0.08);
+            box-shadow: 0 4px 30px rgba(15, 31, 61, 0.05);
         }
-        .glass-nav.scrolled {
-            background: rgba(250, 250, 245, 0.97);
-            box-shadow: 0 2px 20px rgba(15, 31, 61, 0.08);
+
+        /* Nav Text Colors Dynamic */
+        /* Transparent State */
+        .glass-nav-transparent:not(.scrolled) .logo-title { color: #ffffff; }
+        .glass-nav-transparent:not(.scrolled) .logo-sub { color: rgba(255, 255, 255, 0.7); }
+        .glass-nav-transparent:not(.scrolled) .nav-link-item { color: rgba(255, 255, 255, 0.85); }
+        .glass-nav-transparent:not(.scrolled) .nav-link-item:hover { color: #ffffff; background-color: rgba(255, 255, 255, 0.1); }
+        .glass-nav-transparent:not(.scrolled) .nav-link-item.active-nav { color: var(--secondary); background-color: rgba(200, 147, 10, 0.15); }
+        .glass-nav-transparent:not(.scrolled) #mobileMenuBtn { color: #ffffff; }
+        
+        .glass-nav-transparent:not(.scrolled) .btn-erapor {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+        .glass-nav-transparent:not(.scrolled) .btn-erapor:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .glass-nav-transparent:not(.scrolled) .btn-hubungi {
+            background-color: #ffffff;
+            color: var(--primary);
+        }
+        .glass-nav-transparent:not(.scrolled) .btn-hubungi:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Scrolled & Non-Homepage State */
+        .glass-nav .logo-title, .glass-nav-transparent.scrolled .logo-title { color: var(--primary); }
+        .glass-nav .logo-sub, .glass-nav-transparent.scrolled .logo-sub { color: var(--on-surface-variant); }
+        .glass-nav .nav-link-item, .glass-nav-transparent.scrolled .nav-link-item { color: var(--on-surface-variant); }
+        .glass-nav .nav-link-item:hover, .glass-nav-transparent.scrolled .nav-link-item:hover { color: var(--primary); background-color: rgba(15, 31, 61, 0.05); }
+        .glass-nav .nav-link-item.active-nav, .glass-nav-transparent.scrolled .nav-link-item.active-nav { color: var(--secondary); background-color: rgba(200, 147, 10, 0.08); }
+        .glass-nav #mobileMenuBtn, .glass-nav-transparent.scrolled #mobileMenuBtn { color: var(--primary); }
+        
+        .glass-nav .btn-erapor, .glass-nav-transparent.scrolled .btn-erapor {
+            border-color: rgba(200, 147, 10, 0.4);
+            color: var(--secondary);
+        }
+        .glass-nav .btn-erapor:hover, .glass-nav-transparent.scrolled .btn-erapor:hover {
+            background-color: rgba(200, 147, 10, 0.1);
+        }
+        .glass-nav .btn-hubungi, .glass-nav-transparent.scrolled .btn-hubungi {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+        .glass-nav .btn-hubungi:hover, .glass-nav-transparent.scrolled .btn-hubungi:hover {
+            background-color: rgba(15, 31, 61, 0.9);
         }
 
         /* Navbar progress bar */
@@ -319,7 +372,7 @@
         </a>
     </div>
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-nav border-b border-outline-variant/20 transition-all duration-400" id="navbar">
+    <nav class="fixed top-0 w-full z-50 transition-all duration-400 border-b border-outline-variant/10 {{ request()->is('/') ? 'glass-nav-transparent' : 'glass-nav scrolled' }}" id="navbar">
         <div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
             <div class="flex items-center gap-4">
                 <a href="{{ url('/') }}" class="flex items-center gap-3 group">
@@ -330,8 +383,8 @@
                              onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
                     </div>
                     <div class="hidden md:flex flex-col leading-tight">
-                        <span class="font-black text-base text-primary tracking-tight">SMA GIKI 3</span>
-                        <span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase">Surabaya</span>
+                        <span class="font-black text-base tracking-tight logo-title">SMA GIKI 3</span>
+                        <span class="text-[10px] font-bold tracking-widest uppercase logo-sub">Surabaya</span>
                     </div>
                 </a>
             </div>
@@ -349,24 +402,37 @@
                 @endphp
                 @foreach($navLinks as $link)
                     <a href="{{ $link['href'] }}"
-                       class="relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200
-                              {{ $link['active']
-                                   ? 'text-secondary bg-secondary/8'
-                                   : 'text-on-surface-variant hover:text-primary hover:bg-primary/5' }}">
+                       class="relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 nav-link-item
+                              {{ $link['active'] ? 'active-nav' : '' }}">
                         {{ $link['label'] }}
                         @if($link['active'])
-                            <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-secondary rounded-full"></span>
+                             <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-secondary rounded-full"></span>
                         @endif
                     </a>
                 @endforeach
             </div>
 
-            <a href="{{ request()->is('/') ? '#contact' : url('/#contact') }}"
-               class="hidden md:flex items-center gap-2 btn-primary bg-primary text-white text-sm font-bold px-5 py-2.5 rounded-full hover:bg-primary/90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-primary/20">
-                <span class="material-symbols-outlined text-base">mail</span>
-                Hubungi
-            </a>
-            <button class="md:hidden text-primary p-2 rounded-xl hover:bg-primary/5 transition" id="mobileMenuBtn" aria-label="Menu">
+            <div class="hidden md:flex items-center gap-2">
+                <!-- E-Rapor Button -->
+                <a href="#" 
+                   class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-bold tracking-wide transition-all duration-200 hover:-translate-y-0.5 shadow-sm active:scale-95 btn-erapor">
+                    <span class="material-symbols-outlined text-sm">menu_book</span>
+                    E-Rapor
+                </a>
+                <!-- Ujian Login Button -->
+                <a href="#" 
+                   class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-accent text-white hover:bg-red-700 text-xs font-bold tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/20 active:scale-95">
+                    <span class="material-symbols-outlined text-sm">lock_open</span>
+                    Ujian Login
+                </a>
+                <!-- Hubungi Button -->
+                <a href="{{ request()->is('/') ? '#contact' : url('/#contact') }}"
+                   class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 btn-hubungi">
+                    <span class="material-symbols-outlined text-sm">mail</span>
+                    Hubungi
+                </a>
+            </div>
+            <button class="md:hidden p-2 rounded-xl hover:bg-primary/5 transition" id="mobileMenuBtn" aria-label="Menu">
                 <span class="material-symbols-outlined text-3xl" id="mobileMenuIcon">menu</span>
             </button>
         </div>
@@ -390,8 +456,14 @@
             <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('ekstrakurikuler.*') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('ekstrakurikuler.index') }}">
                 <span class="material-symbols-outlined text-lg">sports</span> Ekstrakurikuler
             </a>
-            <div class="mt-2 pt-2 border-t border-outline-variant/20">
-                <a class="flex items-center justify-center gap-2 font-bold text-white bg-primary hover:bg-primary/90 px-4 py-3 rounded-xl text-sm transition w-full" href="{{ url('/#contact') }}">
+            <div class="mt-3 pt-3 border-t border-outline-variant/20 flex flex-col gap-2">
+                <a class="flex items-center justify-center gap-2 font-bold text-secondary border border-secondary/20 hover:bg-secondary/5 px-4 py-2.5 rounded-xl text-sm transition w-full" href="#">
+                    <span class="material-symbols-outlined text-base">menu_book</span> E-Rapor
+                </a>
+                <a class="flex items-center justify-center gap-2 font-bold text-white bg-accent hover:bg-red-700 px-4 py-2.5 rounded-xl text-sm transition w-full" href="#">
+                    <span class="material-symbols-outlined text-base">lock_open</span> Login Ujian
+                </a>
+                <a class="flex items-center justify-center gap-2 font-bold text-white bg-primary hover:bg-primary/90 px-4 py-2.5 rounded-xl text-sm transition w-full" href="{{ url('/#contact') }}">
                     <span class="material-symbols-outlined text-base">mail</span> Hubungi Kami
                 </a>
             </div>
@@ -420,14 +492,32 @@
                         Membentuk karakter unggul dan mengukir prestasi gemilang melalui pendidikan holistik berbasis nilai-nilai luhur bangsa.
                     </p>
                     <div class="flex gap-3">
-                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-secondary hover:text-primary hover:border-secondary/50 transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->tiktok_url) ? $setting->tiktok_url : 'https://www.tiktok.com/@smagiga_media' }}" target="_blank" title="TikTok">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.16 1.02 1.12 2.45 1.79 3.94 1.95v3.91a8.312 8.312 0 0 1-5.18-1.74c-.06 2.42-.02 4.84-.04 7.26-.06 1.83-.56 3.65-1.57 5.16-1.12 1.62-2.91 2.76-4.83 3.16-1.89.37-3.9-.03-5.53-1.07-1.78-1.16-2.95-3.15-3.1-5.26-.26-3.14 1.7-6.22 4.69-7.23.83-.28 1.71-.38 2.58-.33v4.03c-.63-.12-1.3-.06-1.88.21-.86.37-1.48 1.2-1.56 2.12-.13 1.25.75 2.42 1.99 2.58.91.13 1.89-.3 2.32-1.11.23-.42.33-.91.31-1.39-.02-3.86-.01-7.72-.02-11.58-.01-.1-.01-.2-.02-.3-.02-.19-.06-.39-.19-.54-.15-.17-.38-.2-.6-.2H12.525z"/></svg>
+                        <!-- TikTok -->
+                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-slate-900 hover:text-white hover:border-slate-800 transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                           href="{{ ($setting && $setting->tiktok_url) ? $setting->tiktok_url : 'https://www.tiktok.com/@smagiga_media' }}" 
+                           target="_blank" 
+                           title="TikTok">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.16 1.02 1.12 2.45 1.79 3.94 1.95v3.91a8.312 8.312 0 0 1-5.18-1.74c-.06 2.42-.02 4.84-.04 7.26-.06 1.83-.56 3.65-1.57 5.16-1.12 1.62-2.91 2.76-4.83 3.16-1.89.37-3.9-.03-5.53-1.07-1.78-1.16-2.95-3.15-3.1-5.26-.26-3.14 1.7-6.22 4.69-7.23.83-.28 1.71-.38 2.58-.33v4.03c-.63-.12-1.3-.06-1.88.21-.86.37-1.48 1.2-1.56 2.12-.13 1.25.75 2.42 1.99 2.58.91.13 1.89-.3 2.32-1.11.23-.42.33-.91.31-1.39-.02-3.86-.01-7.72-.02-11.58-.01-.1-.01-.2-.02-.3-.02-.19-.06-.39-.19-.54-.15-.17-.38-.2-.6-.2H12.525z"/>
+                            </svg>
                         </a>
-                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-secondary hover:text-primary hover:border-secondary/50 transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->instagram_url) ? $setting->instagram_url : 'https://instagram.com/smagiga' }}" target="_blank" title="Instagram">
-                            <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+                        <!-- Instagram -->
+                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-gradient-to-tr hover:from-amber-600 hover:via-pink-600 hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                           href="{{ ($setting && $setting->instagram_url) ? $setting->instagram_url : 'https://instagram.com/smagiga' }}" 
+                           target="_blank" 
+                           title="Instagram">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 0-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                            </svg>
                         </a>
-                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-accent hover:text-white hover:border-accent/50 transition-all duration-300 hover:-translate-y-1" href="{{ ($setting && $setting->youtube_url) ? $setting->youtube_url : 'https://youtube.com/@smagiki3surabaya730' }}" target="_blank" title="YouTube">
-                            <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        <!-- YouTube -->
+                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-red-600 hover:text-white hover:border-red-500 transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                           href="{{ ($setting && $setting->youtube_url) ? $setting->youtube_url : 'https://youtube.com/@smagiki3surabaya730' }}" 
+                           target="_blank" 
+                           title="YouTube">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
@@ -511,7 +601,9 @@
                     if (scrollTop > 30) {
                         navbar.classList.add('scrolled');
                     } else {
-                        navbar.classList.remove('scrolled');
+                        @if(request()->is('/'))
+                            navbar.classList.remove('scrolled');
+                        @endif
                     }
                 }
 
