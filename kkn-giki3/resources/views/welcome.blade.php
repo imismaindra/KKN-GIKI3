@@ -260,129 +260,90 @@
         <!-- Hero Section -->
         <section class="relative min-h-[92vh] flex items-center overflow-hidden bg-slate-950 pt-20">
             <div id="hero-slider" class="absolute inset-0 w-full h-full z-0">
-                <!-- Slide 0: Default Banner -->
-                <div class="welcome-slide absolute inset-0 w-full h-full opacity-0 flex items-center" data-index="0">
-                    <!-- Background Image Layer -->
-                    <div class="absolute inset-0 z-0">
-                        <img alt="Campus"
-                            class="w-full h-full object-cover scale-100 transition-transform duration-[6000ms] ease-out"
-                            src="https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E" />
-                        <div class="absolute inset-0 bg-slate-950" style="opacity: 0.6"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-transparent to-transparent"></div>
-                    </div>
-                    
-                    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 w-full">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                            <!-- Text Content -->
-                            <div class="lg:col-span-9 flex flex-col items-start text-left mr-auto gap-6 transform translate-y-8 opacity-0 transition-all duration-1000">
-                                <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/25 shadow-lg">
-                                    <span class="relative flex h-2 w-2">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-                                    </span>
-                                    <span class="font-label-md text-xs text-white tracking-widest uppercase font-semibold">SMA GIKI 3 SURABAYA</span>
-                                </div>
-                                
-                                <h1 class="font-display-lg-mobile text-4xl md:text-6xl font-black leading-tight tracking-tight [text-shadow:_0_4px_24px_rgba(0,0,0,0.5)] text-white">
-                                    Membentuk Karakter,<br />
-                                    <span class="gradient-gold-text">Mengukir Prestasi</span>
-                                </h1>
-                                
-                                <p class="font-body-lg text-body-lg text-white/80 max-w-2xl leading-relaxed [text-shadow:_0_2px_12px_rgba(0,0,0,0.4)] text-white/85">
-                                    Berkomitmen pada keunggulan akademis dan pembentukan karakter mulia melalui semangat Merdeka Belajar, mencetak pemimpin masa depan yang berwawasan global.
-                                </p>
-                                
-                                <div class="flex flex-wrap gap-6 mt-4">
-                                    <a href="#profil"
-                                        class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-3.5 glow-gold-hover bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500">
-                                        <span>Jelajahi Profil</span>
-                                        <span class="material-symbols-outlined text-xl">arrow_forward</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Custom Banners -->
-                @if(isset($banners) && !$banners->isEmpty())
-                    @foreach($banners as $index => $banner)
-                        <div class="welcome-slide absolute inset-0 w-full h-full opacity-0 flex items-center" data-index="{{ $index + 1 }}">
-                            <!-- Background Image Layer -->
-                            <div class="absolute inset-0 z-0">
+                @foreach($banners as $index => $banner)
+                    <div class="welcome-slide absolute inset-0 w-full h-full opacity-0 flex items-center" data-index="{{ $index }}">
+                        <!-- Background Image Layer -->
+                        <div class="absolute inset-0 z-0">
+                            @if($banner->image_path)
                                 <img alt="{{ $banner->title }}"
                                     class="w-full h-full object-cover scale-100 transition-transform duration-[6000ms] ease-out"
                                     src="{{ Storage::url($banner->image_path) }}"
                                     onerror="this.onerror=null; this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
-                                <div class="hidden absolute inset-0 bg-slate-900 flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-slate-700 text-6xl">image</span>
-                                </div>
-                                <div class="absolute inset-0 bg-slate-950" style="opacity: {{ ($banner->overlay_opacity ?? 60) / 100 }}"></div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-transparent to-transparent"></div>
-                            </div>
-                            
-                            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 w-full">
-                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                                    <!-- Text Content -->
-                                    @php
-                                        $ctaColorClasses = [
-                                            'amber' => 'bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500',
-                                            'blue' => 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/30',
-                                            'emerald' => 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-emerald-500/30',
-                                            'red' => 'bg-red-600 text-white hover:bg-red-700 hover:shadow-red-500/30',
-                                            'indigo' => 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30',
-                                            'slate' => 'bg-slate-750 text-white hover:bg-slate-800 hover:shadow-slate-650/30',
-                                        ][$banner->cta_color ?? 'amber'] ?? 'bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500';
+                                <div class="hidden absolute inset-0 bg-slate-900"></div>
+                            @else
+                                <!-- Fallback gradient (banner default tanpa gambar) -->
+                                <div class="absolute inset-0" style="background: linear-gradient(135deg, #0F1F3D 0%, #1A3366 55%, #0D1B3E 100%);"></div>
+                                <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1.5px 1.5px, white 1.5px, transparent 0); background-size: 28px 28px;"></div>
+                            @endif
+                            <div class="absolute inset-0 bg-slate-950" style="opacity: {{ ($banner->image_path ? ($banner->overlay_opacity ?? 60) : 0) / 100 }}"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-transparent to-transparent"></div>
+                        </div>
 
-                                        $alignmentClasses = [
-                                            'left' => 'lg:col-span-9 flex flex-col items-start text-left mr-auto',
-                                            'center' => 'lg:col-span-10 lg:col-start-2 flex flex-col items-center text-center mx-auto',
-                                            'right' => 'lg:col-span-9 lg:col-start-4 flex flex-col items-end text-right ml-auto',
-                                        ][$banner->alignment ?? 'left'] ?? 'lg:col-span-9 flex flex-col items-start text-left mr-auto';
-                                    @endphp
-                                    
-                                    <div class="{{ $alignmentClasses }} gap-6 transform translate-y-8 opacity-0 transition-all duration-1000">
-                                        <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/25 shadow-lg">
-                                            <span class="relative flex h-2 w-2">
-                                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                                                <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-                                            </span>
-                                            <span class="font-label-md text-xs text-white tracking-widest uppercase font-semibold">SMA GIKI 3 SURABAYA</span>
-                                        </div>
-                                        
-                                        <h1 class="font-display-lg-mobile text-4xl md:text-6xl font-black leading-tight tracking-tight [text-shadow:_0_4px_24px_rgba(0,0,0,0.5)]
-                                            {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-900' : 'text-white' }}">
-                                            {{ $banner->title }}
-                                        </h1>
-                                        
-                                        @if($banner->subtitle)
-                                            <p class="font-body-lg text-body-lg md:text-xl max-w-3xl leading-relaxed [text-shadow:_0_2px_12px_rgba(0,0,0,0.4)]
-                                                {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-700' : 'text-white/85' }}">
-                                                {{ $banner->subtitle }}
-                                            </p>
-                                        @endif
-                                        
-                                        @if($banner->button_text)
-                                            <div class="flex flex-wrap gap-6 mt-4">
-                                                <a href="{{ $banner->button_url ?? '#' }}"
-                                                    class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-3.5 glow-gold-hover {{ $ctaColorClasses }}">
-                                                    <span>{{ $banner->button_text }}</span>
-                                                    <span class="material-symbols-outlined text-xl">arrow_forward</span>
-                                                </a>
-                                            </div>
-                                        @endif
+                        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 w-full">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                                @php
+                                    $ctaColorClasses = [
+                                        'amber'   => 'bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500',
+                                        'blue'    => 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/30',
+                                        'emerald' => 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-emerald-500/30',
+                                        'red'     => 'bg-red-600 text-white hover:bg-red-700 hover:shadow-red-500/30',
+                                        'indigo'  => 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30',
+                                        'slate'   => 'bg-slate-750 text-white hover:bg-slate-800 hover:shadow-slate-650/30',
+                                    ][$banner->cta_color ?? 'amber'] ?? 'bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500';
+
+                                    $alignmentClasses = [
+                                        'left'   => 'lg:col-span-9 flex flex-col items-start text-left mr-auto',
+                                        'center' => 'lg:col-span-10 lg:col-start-2 flex flex-col items-center text-center mx-auto',
+                                        'right'  => 'lg:col-span-9 lg:col-start-4 flex flex-col items-end text-right ml-auto',
+                                    ][$banner->alignment ?? 'left'] ?? 'lg:col-span-9 flex flex-col items-start text-left mr-auto';
+                                @endphp
+
+                                <!-- Text Content -->
+                                <div class="{{ $alignmentClasses }} gap-6 transform translate-y-8 opacity-0 transition-all duration-1000">
+                                    <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/25 shadow-lg">
+                                        <span class="relative flex h-2 w-2">
+                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                                        </span>
+                                        <span class="font-label-md text-xs text-white tracking-widest uppercase font-semibold">SMA GIKI 3 SURABAYA</span>
                                     </div>
+
+                                    <h1 class="font-display-lg-mobile text-4xl md:text-6xl font-black leading-tight tracking-tight [text-shadow:_0_4px_24px_rgba(0,0,0,0.5)]
+                                        {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-900' : 'text-white' }}">
+                                        @if($banner->is_default)
+                                            Membentuk Karakter,<br />
+                                            <span class="gradient-gold-text">Mengukir Prestasi</span>
+                                        @else
+                                            {{ $banner->title }}
+                                        @endif
+                                    </h1>
+
+                                    @if($banner->subtitle)
+                                        <p class="font-body-lg text-body-lg max-w-2xl leading-relaxed [text-shadow:_0_2px_12px_rgba(0,0,0,0.4)]
+                                            {{ ($banner->text_color ?? 'light') === 'dark' ? 'text-slate-700' : 'text-white/85' }}">
+                                            {{ $banner->subtitle }}
+                                        </p>
+                                    @endif
+
+                                    @if($banner->button_text)
+                                        <div class="flex flex-wrap gap-6 mt-4">
+                                            <a href="{{ $banner->button_url ?? '#' }}"
+                                                class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-3.5 glow-gold-hover {{ $ctaColorClasses }}">
+                                                <span>{{ $banner->button_text }}</span>
+                                                <span class="material-symbols-outlined text-xl">arrow_forward</span>
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @endif
+                    </div>
+                @endforeach
             </div>
-            
+
             <!-- Slider Controls -->
-            @if(isset($banners) && !$banners->isEmpty())
+            @if($banners->count() > 1)
                 <!-- Navigation Arrows -->
                 <button id="welcome-prev-btn" class="absolute left-6 z-20 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 text-white flex items-center justify-center transition border border-white/15 focus:outline-none backdrop-blur-md hover:scale-105 active:scale-95 duration-200">
                     <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
@@ -390,12 +351,11 @@
                 <button id="welcome-next-btn" class="absolute right-6 z-20 w-14 h-14 rounded-full bg-white/5 hover:bg-white/15 text-white flex items-center justify-center transition border border-white/15 focus:outline-none backdrop-blur-md hover:scale-105 active:scale-95 duration-200">
                     <span class="material-symbols-outlined text-2xl">arrow_forward_ios</span>
                 </button>
-                
+
                 <!-- Navigation Dots -->
                 <div class="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex space-x-3 bg-black/40 px-5 py-2.5 rounded-full border border-white/10 backdrop-blur-md">
-                    <button class="welcome-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all focus:outline-none" data-slide-index="0"></button>
                     @foreach($banners as $index => $banner)
-                        <button class="welcome-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all focus:outline-none" data-slide-index="{{ $index + 1 }}"></button>
+                        <button class="welcome-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all focus:outline-none" data-slide-index="{{ $index }}"></button>
                     @endforeach
                 </div>
             @endif

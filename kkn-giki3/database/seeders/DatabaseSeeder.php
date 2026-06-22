@@ -11,6 +11,7 @@ use App\Models\Extracurricular;
 use App\Models\Major;
 use App\Models\Facility;
 use App\Models\Teacher;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -249,5 +250,24 @@ class DatabaseSeeder extends Seeder
                 $teacher
             );
         }
+
+        // Default banner (permanent, tidak bisa dihapus)
+        Banner::updateOrCreate(
+            ['is_default' => true],
+            [
+                'title'           => 'Membentuk Karakter, Mengukir Prestasi',
+                'subtitle'        => 'Berkomitmen pada keunggulan akademis dan pembentukan karakter mulia melalui semangat Merdeka Belajar, mencetak pemimpin masa depan yang berwawasan global.',
+                'image_path'      => null,
+                'button_text'     => 'Jelajahi Profil',
+                'button_url'      => '#profil',
+                'order'           => 0,
+                'is_active'       => true,
+                'is_default'      => true,
+                'alignment'       => 'left',
+                'cta_color'       => 'amber',
+                'overlay_opacity' => 60,
+                'text_color'      => 'light',
+            ]
+        );
     }
 }

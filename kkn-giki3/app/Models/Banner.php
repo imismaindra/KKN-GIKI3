@@ -17,6 +17,7 @@ class Banner extends Model
         'button_url',
         'order',
         'is_active',
+        'is_default',
         'alignment',
         'cta_color',
         'overlay_opacity',

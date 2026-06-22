@@ -12,6 +12,16 @@
         </a>
     </div>
 
+    @if($banner->is_default)
+        <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mb-2">
+            <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+            <div>
+                <p class="text-sm font-bold text-amber-800">Banner Utama (Permanen)</p>
+                <p class="text-xs text-amber-600 mt-0.5">Banner ini adalah slide utama yang selalu tampil pertama di halaman beranda. Anda dapat mengubah konten dan gambarnya, namun tidak dapat menghapusnya.</p>
+            </div>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <!-- Form (Left Column) -->
         <div class="lg:col-span-6">

@@ -64,6 +64,10 @@ class BannerController extends Controller
 
     public function toggleActive(Banner $banner): RedirectResponse
     {
+        if ($banner->is_default) {
+            return redirect()->back()->with('error', 'Banner utama tidak dapat dinonaktifkan.');
+        }
+
         $banner->update([
             'is_active' => !$banner->is_active
         ]);
@@ -74,6 +78,10 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner): RedirectResponse
     {
+        if ($banner->is_default) {
+            return redirect()->route('admin.banners.index')->with('error', 'Banner utama tidak dapat dihapus.');
+        }
+
         if ($banner->image_path) {
             Storage::disk('public')->delete($banner->image_path);
         }
