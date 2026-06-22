@@ -27,6 +27,7 @@ class BannerController extends Controller
     public function store(StoreBannerRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image_path')) {
             $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
@@ -45,6 +46,7 @@ class BannerController extends Controller
     public function update(UpdateBannerRequest $request, Banner $banner): RedirectResponse
     {
         $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image_path')) {
             if ($banner->image_path) {
@@ -58,6 +60,16 @@ class BannerController extends Controller
         $banner->update($data);
 
         return redirect()->route('admin.banners.index')->with('success', 'Banner berhasil diperbarui.');
+    }
+
+    public function toggleActive(Banner $banner): RedirectResponse
+    {
+        $banner->update([
+            'is_active' => !$banner->is_active
+        ]);
+
+        $statusText = $banner->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        return redirect()->back()->with('success', "Banner \"{$banner->title}\" berhasil {$statusText}.");
     }
 
     public function destroy(Banner $banner): RedirectResponse

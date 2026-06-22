@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\ExtracurricularController;
 use App\Models\Banner;
 
 Route::get('/', function () {
-    $banners = Banner::orderBy('order')->get();
+    $banners = Banner::where('is_active', true)->orderBy('order')->get();
     $articles = \App\Models\Article::where('status', 'published')
         ->orderBy('published_at', 'desc')
         ->take(4)
@@ -101,6 +101,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 
     // Modul CRUD Admin
+    Route::patch('banners/{banner}/toggle-active', [BannerController::class, 'toggleActive'])->name('banners.toggle-active');
     Route::resource('banners', BannerController::class);
     Route::resource('majors', MajorController::class);
     Route::resource('facilities', FacilityController::class);

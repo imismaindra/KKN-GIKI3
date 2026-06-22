@@ -151,6 +151,11 @@
                         <span class="absolute top-3 left-3 bg-slate-950/60 backdrop-blur-md text-white text-[11px] px-2.5 py-1 rounded-full font-bold border border-white/10 z-10">
                             Urutan: {{ $banner->order }}
                         </span>
+
+                        <!-- Status Badge overlay -->
+                        <span class="absolute top-3 right-3 backdrop-blur-md text-white text-[11px] px-2.5 py-1 rounded-full font-bold border border-white/10 z-10 {{ $banner->is_active ? 'bg-emerald-600/85' : 'bg-red-600/85' }}">
+                            {{ $banner->is_active ? 'Aktif' : 'Nonaktif' }}
+                        </span>
                     </div>
 
                     <!-- Card Body -->
@@ -205,6 +210,25 @@
 
                         <!-- Card Actions -->
                         <div class="flex items-center space-x-2 pt-4 border-t border-slate-100">
+                            <form action="{{ route('admin.banners.toggle-active', $banner->id) }}" method="POST" class="flex-1">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" 
+                                        class="w-full inline-flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 border border-slate-200/60 font-bold rounded-xl text-xs transition duration-150 active:scale-98 {{ $banner->is_active ? 'hover:bg-amber-50 hover:border-amber-200 text-slate-600 hover:text-amber-600' : 'hover:bg-emerald-50 hover:border-emerald-200 text-slate-600 hover:text-emerald-600' }}">
+                                    @if($banner->is_active)
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268-2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                        </svg>
+                                        <span>Nonaktifkan</span>
+                                    @else
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        <span>Aktifkan</span>
+                                    @endif
+                                </button>
+                            </form>
                             <a href="{{ route('admin.banners.edit', $banner->id) }}" 
                                class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 hover:bg-blue-50 border border-slate-200/60 hover:border-blue-200 text-slate-600 hover:text-blue-600 font-bold rounded-xl text-xs transition duration-150 active:scale-98">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -153,3 +153,74 @@ test('homepage renders banners with dynamic custom styling classes', function ()
     $response->assertSee('text-slate-900', false); // dark theme text
     $response->assertSee('text-on-primary', false); // light theme text
 });
+
+test('admin can toggle active status of a banner', function () {
+    $user = User::factory()->create();
+    
+    $banner = Banner::create([
+        'title' => 'Toggle Active Banner Test',
+        'image_path' => 'banners/test.jpg',
+        'order' => 1,
+        'is_active' => true,
+        'alignment' => 'left',
+        'cta_color' => 'amber',
+        'overlay_opacity' => 60,
+        'text_color' => 'light',
+    ]);
+
+    // Perform toggle request
+    $response = $this->actingAs($user)
+        ->patch(route('admin.banners.toggle-active', $banner->id));
+
+    $response->assertRedirect();
+    
+    // Check database has changed to false
+    $this->assertDatabaseHas('banners', [
+        'id' => $banner->id,
+        'is_active' => false,
+    ]);
+
+    // Perform toggle request again to reactivate
+    $response = $this->actingAs($user)
+        ->patch(route('admin.banners.toggle-active', $banner->id));
+
+    $this->assertDatabaseHas('banners', [
+        'id' => $banner->id,
+        'is_active' => true,
+    ]);
+});
+
+test('inactive banners are not rendered on homepage', function () {
+    Storage::fake('public');
+    
+    Banner::create([
+        'title' => 'Active Banner Title',
+        'image_path' => 'banners/active.jpg',
+        'order' => 1,
+        'is_active' => true,
+        'alignment' => 'left',
+        'cta_color' => 'amber',
+        'overlay_opacity' => 60,
+        'text_color' => 'light',
+    ]);
+    
+    Banner::create([
+        'title' => 'Inactive Banner Title',
+        'image_path' => 'banners/inactive.jpg',
+        'order' => 2,
+        'is_active' => false,
+        'alignment' => 'left',
+        'cta_color' => 'amber',
+        'overlay_opacity' => 60,
+        'text_color' => 'light',
+    ]);
+
+    // Request homepage
+    $response = $this->get('/');
+    $response->assertStatus(200);
+
+    // Verify only the active banner is visible
+    $response->assertSee('Active Banner Title');
+    $response->assertDontSee('Inactive Banner Title');
+});
+
