@@ -24,6 +24,21 @@ class UpdateSettingRequest extends FormRequest
             'tiktok_url' => ['nullable', 'url', 'max:255'],
             'instagram_url' => ['nullable', 'url', 'max:255'],
             'youtube_url' => ['nullable', 'url', 'max:255'],
+            'about_title' => ['nullable', 'string', 'max:255'],
+            'about_description' => ['nullable', 'string'],
+            'about_image' => ['nullable', 'image', 'max:2048'],
+            'about_year_founded' => ['nullable', 'string', 'max:10'],
+            'about_accreditation' => ['nullable', 'string', 'max:50'],
+            'about_card_title' => ['nullable', 'string', 'max:255'],
+            'about_card_desc' => ['nullable', 'string'],
+            'headmaster_name' => ['nullable', 'string', 'max:255'],
+            'headmaster_title' => ['nullable', 'string', 'max:255'],
+            'headmaster_photo' => ['nullable', 'image', 'max:2048'],
+            'headmaster_speech_title' => ['nullable', 'string', 'max:255'],
+            'headmaster_speech' => ['nullable', 'string'],
+            'maps_embed' => ['nullable', 'string'],
+            'erapor_url' => ['nullable', 'url', 'max:255'],
+            'ujian_url' => ['nullable', 'url', 'max:255'],
         ];
     }
 

@@ -414,13 +414,13 @@
 
             <div class="hidden md:flex items-center gap-2">
                 <!-- E-Rapor Button -->
-                <a href="#" 
+                <a href="{{ ($setting && $setting->erapor_url) ? $setting->erapor_url : '#' }}" 
                    class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-bold tracking-wide transition-all duration-200 hover:-translate-y-0.5 shadow-sm active:scale-95 btn-erapor">
                     <span class="material-symbols-outlined text-sm">menu_book</span>
                     E-Rapor
                 </a>
                 <!-- Ujian Login Button -->
-                <a href="#" 
+                <a href="{{ ($setting && $setting->ujian_url) ? $setting->ujian_url : '#' }}" 
                    class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-accent text-white hover:bg-red-700 text-xs font-bold tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/20 active:scale-95">
                     <span class="material-symbols-outlined text-sm">lock_open</span>
                     Ujian Login
@@ -457,10 +457,10 @@
                 <span class="material-symbols-outlined text-lg">sports</span> Ekstrakurikuler
             </a>
             <div class="mt-3 pt-3 border-t border-outline-variant/20 flex flex-col gap-2">
-                <a class="flex items-center justify-center gap-2 font-bold text-secondary border border-secondary/20 hover:bg-secondary/5 px-4 py-2.5 rounded-xl text-sm transition w-full" href="#">
+                <a class="flex items-center justify-center gap-2 font-bold text-secondary border border-secondary/20 hover:bg-secondary/5 px-4 py-2.5 rounded-xl text-sm transition w-full" href="{{ ($setting && $setting->erapor_url) ? $setting->erapor_url : '#' }}">
                     <span class="material-symbols-outlined text-base">menu_book</span> E-Rapor
                 </a>
-                <a class="flex items-center justify-center gap-2 font-bold text-white bg-accent hover:bg-red-700 px-4 py-2.5 rounded-xl text-sm transition w-full" href="#">
+                <a class="flex items-center justify-center gap-2 font-bold text-white bg-accent hover:bg-red-700 px-4 py-2.5 rounded-xl text-sm transition w-full" href="{{ ($setting && $setting->ujian_url) ? $setting->ujian_url : '#' }}">
                     <span class="material-symbols-outlined text-base">lock_open</span> Login Ujian
                 </a>
                 <a class="flex items-center justify-center gap-2 font-bold text-white bg-primary hover:bg-primary/90 px-4 py-2.5 rounded-xl text-sm transition w-full" href="{{ url('/#contact') }}">

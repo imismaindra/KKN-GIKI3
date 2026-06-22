@@ -469,10 +469,10 @@
             <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
                 <span class="section-label">Tentang Kami</span>
                 <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1 leading-tight">
-                    Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>
+                    {!! $setting->about_title ?? 'Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>' !!}
                 </h2>
                 <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                    SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia.
+                    {{ $setting->about_description ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia.' }}
                 </p>
             </div>
             
@@ -482,7 +482,7 @@
                     <div class="relative w-full h-[380px] rounded-3xl overflow-hidden shadow-2xl group border border-outline-variant/10">
                         <img alt="SMA GIKI 3 Surabaya Campus"
                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            src="https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E"
+                            src="{{ (isset($setting->about_image) && !empty($setting->about_image)) ? Storage::url($setting->about_image) : 'https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E' }}"
                             loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
@@ -493,14 +493,14 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Berdiri Sejak</p>
-                                <p class="font-extrabold text-primary text-sm">1993</p>
+                                <p class="font-extrabold text-primary text-sm">{{ $setting->about_year_founded ?? '1993' }}</p>
                             </div>
                         </div>
 
                         <!-- Floating Accreditation Badge -->
                         <div class="absolute top-6 right-6 bg-secondary text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 border border-secondary-fixed/20">
                             <span class="material-symbols-outlined text-base font-bold">verified</span>
-                            <span class="font-black text-sm tracking-wide">Akreditasi A</span>
+                            <span class="font-black text-sm tracking-wide">{{ $setting->about_accreditation ?? 'Akreditasi A' }}</span>
                         </div>
                     </div>
                     
@@ -514,10 +514,10 @@
                     <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/10 shadow-sm hover-lift flex flex-col gap-4">
                         <div class="flex items-center gap-3 text-primary">
                             <span class="material-symbols-outlined text-3xl font-bold text-secondary">school</span>
-                            <h3 class="font-black text-xl text-primary tracking-tight">Pendidikan Holistik &amp; Karakter</h3>
+                            <h3 class="font-black text-xl text-primary tracking-tight">{{ $setting->about_card_title ?? 'Pendidikan Holistik & Karakter' }}</h3>
                         </div>
                         <p class="text-slate-600 leading-relaxed text-sm md:text-base">
-                            SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia, berbudaya, serta berwawasan kebangsaan dan lingkungan.
+                            {{ $setting->about_card_desc ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia, berbudaya, serta berwawasan kebangsaan dan lingkungan.' }}
                         </p>
                     </div>
 
@@ -597,14 +597,14 @@
                             
                             <div class="bg-white p-4.5 rounded-[2.5rem] shadow-2xl border border-outline-variant/15 relative overflow-hidden group">
                                 <div class="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative">
-                                    <img alt="Drs. H. M. Zainuri, M.Si Portrait"
+                                    <img alt="{{ $setting->headmaster_name ?? 'Kepala Sekolah' }} Portrait"
                                          class="w-full h-full object-cover grayscale-[20%] transition-transform duration-700 group-hover:scale-103 group-hover:grayscale-0"
-                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB"
+                                         src="{{ (isset($setting->headmaster_photo) && !empty($setting->headmaster_photo)) ? Storage::url($setting->headmaster_photo) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB' }}"
                                          loading="lazy" />
                                 </div>
                                 <div class="mt-5 text-center">
-                                    <h4 class="font-black text-primary text-lg">Drs. H. M. Zainuri, M.Si</h4>
-                                    <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">Kepala Sekolah SMA GIKI 3 Surabaya</p>
+                                    <h4 class="font-black text-primary text-lg">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h4>
+                                    <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">{{ $setting->headmaster_title ?? 'Kepala Sekolah SMA GIKI 3 Surabaya' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -614,7 +614,7 @@
                     <div class="lg:col-span-7 flex flex-col items-start gap-6 fade-up">
                         <span class="section-label">Sambutan Kepala Sekolah</span>
                         <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
-                            Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>
+                            {!! $setting->headmaster_speech_title ?? 'Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>' !!}
                         </h2>
                         
                         <div class="relative pl-6 md:pl-10 mt-4 border-l-2 border-secondary/35">
@@ -622,26 +622,32 @@
                             <span class="absolute -top-6 -left-3 text-secondary/10 font-serif text-[120px] select-none pointer-events-none">“</span>
                             
                             <div class="flex flex-col gap-5 text-on-surface-variant font-body-md text-sm md:text-base leading-relaxed text-justify">
-                                <p class="font-bold text-primary">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
-                                <p>
-                                    Salam sejahtera bagi kita sekalian. Selamat datang di laman resmi portal informasi SMA GIKI 3 Surabaya. Segala puji senantiasa kita panjatkan ke hadirat Allah Subhanahu Wata'ala atas limpahan rahmat, hidayah, serta kekuatan-Nya kepada kita semua.
-                                </p>
-                                <p>
-                                    Sebagai institusi pendidikan, SMA GIKI 3 Surabaya mengemban tanggung jawab besar untuk mencetak generasi muda yang cerdas, kompetitif, dan berkarakter mulia. Di era disrupsi digital ini, tantangan bagi peserta didik kian kompleks. Oleh karena itu, kami merancang lingkungan sekolah yang adaptif dan kondusif, memadukan keunggulan ilmu pengetahuan modern dengan pendalaman nilai ketaqwaan serta budi pekerti yang luhur.
-                                </p>
-                                <p>
-                                    Didukung oleh jajaran tenaga pendidik yang profesional dan sarana prasarana penunjang yang representatif, kami berkomitmen untuk menuntun setiap siswa mengenali minat, bakat, serta kapasitas terbaiknya demi menyongsong masa depan yang cerah dan kompetitif di kancah global.
-                                </p>
-                                <p class="font-bold text-primary">Wassalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+                                @if(isset($setting->headmaster_speech) && !empty($setting->headmaster_speech))
+                                    @foreach(array_filter(array_map('trim', explode("\n", $setting->headmaster_speech))) as $paragraph)
+                                        <p>{{ $paragraph }}</p>
+                                    @endforeach
+                                @else
+                                    <p class="font-bold text-primary">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+                                    <p>
+                                        Salam sejahtera bagi kita sekalian. Selamat datang di laman resmi portal informasi SMA GIKI 3 Surabaya. Segala puji senantiasa kita panjatkan ke hadirat Allah Subhanahu Wata'ala atas limpahan rahmat, hidayah, serta kekuatan-Nya kepada kita semua.
+                                    </p>
+                                    <p>
+                                        Sebagai institusi pendidikan, SMA GIKI 3 Surabaya mengemban tanggung jawab besar untuk mencetak generasi muda yang cerdas, kompetitif, dan berkarakter mulia. Di era disrupsi digital ini, tantangan bagi peserta didik kian kompleks. Oleh karena itu, kami merancang lingkungan sekolah yang adaptif dan kondusif, memadukan keunggulan ilmu pengetahuan modern dengan pendalaman nilai ketaqwaan serta budi pekerti yang luhur.
+                                    </p>
+                                    <p>
+                                        Didukung oleh jajaran tenaga pendidik yang profesional dan sarana prasarana penunjang yang representatif, kami berkomitmen untuk menuntun setiap siswa mengenali minat, bakat, serta kapasitas terbaiknya demi menyongsong masa depan yang cerah dan kompetitif di kancah global.
+                                    </p>
+                                    <p class="font-bold text-primary">Wassalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+                                @endif
                             </div>
                             
                             <!-- Signature block -->
                             <div class="mt-8 flex flex-col items-start gap-1">
                                 <div class="h-10 w-auto bg-transparent border-b border-primary/20 pb-2 mb-2 flex items-center justify-center font-serif text-primary/30 select-none">
-                                    <span class="italic text-lg tracking-widest font-semibold text-secondary/60">Drs. H. M. Zainuri, M.Si</span>
+                                    <span class="italic text-lg tracking-widest font-semibold text-secondary/60">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</span>
                                 </div>
-                                <h5 class="font-extrabold text-primary text-sm">Drs. H. M. Zainuri, M.Si</h5>
-                                <p class="text-xs text-on-surface-variant/80">Kepala SMA GIKI 3 Surabaya</p>
+                                <h5 class="font-extrabold text-primary text-sm">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h5>
+                                <p class="text-xs text-on-surface-variant/80">{{ $setting->headmaster_title ?? 'Kepala SMA GIKI 3 Surabaya' }}</p>
                             </div>
                         </div>
                     </div>
@@ -1354,7 +1360,7 @@
                     <!-- Interactive Google Map Frame -->
                     <div class="rounded-3xl overflow-hidden shadow-md border border-outline-variant/20 h-64 relative bg-slate-100">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5746977797746!2d112.7758784!3d-7.289139399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa6874ca7f79%3A0x6b6c0c29f44ee7bb!2sSMA%20GIKI%203%20Surabaya!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                            src="{{ (isset($setting->maps_embed) && !empty($setting->maps_embed)) ? $setting->maps_embed : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5746977797746!2d112.7758784!3d-7.289139399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa6874ca7f79%3A0x6b6c0c29f44ee7bb!2sSMA%20GIKI%203%20Surabaya!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid' }}" 
                             class="w-full h-full border-0 absolute inset-0"
                             allowfullscreen="" 
                             loading="lazy" 
