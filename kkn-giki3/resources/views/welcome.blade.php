@@ -950,7 +950,12 @@
                             Dibimbing oleh para guru ahli di bidangnya, berdedikasi membimbing dan mengarahkan siswa mencapai puncak akademis dan kedewasaan karakter.
                         </p>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 items-center">
+                        <a href="{{ route('teachers.index.public') }}"
+                           class="hidden sm:inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold transition-all duration-300 text-sm shadow-sm hover:shadow-md">
+                            <span>Semua Guru & Staff</span>
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+                        </a>
                         <button id="guru-prev-btn"
                             class="w-14 h-14 rounded-full border-2 border-outline-variant/40 flex items-center justify-center text-primary hover:border-secondary hover:text-secondary hover:bg-white/80 hover:shadow-lg transition-all duration-300 group">
                             <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
@@ -963,28 +968,56 @@
                 </div>
 
                 <div id="guru-slider" class="flex gap-8 overflow-x-auto pb-10 snap-x snap-mandatory hide-scrollbar">
-                    @foreach($teachers as $teacher)
-                        <div class="min-w-[260px] sm:min-w-[300px] max-w-[320px] bg-white rounded-3xl overflow-hidden border border-outline-variant/20 shadow-sm hover-lift snap-center flex flex-col h-full fade-up">
-                            <div class="relative aspect-square bg-slate-100 overflow-hidden">
+                    @foreach($teachers->take(5) as $teacher)
+                        <div class="min-w-[260px] sm:min-w-[300px] max-w-[320px] aspect-[3/4] rounded-[2rem] overflow-hidden border border-outline-variant/20 shadow-sm snap-center flex flex-col relative fade-up group cursor-pointer">
+                            <!-- Photo (Full Card) -->
+                            <div class="absolute inset-0 w-full h-full bg-slate-100">
                                 @if($teacher->photo)
-                                    <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy">
+                                    <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" loading="lazy">
                                 @else
-                                    <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-slate-400">
+                                    <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-400">
                                         <span class="material-symbols-outlined text-6xl">account_circle</span>
                                     </div>
                                 @endif
-                                <div class="absolute bottom-4 left-4 bg-primary/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 shadow-md">
-                                    <p class="text-[10px] font-bold text-secondary tracking-widest uppercase">GIGA STAFF</p>
-                                </div>
                             </div>
-                            <div class="p-6 flex-grow flex flex-col justify-between border-t border-slate-50">
-                                <div>
-                                    <h4 class="font-bold text-base text-primary mb-1 line-clamp-1">{{ $teacher->name }}</h4>
-                                    <p class="text-xs text-on-surface-variant leading-relaxed line-clamp-2">{{ $teacher->position }}</p>
-                                </div>
+
+                            <!-- Default role badge (fades out on hover) -->
+                            <div class="absolute bottom-4 left-4 bg-primary/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 shadow-md transition-opacity duration-300 group-hover:opacity-0 z-10">
+                                <p class="text-[10px] font-bold text-secondary tracking-widest uppercase">GIGA STAFF</p>
+                            </div>
+
+                            <!-- Hover Overlay with blur and detail fade/slide up -->
+                            <div class="absolute inset-0 bg-primary/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 text-white z-20 hover:backdrop-blur-md">
+                                <span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                                    STAFF & GURU
+                                </span>
+                                <h4 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
+                                    {{ $teacher->name }}
+                                </h4>
+                                <p class="text-xs text-slate-200 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150 line-clamp-3">
+                                    {{ $teacher->position }}
+                                </p>
                             </div>
                         </div>
                     @endforeach
+
+                    @if($teachers->count() > 5)
+                        <!-- Link to Guru & Staff Page Card at the end of the slider -->
+                        <div class="min-w-[260px] sm:min-w-[300px] max-w-[320px] aspect-[3/4] rounded-[2rem] overflow-hidden border-2 border-dashed border-outline-variant/60 bg-white/50 hover:bg-white hover:border-secondary shadow-sm hover:shadow-xl transition-all duration-300 snap-center flex flex-col justify-center items-center p-8 text-center group cursor-pointer"
+                             onclick="window.location.href='{{ route('teachers.index.public') }}'">
+                            <div class="w-16 h-16 rounded-full bg-secondary/15 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <span class="material-symbols-outlined text-3xl font-bold">arrow_forward</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-primary mb-2">Lihat Selengkapnya</h4>
+                            <p class="text-xs text-on-surface-variant leading-relaxed mb-6">
+                                Temukan {{ $teachers->count() - 5 }} staf & guru profesional lainnya di halaman guru & staff.
+                            </p>
+                            <a href="{{ route('teachers.index.public') }}" class="px-5 py-2.5 rounded-full bg-primary hover:bg-primary-container text-white text-xs font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-1.5">
+                                <span>Lihat Semua</span>
+                                <span class="material-symbols-outlined text-sm">open_in_new</span>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </section>
         @endif

@@ -398,6 +398,7 @@
                         ['href' => request()->is('/') ? '#galeri' : url('/#galeri'), 'label' => 'Galeri', 'active' => false],
                         ['href' => route('articles.index'), 'label' => 'Berita', 'active' => request()->routeIs('articles.*')],
                         ['href' => route('ekstrakurikuler.index'), 'label' => 'Ekskul', 'active' => request()->routeIs('ekstrakurikuler.*')],
+                        ['href' => route('teachers.index.public'), 'label' => 'Guru & Staff', 'active' => request()->routeIs('teachers.index.public')],
                     ];
                 @endphp
                 @foreach($navLinks as $link)
@@ -455,6 +456,9 @@
             </a>
             <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('ekstrakurikuler.*') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('ekstrakurikuler.index') }}">
                 <span class="material-symbols-outlined text-lg">sports</span> Ekstrakurikuler
+            </a>
+            <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('teachers.index.public') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('teachers.index.public') }}">
+                <span class="material-symbols-outlined text-lg">group</span> Guru & Staff
             </a>
             <div class="mt-3 pt-3 border-t border-outline-variant/20 flex flex-col gap-2">
                 <a class="flex items-center justify-center gap-2 font-bold text-secondary border border-secondary/20 hover:bg-secondary/5 px-4 py-2.5 rounded-xl text-sm transition w-full" href="{{ ($setting && $setting->erapor_url) ? $setting->erapor_url : '#' }}">
@@ -530,6 +534,7 @@
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ url('/#fasilitas') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Fasilitas</a></li>
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('articles.index') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Berita & Artikel</a></li>
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('ekstrakurikuler.index') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Ekstrakurikuler</a></li>
+                        <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('teachers.index.public') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Guru &amp; Staff</a></li>
                     </ul>
                 </div>
                 <!-- Column 3: Admissions -->

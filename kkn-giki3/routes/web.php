@@ -87,6 +87,9 @@ Route::post('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialControll
 // Public Extracurricular Routes
 Route::get('/ekstrakurikuler', [\App\Http\Controllers\ExtracurricularController::class, 'index'])->name('ekstrakurikuler.index');
 
+// Public Teacher/Staff Routes
+Route::get('/guru-staff', [\App\Http\Controllers\PublicTeacherController::class, 'index'])->name('teachers.index.public');
+
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
