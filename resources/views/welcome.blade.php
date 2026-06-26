@@ -97,18 +97,6 @@
         animation: stripe-move 8s linear infinite;
     }
 
-    /* ── Stats Card Glow ─────────────────────── */
-    .stats-icon-ring {
-        position: relative;
-    }
-    .stats-icon-ring::after {
-        content: '';
-        position: absolute;
-        inset: -3px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(200,147,10,0.3), rgba(196,30,58,0.15));
-        z-index: -1;
-    }
 
     /* ── Akademik Bento Grid ───────────────────── */
     .major-bento-grid {
@@ -368,58 +356,62 @@
         </section>
 
         <!-- Floating Stats Section -->
-        <section class="relative z-30 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-10 mb-24">
-            <div class="gradient-border rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-primary/8 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 relative overflow-hidden bg-white">
-                <!-- Shimmer overlay -->
-                <div class="absolute inset-0 shimmer-gold pointer-events-none rounded-[2.5rem]"></div>
-                <!-- Decorative glows -->
-                <div class="absolute -top-16 -left-16 w-56 h-56 bg-secondary/6 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-16 -right-16 w-56 h-56 bg-accent/4 rounded-full blur-3xl"></div>
-
-                <!-- Stat 1: Akreditasi -->
-                <div class="text-center relative z-10 flex flex-col items-center justify-center p-4 fade-up">
-                    <div class="w-16 h-16 stats-icon-ring bg-gradient-to-br from-secondary/15 to-secondary/5 rounded-2xl flex items-center justify-center text-secondary mb-5 shadow-sm">
-                        <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">verified</span>
-                    </div>
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <h2 class="font-display-lg text-5xl md:text-6xl text-primary font-black tracking-tight">A</h2>
-                        <span class="text-secondary font-black text-3xl">+</span>
-                    </div>
-                    <p class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Akreditasi Institusi</p>
-                </div>
-
-                <!-- Divider -->
-                <div class="hidden md:flex absolute left-1/3 top-1/2 -translate-y-1/2 flex-col items-center gap-1" style="height:55%">
-                    <div class="flex-1 w-px bg-gradient-to-b from-transparent via-outline-variant/50 to-transparent"></div>
-                </div>
-
-                <!-- Stat 2: Siswa -->
-                <div class="text-center relative z-10 flex flex-col items-center justify-center p-4 fade-up">
-                    <div class="w-16 h-16 stats-icon-ring bg-gradient-to-br from-accent/12 to-accent/4 rounded-2xl flex items-center justify-center text-accent mb-5 shadow-sm">
+        <section class="relative z-30 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-12 mb-24">
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_20px_50px_rgba(15,31,61,0.05)] grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100 relative overflow-hidden">
+                <!-- Stat 1: Siswa Aktif -->
+                <div class="flex items-center gap-4 md:gap-3 lg:gap-5 justify-start md:justify-center p-8 md:py-10 md:px-4 lg:px-6 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 transition-transform duration-300 hover:scale-105">
                         <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">group</span>
                     </div>
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <h2 class="font-display-lg text-5xl md:text-6xl text-primary font-black tracking-tight counter-value" data-target="1200">0</h2>
-                        <span class="text-secondary font-black text-3xl">+</span>
+                    <div>
+                        <div class="flex items-baseline">
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="1000">0</h2>
+                            <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
+                        </div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Siswa Aktif</p>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Siswa Aktif</p>
                 </div>
 
-                <!-- Divider -->
-                <div class="hidden md:flex absolute right-1/3 top-1/2 -translate-y-1/2 flex-col items-center" style="height:55%">
-                    <div class="flex-1 w-px bg-gradient-to-b from-transparent via-outline-variant/50 to-transparent"></div>
-                </div>
-
-                <!-- Stat 3: Lulusan -->
-                <div class="text-center relative z-10 flex flex-col items-center justify-center p-4 fade-up">
-                    <div class="w-16 h-16 stats-icon-ring bg-gradient-to-br from-primary/12 to-primary/4 rounded-2xl flex items-center justify-center text-primary mb-5 shadow-sm">
+                <!-- Stat 2: Tenaga Pengajar -->
+                <div class="flex items-center gap-4 md:gap-3 lg:gap-5 justify-start md:justify-center p-8 md:py-10 md:px-4 lg:px-6 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 transition-transform duration-300 hover:scale-105">
                         <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">school</span>
                     </div>
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <h2 class="font-display-lg text-5xl md:text-6xl text-primary font-black tracking-tight counter-value" data-target="98">0</h2>
-                        <span class="text-secondary font-black text-3xl">%</span>
+                    <div>
+                        <div class="flex items-baseline">
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="80">0</h2>
+                            <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
+                        </div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Tenaga Pengajar</p>
                     </div>
-                    <p class="text-xs font-bold uppercase tracking-[0.15em] text-on-surface-variant">Lulusan ke PTN</p>
+                </div>
+
+                <!-- Stat 3: Prestasi -->
+                <div class="flex items-center gap-4 md:gap-3 lg:gap-5 justify-start md:justify-center p-8 md:py-10 md:px-4 lg:px-6 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 transition-transform duration-300 hover:scale-105">
+                        <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">workspace_premium</span>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline">
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="50">0</h2>
+                            <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
+                        </div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Prestasi</p>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Tahun Berdiri -->
+                <div class="flex items-center gap-4 md:gap-3 lg:gap-5 justify-start md:justify-center p-8 md:py-10 md:px-4 lg:px-6 fade-up">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 transition-transform duration-300 hover:scale-105">
+                        <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1">calendar_month</span>
+                    </div>
+                    <div>
+                        <div class="flex items-baseline">
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="25">0</h2>
+                            <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
+                        </div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Tahun Berdiri</p>
+                    </div>
                 </div>
             </div>
         </section>
