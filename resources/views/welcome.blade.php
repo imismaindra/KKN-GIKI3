@@ -1404,63 +1404,73 @@
 @endsection
 
 @section('scripts')
+{{-- GSAP & ScrollTrigger CDN --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        // Intersection Observer for Fade-Up Animation & Counters
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.08
-        };
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
 
-        const animateCounter = (el) => {
+        // Remove CSS transitions on fade-up to let GSAP handle it directly without conflicts
+        gsap.set('.fade-up', { transition: 'none' });
+
+        // Animate all fade-up elements using ScrollTrigger
+        gsap.utils.toArray('.fade-up').forEach((el) => {
+            // Check if this fade-up element contains counter values
+            const hasCounters = el.querySelectorAll('.counter-value').length > 0;
+            const isCounterValue = el.classList.contains('counter-value');
+
+            gsap.fromTo(el, 
+                { opacity: 0, y: 35 }, 
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1.1, 
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none',
+                        onEnter: () => {
+                            // If the element has counters, animate them when it enters
+                            if (hasCounters) {
+                                el.querySelectorAll('.counter-value').forEach(counter => {
+                                    if (!counter.classList.contains('counted')) {
+                                        animateCounterGSAP(counter);
+                                        counter.classList.add('counted');
+                                    }
+                                });
+                            }
+                            if (isCounterValue && !el.classList.contains('counted')) {
+                                animateCounterGSAP(el);
+                                el.classList.add('counted');
+                            }
+                        }
+                    }
+                }
+            );
+        });
+
+        // GSAP-based Counter Animation for ultra-smooth number counting
+        function animateCounterGSAP(el) {
             const target = parseInt(el.getAttribute('data-target'));
             if (isNaN(target)) return;
-            let current = 0;
-            const duration = 1500; // ms
-            const stepTime = 25; // ms
-            const steps = duration / stepTime;
-            const increment = target / steps;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
+
+            const countObj = { val: 0 };
+            gsap.to(countObj, {
+                val: target,
+                duration: 2.2,
+                ease: 'power3.out',
+                onUpdate: () => {
+                    el.innerText = Math.floor(countObj.val);
+                },
+                onComplete: () => {
                     el.innerText = target;
-                    clearInterval(timer);
-                } else {
-                    el.innerText = Math.ceil(current);
-                }
-            }, stepTime);
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-
-                    // Check for counters within the intersecting element
-                    const counters = entry.target.querySelectorAll('.counter-value');
-                    counters.forEach(counter => {
-                        if (!counter.classList.contains('counted')) {
-                            animateCounter(counter);
-                            counter.classList.add('counted');
-                        }
-                    });
-
-                    // Check if the element itself is a counter
-                    if (entry.target.classList.contains('counter-value') && !entry.target.classList.contains('counted')) {
-                        animateCounter(entry.target);
-                        entry.target.classList.add('counted');
-                    }
-
-                    observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-up').forEach(el => {
-            observer.observe(el);
-        });
+        }
 
         // Homepage dynamic slider logic
         const welcomeSlides = document.querySelectorAll('.welcome-slide');
