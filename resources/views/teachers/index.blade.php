@@ -86,7 +86,7 @@
                         <!-- Photo -->
                         <div class="absolute inset-0 w-full h-full bg-slate-100">
                             @if($teacher->photo)
-                                <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" loading="lazy">
+                                <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover img-zoom" loading="lazy">
                             @else
                                 <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-400">
                                     <span class="material-symbols-outlined text-6xl">account_circle</span>
@@ -104,9 +104,9 @@
                             <span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
                                 {{ $category == 'Guru' ? 'GIGA TEACHER' : 'GIGA STAFF' }}
                             </span>
-                            <h4 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
+                            <h3 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
                                 {{ $teacher->name }}
-                            </h4>
+                            </h3>
                             <p class="text-xs text-slate-200 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150 line-clamp-3">
                                 {{ $teacher->position }}
                             </p>

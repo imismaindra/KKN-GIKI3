@@ -45,7 +45,7 @@
                         <!-- Image wrapper -->
                         <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 flex-shrink-0">
                             @if($article->thumbnail)
-                                <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy" />
+                                <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover img-zoom" loading="lazy" />
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-350">
                                     <span class="material-symbols-outlined text-5xl">image</span>

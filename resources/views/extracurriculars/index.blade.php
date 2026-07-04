@@ -65,9 +65,9 @@
                         <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 flex-shrink-0 group">
                             @if($ekskul->image_path)
                                 @if(Str::startsWith($ekskul->image_path, 'http'))
-                                    <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                                    <img src="{{ $ekskul->image_path }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover img-zoom" loading="lazy" />
                                 @else
-                                    <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                                    <img src="{{ Storage::url($ekskul->image_path) }}" alt="{{ $ekskul->name }}" class="w-full h-full object-cover img-zoom" loading="lazy" />
                                 @endif
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100">
@@ -175,10 +175,10 @@
 
                             <!-- Description -->
                             <div>
-                                <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
+                                <h3 class="font-bold text-slate-700 mb-2 border-b border-slate-100 pb-1.5 flex items-center gap-1.5">
                                     <span class="material-symbols-outlined text-lg text-secondary">info</span>
                                     Tentang Kegiatan
-                                </h4>
+                                </h3>
                                 <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
                                     {{ $ekskul->description }}
                                 </p>

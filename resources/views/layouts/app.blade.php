@@ -11,12 +11,11 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
@@ -107,10 +106,10 @@
                         "display-lg-mobile": ["Poppins", "sans-serif"],
                         "title-lg": ["Poppins", "sans-serif"],
                         "headline-md": ["Poppins", "sans-serif"],
-                        "body-lg": ["Plus Jakarta Sans", "sans-serif"],
-                        "label-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-lg": ["Outfit", "sans-serif"],
+                        "label-md": ["Outfit", "sans-serif"],
                         "display-lg": ["Poppins", "sans-serif"],
-                        "body-md": ["Plus Jakarta Sans", "sans-serif"]
+                        "body-md": ["Outfit", "sans-serif"]
                     },
                     "fontSize": {
                         "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
@@ -139,7 +138,7 @@
 
         body {
             background-color: var(--surface);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -157,6 +156,14 @@
             background: rgba(250, 250, 245, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            border-bottom-color: rgba(15, 31, 61, 0.08);
+            box-shadow: 0 4px 30px rgba(15, 31, 61, 0.05);
+        }
+
+        /* Mobile menu open → force solid background so dropdown blends in */
+        #navbar.menu-open {
+            background: rgba(250, 250, 245, 0.97);
+            backdrop-filter: blur(20px);
             border-bottom-color: rgba(15, 31, 61, 0.08);
             box-shadow: 0 4px 30px rgba(15, 31, 61, 0.05);
         }
@@ -213,22 +220,23 @@
             position: fixed;
             top: 0; left: 0;
             height: 3px;
-            width: 0%;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: left;
             background: linear-gradient(90deg, var(--accent) 0%, var(--secondary-light) 60%, #F5D475 100%);
             z-index: 9999;
-            transition: width 0.1s linear;
+            transition: transform 0.1s linear;
             border-radius: 0 2px 2px 0;
         }
 
         /* Mobile dropdown animation */
         #mobileDropdown {
-            max-height: 0;
             overflow: hidden;
-            transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            height: 0;
             opacity: 0;
+            transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
         }
         #mobileDropdown.open {
-            max-height: 360px;
             opacity: 1;
         }
 
@@ -249,6 +257,14 @@
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
+
+        .img-zoom {
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .group:hover .img-zoom,
+        .bento-card:hover .img-zoom {
+            transform: scale(1.04);
+        }
 
         .bento-card {
             background-color: #FFFFFF;
@@ -284,10 +300,10 @@
             animation: shimmer 3s linear infinite;
         }
 
-        /* ── Buttons ─────────────────────────────── */
+        /* ── Buttons ────────────────────────── */
         .btn-primary {
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        box-shadow 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.25s ease;
         }
         .btn-primary:hover {
             box-shadow: 0 8px 24px rgba(15, 31, 61, 0.20);
@@ -378,11 +394,11 @@
                 <a href="{{ url('/') }}" class="flex items-center gap-3 group">
                     <div class="relative">
                         <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo"
-                             class="h-11 w-auto transition-transform duration-300 group-hover:scale-105"
+                             class="h-11 w-auto img-zoom"
                              src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}"
                              onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
                     </div>
-                    <div class="hidden md:flex flex-col leading-tight">
+                    <div class="flex flex-col leading-tight">
                         <span class="font-black text-base tracking-tight logo-title">SMA GIKI 3</span>
                         <span class="text-[10px] font-bold tracking-widest uppercase logo-sub">Surabaya</span>
                     </div>
@@ -482,8 +498,6 @@
         <!-- Decorative Elements -->
         <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 28px 28px;"></div>
         <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(200,147,10,0.5) 30%, rgba(196,30,58,0.4) 70%, transparent);"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-5" style="background: radial-gradient(circle, #C8930A, transparent 70%);"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full opacity-4" style="background: radial-gradient(circle, #1A3A8F, transparent 70%);"></div>
         <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-16 pb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <!-- Column 1: Brand Info -->
@@ -506,7 +520,7 @@
                             </svg>
                         </a>
                         <!-- Instagram -->
-                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-gradient-to-tr hover:from-amber-600 hover:via-pink-600 hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 hover:-translate-y-1 shadow-sm"
+                        <a class="w-10 h-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-gradient-to-tr hover:from-rose-500 hover:to-orange-500 hover:text-white hover:border-transparent transition-all duration-300 hover:-translate-y-1 shadow-sm"
                            href="{{ ($setting && $setting->instagram_url) ? $setting->instagram_url : 'https://instagram.com/smagiga' }}" 
                            target="_blank" 
                            title="Instagram">
@@ -578,7 +592,7 @@
                     <span class="hidden md:block w-1 h-1 rounded-full bg-white/20"></span>
                     <p class="text-white/25 text-xs">Dikembangkan untuk KKN Universitas</p>
                 </div>
-                <button class="flex items-center gap-2 text-white/60 hover:text-secondary text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <button class="flex items-center gap-2 text-white/60 hover:text-secondary text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5" onclick="if(window.lenis) { window.lenis.scrollTo(0); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }">
                     <span class="material-symbols-outlined text-base">arrow_upward</span>
                     Kembali ke Atas
                 </button>
@@ -599,7 +613,7 @@
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
-                if (progressBar) progressBar.style.width = progress + '%';
+                if (progressBar) progressBar.style.transform = `scaleX(${progress / 100})`;
 
                 // Navbar state
                 if (navbar) {
@@ -631,7 +645,18 @@
             if (mobileMenuBtn && mobileDropdown) {
                 mobileMenuBtn.addEventListener('click', () => {
                     menuOpen = !menuOpen;
-                    mobileDropdown.classList.toggle('open', menuOpen);
+                    if (menuOpen) {
+                        mobileDropdown.classList.add('open');
+                        var dh = Math.min(mobileDropdown.scrollHeight, window.innerHeight - 80);
+                        mobileDropdown.style.height = dh + 'px';
+                        mobileDropdown.style.overflowY = 'auto';
+                        navbar.classList.add('menu-open');
+                    } else {
+                        mobileDropdown.classList.remove('open');
+                        mobileDropdown.style.overflowY = 'hidden';
+                        mobileDropdown.style.height = '0';
+                        navbar.classList.remove('menu-open');
+                    }
                     if (mobileMenuIcon) {
                         mobileMenuIcon.innerText = menuOpen ? 'close' : 'menu';
                     }
@@ -642,6 +667,9 @@
                     link.addEventListener('click', () => {
                         menuOpen = false;
                         mobileDropdown.classList.remove('open');
+                        mobileDropdown.style.overflowY = 'hidden';
+                        mobileDropdown.style.height = '0';
+                        navbar.classList.remove('menu-open');
                         if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
                     });
                 });

@@ -7,11 +7,6 @@
         0%, 100% { transform: translateY(0) rotate(0deg); }
         50% { transform: translateY(-10px) rotate(0.4deg); }
     }
-    @keyframes gradient-shift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
     @keyframes hero-progress {
         from { width: 0%; }
         to   { width: 100%; }
@@ -23,9 +18,9 @@
     @keyframes ping-slow {
         75%, 100% { transform: scale(1.8); opacity: 0; }
     }
-    @keyframes stripe-move {
-        0%   { background-position: 0 0; }
-        100% { background-position: 40px 40px; }
+    @keyframes scroll-pulse {
+        0%, 100% { opacity: 0.45; transform: translateY(0); }
+        50% { opacity: 0.85; transform: translateY(4px); }
     }
 
     /* ── Utility Classes ──────────────────────── */
@@ -33,20 +28,21 @@
     .animate-ping-slow { animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
 
     .gradient-gold-text {
-        background: linear-gradient(135deg, #C8930A 0%, #F5D475 45%, #E5A93C 75%, #C8930A 100%);
-        background-size: 250% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: gradient-shift 5s ease infinite;
+        color: #C8930A;
+        font-weight: 900;
+        text-shadow: 0 0 20px rgba(200,147,10,0.2), 0 2px 8px rgba(200,147,10,0.1);
+    }
+
+    /* ── Image Hover Zoom ───────────────────── */
+    .img-zoom {
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .group:hover .img-zoom,
+    .bento-card:hover .img-zoom {
+        transform: scale(1.04);
     }
 
     /* ── Glass Variants ──────────────────────── */
-    .glass-card-dark {
-        background: rgba(15, 31, 61, 0.78);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
     .glass-card-light {
         background: rgba(255, 255, 255, 0.88);
         backdrop-filter: blur(18px);
@@ -81,20 +77,9 @@
         transform: translateY(-7px);
         box-shadow: 0 24px 48px -12px rgba(15, 31, 61, 0.14);
     }
-    .glow-gold-hover:hover {
-        box-shadow: 0 0 0 4px rgba(200, 147, 10, 0.2), 0 8px 24px rgba(200, 147, 10, 0.25);
-    }
-
-    /* ── Stripe Pattern (Principal Card) ──────── */
-    .diagonal-stripe {
-        background-image: repeating-linear-gradient(
-            45deg,
-            rgba(255,255,255,0.03) 0px,
-            rgba(255,255,255,0.03) 2px,
-            transparent 2px,
-            transparent 20px
-        );
-        animation: stripe-move 8s linear infinite;
+    /* ── Scroll Indicator ────────────────────── */
+    .scroll-pulse-indicator {
+        animation: scroll-pulse 2s ease-in-out infinite;
     }
 
 
@@ -228,17 +213,22 @@
         position: relative;
         overflow: hidden;
     }
-    .cta-band::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 30px,
-            rgba(200,147,10,0.03) 30px,
-            rgba(200,147,10,0.03) 60px
-        );
+
+    /* Lenis Smooth Scroll Base Styles */
+    html.lenis, html.lenis body {
+        height: auto;
+    }
+    .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+        overflow: hidden;
+    }
+    .lenis.lenis-scrolling iframe {
+        pointer-events: none;
     }
 </style>
 @endsection
@@ -317,7 +307,7 @@
                                     @if($banner->button_text)
                                         <div class="flex flex-wrap gap-6 mt-4">
                                             <a href="{{ $banner->button_url ?? '#' }}"
-                                                class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-3.5 glow-gold-hover {{ $ctaColorClasses }}">
+                                                class="btn-primary font-bold text-label-md px-10 py-4.5 rounded-full shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 tracking-wide flex items-center gap-3.5 {{ $ctaColorClasses }}">
                                                 <span>{{ $banner->button_text }}</span>
                                                 <span class="material-symbols-outlined text-xl">arrow_forward</span>
                                             </a>
@@ -349,9 +339,9 @@
             @endif
 
             <!-- Scroll Down Indicator -->
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-25 flex flex-col items-center gap-1 opacity-70 animate-bounce pointer-events-none">
-                <span class="text-xs text-white/60 uppercase tracking-widest font-semibold">Scroll</span>
-                <span class="material-symbols-outlined text-white text-base">keyboard_arrow_down</span>
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-25 flex flex-col items-center gap-1 pointer-events-none scroll-pulse-indicator">
+                <span class="text-xs text-white/50 uppercase tracking-widest font-semibold">Scroll</span>
+                <span class="material-symbols-outlined text-white/70 text-base">keyboard_arrow_down</span>
             </div>
         </section>
 
@@ -419,7 +409,6 @@
         <!-- Tentang Kami (About Us) & Visi Misi Section -->
         <section id="profil" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
-                <span class="section-label">Tentang Kami</span>
                 <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1 leading-tight">
                     {!! $setting->about_title ?? 'Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>' !!}
                 </h2>
@@ -433,7 +422,7 @@
                 <div class="lg:col-span-5 relative flex flex-col justify-center min-h-[400px] fade-up">
                     <div class="relative w-full h-[380px] rounded-3xl overflow-hidden shadow-2xl group border border-outline-variant/10">
                         <img alt="SMA GIKI 3 Surabaya Campus"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            class="w-full h-full object-cover img-zoom"
                             src="{{ (isset($setting->about_image) && !empty($setting->about_image)) ? Storage::url($setting->about_image) : 'https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E' }}"
                             loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -550,12 +539,12 @@
                             <div class="bg-white p-4.5 rounded-[2.5rem] shadow-2xl border border-outline-variant/15 relative overflow-hidden group">
                                 <div class="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative">
                                     <img alt="{{ $setting->headmaster_name ?? 'Kepala Sekolah' }} Portrait"
-                                         class="w-full h-full object-cover grayscale-[20%] transition-transform duration-700 group-hover:scale-103 group-hover:grayscale-0"
+                                         class="w-full h-full object-cover grayscale-[20%] img-zoom group-hover:grayscale-0"
                                          src="{{ (isset($setting->headmaster_photo) && !empty($setting->headmaster_photo)) ? Storage::url($setting->headmaster_photo) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB' }}"
                                          loading="lazy" />
                                 </div>
                                 <div class="mt-5 text-center">
-                                    <h4 class="font-black text-primary text-lg">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h4>
+                                    <p class="font-black text-primary text-lg">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</p>
                                     <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">{{ $setting->headmaster_title ?? 'Kepala Sekolah SMA GIKI 3 Surabaya' }}</p>
                                 </div>
                             </div>
@@ -564,7 +553,6 @@
 
                     <!-- Right: Speech Content -->
                     <div class="lg:col-span-7 flex flex-col items-start gap-6 fade-up">
-                        <span class="section-label">Sambutan Kepala Sekolah</span>
                         <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
                             {!! $setting->headmaster_speech_title ?? 'Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>' !!}
                         </h2>
@@ -598,7 +586,7 @@
                                 <div class="h-10 w-auto bg-transparent border-b border-primary/20 pb-2 mb-2 flex items-center justify-center font-serif text-primary/30 select-none">
                                     <span class="italic text-lg tracking-widest font-semibold text-secondary/60">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</span>
                                 </div>
-                                <h5 class="font-extrabold text-primary text-sm">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h5>
+                                <h3 class="font-extrabold text-primary text-sm">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h3>
                                 <p class="text-xs text-on-surface-variant/80">{{ $setting->headmaster_title ?? 'Kepala SMA GIKI 3 Surabaya' }}</p>
                             </div>
                         </div>
@@ -612,7 +600,6 @@
         <section id="akademik" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="mb-14 fade-up flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div class="max-w-xl">
-                    <span class="section-label">Program Akademik</span>
                     <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
                         Pilih Jalanmu,<br><span class="gradient-gold-text">Ukir Prestasimu</span>
                     </h2>
@@ -711,7 +698,6 @@
 
             <!-- Section Header: centered, different from left-aligned akademik -->
             <div class="mb-16 text-center max-w-2xl mx-auto fade-up">
-                <span class="section-label">Sarana &amp; Prasarana</span>
                 <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
                     Fasilitas <span class="gradient-gold-text">Kelas Dunia</span>
                 </h2>
@@ -726,7 +712,7 @@
                     ['ring' => '#C41E3A', 'bg' => '#FFF0F2', 'icon_color' => '#C41E3A'],
                     ['ring' => '#C8930A', 'bg' => '#FFF8EC', 'icon_color' => '#C8930A'],
                     ['ring' => '#1A7A5A', 'bg' => '#EDFAF4', 'icon_color' => '#1A7A5A'],
-                    ['ring' => '#6A1A8F', 'bg' => '#F5EEFF', 'icon_color' => '#6A1A8F'],
+                    ['ring' => '#0A5A7A', 'bg' => '#EAF6FF', 'icon_color' => '#0A5A7A'],
                     ['ring' => '#0A5A8F', 'bg' => '#EEF6FF', 'icon_color' => '#0A5A8F'],
                 ];
             @endphp
@@ -811,7 +797,6 @@
         <section class="max-w-[1600px] mx-auto px-margin-mobile md:px-margin-desktop my-32 overflow-hidden">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-up gap-6">
                 <div class="max-w-2xl">
-                    <span class="section-label">Pengembangan Karakter</span>
                     <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-4 mt-1">
                         Minat &amp; Bakat Ekstrakurikuler
                     </h2>
@@ -837,20 +822,22 @@
                          onclick="window.location.href='{{ route('ekstrakurikuler.index') }}'">
                         @if($ekskul->image_path)
                             @if(Str::startsWith($ekskul->image_path, 'http'))
-                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ $ekskul->image_path }}" loading="lazy" />
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover img-zoom" src="{{ $ekskul->image_path }}" loading="lazy" />
                             @else
-                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ Storage::url($ekskul->image_path) }}" loading="lazy" />
+                                <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover img-zoom" src="{{ Storage::url($ekskul->image_path) }}" loading="lazy" />
                             @endif
                         @else
-                            <div class="w-full h-full bg-gradient-to-tr from-primary to-indigo-950 flex flex-col items-center justify-center text-white">
+                            <div class="w-full h-full bg-gradient-to-tr from-primary to-[#0A1628] flex flex-col items-center justify-center text-white">
                                 <span class="material-symbols-outlined text-8xl text-secondary/30 animate-float">{{ $ekskul->icon ?: 'sports_soccer' }}</span>
                             </div>
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/45 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-500"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
                             <div class="w-14 h-1.5 bg-secondary mb-6 rounded-full"></div>
-                            <span class="font-semibold text-xs text-secondary mb-3 block tracking-widest uppercase">{{ $ekskul->category ?: 'Kegiatan Siswa' }}</span>
-                            <h3 class="font-display-lg-mobile text-2xl md:text-3xl text-white font-bold mb-4">{{ $ekskul->name }}</h3>
+                            <h3 class="font-display-lg-mobile text-2xl md:text-3xl text-white font-bold mb-4">
+                                <span class="font-semibold text-xs text-secondary mb-3 block tracking-widest uppercase font-body">{{ $ekskul->category ?: 'Kegiatan Siswa' }}</span>
+                                {{ $ekskul->name }}
+                            </h3>
                             <p class="text-sm text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 leading-relaxed mb-4">
                                 {{ $ekskul->description }}
                             </p>
@@ -873,12 +860,14 @@
                     @endphp
                     @foreach($fallbackEkskuls as $ekskul)
                         <div class="min-w-[320px] md:min-w-[460px] h-[550px] rounded-[2.5rem] overflow-hidden relative group snap-center fade-up shadow-lg cursor-pointer">
-                            <img alt="{{ $ekskul['name'] }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="{{ $ekskul['img'] }}" loading="lazy" />
+                            <img alt="{{ $ekskul['name'] }}" class="w-full h-full object-cover img-zoom" src="{{ $ekskul['img'] }}" loading="lazy" />
                             <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/45 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-10 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
                                 <div class="w-14 h-1.5 bg-secondary mb-6 rounded-full"></div>
-                                <span class="font-semibold text-xs text-secondary mb-3 block tracking-widest uppercase">{{ $ekskul['cat'] }}</span>
-                                <h3 class="font-display-lg-mobile text-2xl md:text-3xl text-white font-bold mb-4">{{ $ekskul['name'] }}</h3>
+                                <h3 class="font-display-lg-mobile text-2xl md:text-3xl text-white font-bold mb-4">
+                                    <span class="font-semibold text-xs text-secondary mb-3 block tracking-widest uppercase font-body">{{ $ekskul['cat'] }}</span>
+                                    {{ $ekskul['name'] }}
+                                </h3>
                                 <p class="text-sm text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 leading-relaxed">
                                     {{ $ekskul['desc'] }}
                                 </p>
@@ -894,7 +883,6 @@
             <section id="guru" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-up gap-6">
                     <div class="max-w-2xl">
-                        <span class="section-label">Tenaga Pendidik</span>
                         <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-4 mt-1">
                             Staf &amp; Guru Profesional
                         </h2>
@@ -925,7 +913,7 @@
                             <!-- Photo (Full Card) -->
                             <div class="absolute inset-0 w-full h-full bg-slate-100">
                                 @if($teacher->photo)
-                                    <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" loading="lazy">
+                                    <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover img-zoom" loading="lazy">
                                 @else
                                     <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex flex-col items-center justify-center text-slate-400">
                                         <span class="material-symbols-outlined text-6xl">account_circle</span>
@@ -943,9 +931,9 @@
                                 <span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
                                     STAFF & GURU
                                 </span>
-                                <h4 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
+                                <h3 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
                                     {{ $teacher->name }}
-                                </h4>
+                                </h3>
                                 <p class="text-xs text-slate-200 leading-relaxed transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150 line-clamp-3">
                                     {{ $teacher->position }}
                                 </p>
@@ -960,7 +948,7 @@
                             <div class="w-16 h-16 rounded-full bg-secondary/15 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform duration-300">
                                 <span class="material-symbols-outlined text-3xl font-bold">arrow_forward</span>
                             </div>
-                            <h4 class="font-bold text-lg text-primary mb-2">Lihat Selengkapnya</h4>
+                            <h3 class="font-bold text-lg text-primary mb-2">Lihat Selengkapnya</h3>
                             <p class="text-xs text-on-surface-variant leading-relaxed mb-6">
                                 Temukan {{ $teachers->count() - 5 }} staf & guru profesional lainnya di halaman guru & staff.
                             </p>
@@ -1052,7 +1040,7 @@
                                     @foreach($gallery->images as $index => $image)
                                         <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition"
                                              onclick="openLightbox('{{ $gallery->id }}', {{ $index }})">
-                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover img-zoom" loading="lazy">
                                             <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                                                 <span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
                                             </div>
@@ -1094,7 +1082,6 @@
             <section id="testimoni" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 fade-up">
                     <div class="max-w-2xl">
-                        <span class="section-label">Ulasan &amp; Cerita</span>
                         <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-4 mt-1">
                             Kata Alumni &amp; Orang Tua
                         </h2>
@@ -1167,7 +1154,6 @@
         <section id="berita" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-2 border-outline-variant/20 pb-6 fade-up gap-6">
                 <div>
-                    <span class="section-label">Pusat Informasi</span>
                     <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1">
                         Berita &amp; Artikel Terbaru
                     </h2>
@@ -1182,7 +1168,7 @@
             @if($articles->isEmpty())
                 <div class="bg-white rounded-3xl p-16 text-center border border-slate-100 shadow-sm flex flex-col items-center justify-center w-full fade-up">
                     <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 animate-float">newspaper</span>
-                    <h4 class="text-lg font-bold text-slate-700">Belum ada berita terbaru</h4>
+                    <h3 class="text-lg font-bold text-slate-700">Belum ada berita terbaru</h3>
                     <p class="text-slate-400 text-sm mt-1">Nantikan pembaruan informasi menarik dari kami segera.</p>
                 </div>
             @else
@@ -1194,11 +1180,11 @@
                             <div class="w-full h-80 rounded-[2.5rem] overflow-hidden mb-6 relative bg-slate-100 shadow-md">
                                 @if($featured->thumbnail)
                                     <img alt="{{ $featured->title }}"
-                                        class="w-full h-full object-cover transition-transform duration-750 group-hover:scale-105"
+                                        class="w-full h-full object-cover img-zoom"
                                         src="{{ Storage::url($featured->thumbnail) }}"
                                         loading="lazy" />
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-indigo-950 text-white/30">
+                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-[#0A1628] text-white/30">
                                         <span class="material-symbols-outlined text-5xl">image</span>
                                     </div>
                                 @endif
@@ -1246,9 +1232,9 @@
                                             <span class="text-outline-variant text-xs">•</span>
                                             <span class="text-on-surface-variant">{{ $item->published_at ? $item->published_at->format('d M Y') : $item->created_at->format('d M Y') }}</span>
                                         </div>
-                                        <h4 class="text-base md:text-lg font-bold text-primary mb-2 group-hover:text-secondary transition-colors line-clamp-2 leading-snug">
+                                        <h3 class="text-base md:text-lg font-bold text-primary mb-2 group-hover:text-secondary transition-colors line-clamp-2 leading-snug">
                                             {{ $item->title }}
-                                        </h4>
+                                        </h3>
                                         <p class="font-body-md text-on-surface-variant text-sm line-clamp-2 leading-relaxed">
                                             {{ $item->meta_description ?: strip_tags($item->content) }}
                                         </p>
@@ -1271,9 +1257,8 @@
         <div class="cta-band mx-margin-mobile md:mx-margin-desktop rounded-3xl my-24 px-8 md:px-16 py-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-primary/20 relative z-10">
             <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(200,147,10,0.5) 30%, rgba(196,30,58,0.4) 70%, transparent);"></div>
             <div class="max-w-xl text-center md:text-left">
-                <p class="text-xs font-bold tracking-[0.15em] uppercase text-secondary/80 mb-3">Tahun Ajaran 2026/2027</p>
                 <h3 class="text-2xl md:text-3xl font-black text-white leading-snug mb-3">Bergabunglah Bersama Keluarga Besar <span class="text-secondary">SMA GIKI 3</span></h3>
-                <p class="text-white/65 text-sm leading-relaxed">Wujudkan masa depan gemilang bersama kami. Pendaftaran siswa baru sudah dibuka — jangan lewatkan kesempatan emas ini.</p>
+                <p class="text-white/65 text-sm leading-relaxed mt-2">Wujudkan masa depan gemilang bersama kami. Pendaftaran siswa baru sudah dibuka — jangan lewatkan kesempatan emas ini.</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-4 flex-shrink-0">
                 <a href="#contact" class="flex items-center justify-center gap-2 bg-secondary hover:bg-amber-400 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-secondary/40 hover:-translate-y-0.5 text-sm tracking-wide">
@@ -1290,7 +1275,6 @@
         <!-- Contact Section -->
         <section id="contact" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
-                <span class="section-label">Hubungi Kami</span>
                 <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1">
                     Mulai Percakapan Baru
                 </h2>
@@ -1407,9 +1391,77 @@
 {{-- GSAP & ScrollTrigger CDN --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+{{-- Lenis Smooth Scroll CDN --}}
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            autoRaf: false, // We sync RAF with GSAP instead
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        // Update ScrollTrigger when Lenis scrolls
+        lenis.on('scroll', ScrollTrigger.update);
+
+        // Sync Lenis with GSAP ticker
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        // Disable lag smoothing in GSAP to prevent conflicts
+        gsap.ticker.lagSmoothing(0);
+
+        // Expose lenis instance globally
+        window.lenis = lenis;
+
+        // Smooth scroll for anchor links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+            
+            let href = link.getAttribute('href');
+            if (!href) return;
+            
+            let targetId = '';
+            if (href.startsWith('#')) {
+                targetId = href;
+            } else if (href.includes('#')) {
+                const url = new URL(link.href, window.location.href);
+                if (url.pathname === window.location.pathname || (url.pathname === '/' && window.location.pathname === '')) {
+                    targetId = '#' + href.split('#')[1];
+                }
+            }
+            
+            if (targetId) {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    
+                    // Close mobile dropdown menu if open
+                    const mobileDropdown = document.getElementById('mobileDropdown');
+                    const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+                    if (mobileDropdown && mobileDropdown.classList.contains('open')) {
+                        mobileDropdown.classList.remove('open');
+                        if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
+                    }
+                    
+                    lenis.scrollTo(targetEl, {
+                        offset: -80, // Fixed header height (h-20 is 80px)
+                        duration: 1.2
+                    });
+                }
+            }
+        });
+
         // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger);
 

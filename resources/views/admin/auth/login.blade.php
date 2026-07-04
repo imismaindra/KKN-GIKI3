@@ -177,7 +177,7 @@
                 </span>
                 <h1 class="text-4xl xl:text-5xl font-black text-white leading-tight gsap-reveal" id="hero-title">
                     Selamat Datang<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
+                    <span class="text-cyan-300 font-extrabold drop-shadow-[0_0_12px_rgba(34,211,238,0.4)]">
                         Kembali
                     </span>
                 </h1>
