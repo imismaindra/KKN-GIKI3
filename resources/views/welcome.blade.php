@@ -47,7 +47,7 @@
         background: rgba(255, 255, 255, 0.88);
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(15, 31, 61, 0.05);
+        border: 1px solid rgba(10, 31, 61, 0.05);
     }
 
     /* ── Scrollbar ───────────────────────────── */
@@ -75,7 +75,7 @@
     }
     .hover-lift:hover {
         transform: translateY(-7px);
-        box-shadow: 0 24px 48px -12px rgba(15, 31, 61, 0.14);
+        box-shadow: 0 24px 48px -12px rgba(10, 31, 61, 0.14);
     }
     /* ── Scroll Indicator ────────────────────── */
     .scroll-pulse-indicator {
@@ -110,7 +110,7 @@
     }
     .major-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 28px 56px -12px rgba(15, 31, 61, 0.18);
+        box-shadow: 0 28px 56px -12px rgba(10, 31, 61, 0.18);
     }
     .major-card-inner {
         position: relative;
@@ -168,7 +168,7 @@
     }
     .facility-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 24px 48px rgba(15, 31, 61, 0.12);
+        box-shadow: 0 24px 48px rgba(10, 31, 61, 0.12);
     }
     .facility-card .fc-img {
         width: 100%; height: 100%; min-height: inherit;
@@ -197,19 +197,19 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 2px 12px rgba(15, 31, 61, 0.06),
-                    0 1px 3px rgba(15, 31, 61, 0.04);
+        box-shadow: 0 2px 12px rgba(10, 31, 61, 0.06),
+                    0 1px 3px rgba(10, 31, 61, 0.04);
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                     box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .fc-light-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 20px 48px rgba(15, 31, 61, 0.10),
-                    0 4px 8px rgba(15, 31, 61, 0.06);
+        box-shadow: 0 20px 48px rgba(10, 31, 61, 0.10),
+                    0 4px 8px rgba(10, 31, 61, 0.06);
     }
 
     .cta-band {
-        background: linear-gradient(135deg, #0F1F3D 0%, #1A3366 40%, #0D1B3E 100%);
+        background: linear-gradient(135deg, #0A1F3D 0%, #1A3366 40%, #0D1B3E 100%);
         position: relative;
         overflow: hidden;
     }
@@ -250,7 +250,7 @@
                                 <div class="hidden absolute inset-0 bg-slate-900"></div>
                             @else
                                 <!-- Fallback gradient (banner default tanpa gambar) -->
-                                <div class="absolute inset-0" style="background: linear-gradient(135deg, #0F1F3D 0%, #1A3366 55%, #0D1B3E 100%);"></div>
+                                <div class="absolute inset-0" style="background: linear-gradient(135deg, #0A1F3D 0%, #1A3366 55%, #0D1B3E 100%);"></div>
                                 <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1.5px 1.5px, white 1.5px, transparent 0); background-size: 28px 28px;"></div>
                             @endif
                             <div class="absolute inset-0 bg-slate-950" style="opacity: {{ ($banner->image_path ? ($banner->overlay_opacity ?? 60) : 0) / 100 }}"></div>
@@ -347,7 +347,7 @@
 
         <!-- Floating Stats Section -->
         <section class="relative z-30 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop -mt-12 mb-24">
-            <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_20px_50px_rgba(15,31,61,0.05)] grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100 relative overflow-hidden">
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_20px_50px_rgba(10,31,61,0.05)] grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100 relative overflow-hidden">
                 <!-- Stat 1: Siswa Aktif -->
                 <div class="flex items-center gap-4 md:gap-3 lg:gap-5 justify-start md:justify-center p-8 md:py-10 md:px-4 lg:px-6 fade-up">
                     <div class="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 transition-transform duration-300 hover:scale-105">
@@ -525,7 +525,7 @@
 
         <!-- Sambutan Kepala Sekolah Section -->
         <section id="sambutan" class="relative my-32 py-24 scroll-mt-24" style="background: linear-gradient(180deg, #FAFAF5 0%, #F5F4EC 100%);">
-            <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background-image: radial-gradient(circle at 1.5px 1.5px, #0F1F3D 1.5px, transparent 0); background-size: 24px 24px;"></div>
+            <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background-image: radial-gradient(circle at 1.5px 1.5px, #0A1F3D 1.5px, transparent 0); background-size: 24px 24px;"></div>
             
             <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -614,7 +614,7 @@
                 @forelse($majors as $major)
                     @php
                         $bgGradients = [
-                            'linear-gradient(145deg, #0F1F3D 0%, #1A3A8F 100%)',
+                            'linear-gradient(145deg, #0A1F3D 0%, #1A3A8F 100%)',
                             'linear-gradient(145deg, #7A1828 0%, #C41E3A 100%)',
                             'linear-gradient(145deg, #5C3A00 0%, #C8930A 100%)',
                             'linear-gradient(145deg, #0A2844 0%, #1A5C8F 100%)',
@@ -659,7 +659,7 @@
                     <!-- Fallback Bento -->
                     @php
                         $fallbackMajors = [
-                            ['name' => 'MIPA — Matematika & Ilmu Pengetahuan Alam', 'icon' => 'science', 'desc' => 'Fokus pada pengembangan nalar saintifik melalui pendalaman ilmu matematika, fisika, kimia, dan biologi terapan berbasis laboratorium dan riset.', 'bg' => 'linear-gradient(145deg, #0F1F3D 0%, #1A3A8F 100%)', 'tag' => 'bg-blue-500/20 text-blue-300 border-blue-400/20'],
+                            ['name' => 'MIPA — Matematika & Ilmu Pengetahuan Alam', 'icon' => 'science', 'desc' => 'Fokus pada pengembangan nalar saintifik melalui pendalaman ilmu matematika, fisika, kimia, dan biologi terapan berbasis laboratorium dan riset.', 'bg' => 'linear-gradient(145deg, #0A1F3D 0%, #1A3A8F 100%)', 'tag' => 'bg-blue-500/20 text-blue-300 border-blue-400/20'],
                             ['name' => 'IPS — Ilmu Pengetahuan Sosial', 'icon' => 'public', 'desc' => 'Mempelajari interaksi kemanusiaan, ekonomi kreatif, sosiologi praktis, serta sejarah kebudayaan global.', 'bg' => 'linear-gradient(145deg, #7A1828 0%, #C41E3A 100%)', 'tag' => 'bg-red-500/20 text-red-300 border-red-400/20'],
                             ['name' => 'Bahasa & Budaya', 'icon' => 'translate', 'desc' => 'Mengasah kemampuan komunikasi multinasional, sastra kreatif, serta kajian budaya antropologi.', 'bg' => 'linear-gradient(145deg, #5C3A00 0%, #C8930A 100%)', 'tag' => 'bg-amber-500/20 text-amber-300 border-amber-400/20'],
                         ];

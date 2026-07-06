@@ -20,8 +20,8 @@
                 extend: {
                     "colors": {
                         /* === Core Brand === */
-                        /* Deep Navy — harmonis dengan biru logo */
-                        "primary": "#0F1F3D",
+                        /* Deep Navy — diambil dari warna biru logo */
+                        "primary": "#0A1F3D",
                         "on-primary": "#ffffff",
                         "primary-container": "#1A3366",
                         "on-primary-container": "#8BA8D4",
@@ -59,9 +59,9 @@
                         "surface-tint": "#4A6A9E",
 
                         /* === On-Surface === */
-                        "on-surface": "#0F1F3D",
+                        "on-surface": "#0A1F3D",
                         "on-surface-variant": "#3E4452",
-                        "on-background": "#0F1F3D",
+                        "on-background": "#0A1F3D",
 
                         /* === Neutrals === */
                         "outline": "#6E7280",
@@ -127,7 +127,7 @@
     </script>
     <style>
         :root {
-            --primary: #0F1F3D;
+            --primary: #0A1F3D;
             --secondary: #C8930A;
             --secondary-light: #E5A93C;
             --accent: #C41E3A;
@@ -156,16 +156,16 @@
             background: rgba(250, 250, 245, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom-color: rgba(15, 31, 61, 0.08);
-            box-shadow: 0 4px 30px rgba(15, 31, 61, 0.05);
+            border-bottom-color: rgba(10, 31, 61, 0.08);
+            box-shadow: 0 4px 30px rgba(10, 31, 61, 0.05);
         }
 
         /* Mobile menu open → force solid background so dropdown blends in */
         #navbar.menu-open {
             background: rgba(250, 250, 245, 0.97);
             backdrop-filter: blur(20px);
-            border-bottom-color: rgba(15, 31, 61, 0.08);
-            box-shadow: 0 4px 30px rgba(15, 31, 61, 0.05);
+            border-bottom-color: rgba(10, 31, 61, 0.08);
+            box-shadow: 0 4px 30px rgba(10, 31, 61, 0.05);
         }
 
         /* Nav Text Colors Dynamic */
@@ -196,7 +196,7 @@
         .glass-nav .logo-title, .glass-nav-transparent.scrolled .logo-title { color: var(--primary); }
         .glass-nav .logo-sub, .glass-nav-transparent.scrolled .logo-sub { color: var(--on-surface-variant); }
         .glass-nav .nav-link-item, .glass-nav-transparent.scrolled .nav-link-item { color: var(--on-surface-variant); }
-        .glass-nav .nav-link-item:hover, .glass-nav-transparent.scrolled .nav-link-item:hover { color: var(--primary); background-color: rgba(15, 31, 61, 0.05); }
+        .glass-nav .nav-link-item:hover, .glass-nav-transparent.scrolled .nav-link-item:hover { color: var(--primary); background-color: rgba(10, 31, 61, 0.05); }
         .glass-nav .nav-link-item.active-nav, .glass-nav-transparent.scrolled .nav-link-item.active-nav { color: var(--secondary); background-color: rgba(200, 147, 10, 0.08); }
         .glass-nav #mobileMenuBtn, .glass-nav-transparent.scrolled #mobileMenuBtn { color: var(--primary); }
         
@@ -212,7 +212,7 @@
             color: #ffffff;
         }
         .glass-nav .btn-hubungi:hover, .glass-nav-transparent.scrolled .btn-hubungi:hover {
-            background-color: rgba(15, 31, 61, 0.9);
+            background-color: rgba(10, 31, 61, 0.9);
         }
 
         /* Navbar progress bar */
@@ -269,14 +269,14 @@
         .bento-card {
             background-color: #FFFFFF;
             border-radius: 1.25rem;
-            border: 1px solid rgba(15, 31, 61, 0.06);
+            border: 1px solid rgba(10, 31, 61, 0.06);
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 2px 12px rgba(15, 31, 61, 0.04), 0 1px 3px rgba(15, 31, 61, 0.06);
+            box-shadow: 0 2px 12px rgba(10, 31, 61, 0.04), 0 1px 3px rgba(10, 31, 61, 0.06);
         }
         .bento-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(15, 31, 61, 0.10), 0 4px 12px rgba(15, 31, 61, 0.06);
+            box-shadow: 0 16px 48px rgba(10, 31, 61, 0.10), 0 4px 12px rgba(10, 31, 61, 0.06);
         }
 
         .glass-card {
@@ -306,7 +306,7 @@
                         box-shadow 0.25s ease;
         }
         .btn-primary:hover {
-            box-shadow: 0 8px 24px rgba(15, 31, 61, 0.20);
+            box-shadow: 0 8px 24px rgba(10, 31, 61, 0.20);
         }
         .btn-primary:active { transform: scale(0.95); }
 
@@ -334,7 +334,7 @@
         /* ── Gradient Border Card ────────────────── */
         .gradient-border {
             background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, rgba(200,147,10,0.6), rgba(196,30,58,0.3), rgba(15,31,61,0.4)) border-box;
+                        linear-gradient(135deg, rgba(200,147,10,0.6), rgba(196,30,58,0.3), rgba(10,31,61,0.4)) border-box;
             border: 1.5px solid transparent;
         }
 
@@ -494,7 +494,7 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="w-full relative overflow-hidden mt-20" style="background: linear-gradient(160deg, #0F1F3D 0%, #0A1628 60%, #0D1B3E 100%);">
+    <footer class="w-full relative overflow-hidden mt-20" style="background: linear-gradient(160deg, #0A1F3D 0%, #0A1628 60%, #0D1B3E 100%);">
         <!-- Decorative Elements -->
         <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 28px 28px;"></div>
         <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(200,147,10,0.5) 30%, rgba(196,30,58,0.4) 70%, transparent);"></div>
