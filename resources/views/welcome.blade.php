@@ -1261,7 +1261,7 @@
                 <p class="text-white/65 text-sm leading-relaxed mt-2">Wujudkan masa depan gemilang bersama kami. Pendaftaran siswa baru sudah dibuka — jangan lewatkan kesempatan emas ini.</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-                <a href="#contact" class="flex items-center justify-center gap-2 bg-secondary hover:bg-amber-400 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-secondary/40 hover:-translate-y-0.5 text-sm tracking-wide">
+                <a href="https://wa.me/6281381881594" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-secondary hover:bg-amber-400 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-secondary/40 hover:-translate-y-0.5 text-sm tracking-wide">
                     <span class="material-symbols-outlined text-base">edit_note</span>
                     Daftar Sekarang
                 </a>
@@ -1432,32 +1432,45 @@
             if (!href) return;
             
             let targetId = '';
+            const currentPath = window.location.pathname;
+            const isHomePage = currentPath === '/' || currentPath === '' || currentPath.endsWith('/index.php');
+            
             if (href.startsWith('#')) {
                 targetId = href;
+            } else if (href === '/' || href === window.location.origin + '/' || href === window.location.origin) {
+                if (isHomePage) {
+                    targetId = 'body';
+                }
             } else if (href.includes('#')) {
                 const url = new URL(link.href, window.location.href);
-                if (url.pathname === window.location.pathname || (url.pathname === '/' && window.location.pathname === '')) {
+                if (url.pathname === currentPath || (url.pathname === '/' && isHomePage)) {
                     targetId = '#' + href.split('#')[1];
                 }
             }
             
             if (targetId) {
-                const targetEl = document.querySelector(targetId);
-                if (targetEl) {
-                    e.preventDefault();
-                    
-                    // Close mobile dropdown menu if open
-                    const mobileDropdown = document.getElementById('mobileDropdown');
-                    const mobileMenuIcon = document.getElementById('mobileMenuIcon');
-                    if (mobileDropdown && mobileDropdown.classList.contains('open')) {
-                        mobileDropdown.classList.remove('open');
-                        if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
-                    }
-                    
-                    lenis.scrollTo(targetEl, {
-                        offset: -80, // Fixed header height (h-20 is 80px)
+                e.preventDefault();
+                
+                // Close mobile dropdown menu if open
+                const mobileDropdown = document.getElementById('mobileDropdown');
+                const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+                if (mobileDropdown && mobileDropdown.classList.contains('open')) {
+                    mobileDropdown.classList.remove('open');
+                    if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
+                }
+                
+                if (targetId === 'body') {
+                    lenis.scrollTo(0, {
                         duration: 1.2
                     });
+                } else {
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        lenis.scrollTo(targetEl, {
+                            offset: -80, // Fixed header height (h-20 is 80px)
+                            duration: 1.2
+                        });
+                    }
                 }
             }
         });

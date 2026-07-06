@@ -372,6 +372,16 @@
         .card-accent-red    { border-top: 3px solid #C41E3A; }
         .card-accent-blue   { border-top: 3px solid #1A3A8F; }
         .card-accent-gold   { border-top: 3px solid #C8930A; }
+
+        .nav-link-item .nav-indicator {
+            transform: translateX(-50%) scaleX(0);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+        .nav-link-item.active-nav .nav-indicator {
+            transform: translateX(-50%) scaleX(1);
+            opacity: 1;
+        }
     </style>
     @yield('styles')
 </head>
@@ -381,7 +391,7 @@
     <div id="scroll-progress"></div>
     <!-- Sticky CTA -->
     <div id="sticky-cta">
-        <a href="{{ request()->is('/') ? '#contact' : url('/#contact') }}"
+        <a href="https://wa.me/6281381881594" target="_blank" rel="noopener noreferrer"
            class="flex items-center gap-2.5 bg-accent hover:bg-red-800 text-white font-bold text-sm px-6 py-3.5 rounded-full shadow-2xl hover:shadow-accent/40 transition-all duration-300 tracking-wide">
             <span class="material-symbols-outlined text-base">edit_note</span>
             Daftar Sekarang
@@ -422,9 +432,7 @@
                        class="relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 nav-link-item
                               {{ $link['active'] ? 'active-nav' : '' }}">
                         {{ $link['label'] }}
-                        @if($link['active'])
-                             <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-secondary rounded-full"></span>
-                        @endif
+                        <span class="nav-indicator absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-secondary rounded-full"></span>
                     </a>
                 @endforeach
             </div>
@@ -635,6 +643,58 @@
                     }
                 }
             }, { passive: true });
+
+            // ── Scrollspy & Dynamic Active Navbar Links ──
+            const scrollspyHandler = () => {
+                const profilEl = document.getElementById('profil');
+                if (!profilEl) return; // Only run scrollspy on pages that have home sections (homepage)
+
+                const scrollPos = window.scrollY + 150; // offset for fixed header
+                let currentLabel = 'Beranda';
+
+                if (window.scrollY < 120) {
+                    currentLabel = 'Beranda';
+                } else {
+                    const sections = [
+                        { id: 'profil', label: 'Profil' },
+                        { id: 'sambutan', label: 'Profil' },
+                        { id: 'akademik', label: 'Akademik' },
+                        { id: 'fasilitas', label: 'Akademik' },
+                        { id: 'guru', label: 'Akademik' },
+                        { id: 'galeri', label: 'Galeri' },
+                        { id: 'testimoni', label: 'Galeri' },
+                        { id: 'berita', label: 'Galeri' },
+                        { id: 'contact', label: 'Galeri' }
+                    ];
+
+                    for (const sec of sections) {
+                        const el = document.getElementById(sec.id);
+                        if (el) {
+                            const top = el.offsetTop;
+                            if (scrollPos >= top) {
+                                currentLabel = sec.label;
+                            }
+                        }
+                    }
+                }
+
+                // Update active classes for desktop navbar link items
+                const navLinks = document.querySelectorAll('.nav-link-item');
+                navLinks.forEach(link => {
+                    const labelText = link.textContent.trim();
+                    if (['Beranda', 'Profil', 'Akademik', 'Galeri'].includes(labelText)) {
+                        if (labelText === currentLabel) {
+                            link.classList.add('active-nav');
+                        } else {
+                            link.classList.remove('active-nav');
+                        }
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', scrollspyHandler, { passive: true });
+            // Run scrollspy handler initially to set correct state
+            scrollspyHandler();
 
             // ── Mobile Menu Toggle (animated) ───────────
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
