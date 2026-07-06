@@ -1261,7 +1261,7 @@
                 <p class="text-white/65 text-sm leading-relaxed mt-2">Wujudkan masa depan gemilang bersama kami. Pendaftaran siswa baru sudah dibuka — jangan lewatkan kesempatan emas ini.</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-                <a href="#contact" class="flex items-center justify-center gap-2 bg-secondary hover:bg-amber-400 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-secondary/40 hover:-translate-y-0.5 text-sm tracking-wide">
+                <a href="https://wa.me/6281381881594" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-secondary hover:bg-amber-400 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-secondary/40 hover:-translate-y-0.5 text-sm tracking-wide">
                     <span class="material-symbols-outlined text-base">edit_note</span>
                     Daftar Sekarang
                 </a>

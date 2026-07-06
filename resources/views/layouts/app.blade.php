@@ -381,7 +381,7 @@
     <div id="scroll-progress"></div>
     <!-- Sticky CTA -->
     <div id="sticky-cta">
-        <a href="{{ request()->is('/') ? '#contact' : url('/#contact') }}"
+        <a href="https://wa.me/6281381881594" target="_blank" rel="noopener noreferrer"
            class="flex items-center gap-2.5 bg-accent hover:bg-red-800 text-white font-bold text-sm px-6 py-3.5 rounded-full shadow-2xl hover:shadow-accent/40 transition-all duration-300 tracking-wide">
             <span class="material-symbols-outlined text-base">edit_note</span>
             Daftar Sekarang
