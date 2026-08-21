@@ -60,6 +60,10 @@ Route::get('/ekstrakurikuler', [\App\Http\Controllers\ExtracurricularController:
 // Public Teacher/Staff Routes
 Route::get('/guru-staff', [\App\Http\Controllers\PublicTeacherController::class, 'index'])->name('teachers.index.public');
 
+// Public Gallery Routes
+Route::get('/galeri', [\App\Http\Controllers\PublicGalleryController::class, 'index'])->name('galleries.index.public');
+Route::get('/galeri/{id}', [\App\Http\Controllers\PublicGalleryController::class, 'show'])->name('galleries.show.public');
+
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

@@ -790,158 +790,70 @@
             </section>
         @endif
 
-        <!-- Gallery Section — Bento Layout -->
+        <!-- Gallery Section — Preview Only -->
         @if(isset($galleries) && !$galleries->isEmpty())
             <section id="galeri" class="max-w-[1400px] mx-auto px-6 md:px-12 my-28 scroll-mt-24">
-                <div class="mb-12 fade-up flex flex-col md:flex-row md:items-end justify-between gap-5">
+                <div class="mb-10 fade-up flex flex-col md:flex-row md:items-end justify-between gap-5">
                     <div style="max-width: 560px;">
                         <span style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #F59E0B; display: block; margin-bottom: 0.75rem;">Dokumentasi</span>
                         <h2 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight" style="font-family: 'Outfit', sans-serif; color: #18181B;">
                             Kegiatan Sekolah
                         </h2>
                     </div>
-                    <p class="text-sm leading-relaxed" style="color: #71717A; max-width: 400px;">
-                        Momen berharga aktivitas belajar mengajar, perayaan prestasi siswa, dan pelaksanaan program resmi sekolah.
-                    </p>
+                    <a href="{{ route('galleries.index.public') }}" class="inline-flex items-center gap-2 text-sm font-bold transition-colors group" style="color: #18181B;">
+                        Lihat Semua Galeri
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </a>
                 </div>
 
                 @php
-                    $featuredGallery = $galleries->first();
-                    $restGalleries = $galleries->skip(1);
+                    $previewGalleries = $galleries->take(3);
+                    $firstGallery = $previewGalleries->first();
                 @endphp
 
-                <!-- Bento Grid: Featured (2fr) + 2 smaller (1fr each) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-                    {{-- Featured Gallery (Large) --}}
-                    @if($featuredGallery && $featuredGallery->images->first())
-                        @php $coverImage = $featuredGallery->images->first()->image_path; @endphp
-                        <div class="md:col-span-2 group cursor-pointer bg-white rounded-[1.5rem] overflow-hidden border border-[rgba(226,232,240,0.5)] hover-lift transition-all duration-300 flex flex-col fade-up min-h-[420px]" onclick="openGalleryModal('{{ $featuredGallery->id }}')">
-                            <div class="relative flex-grow bg-slate-100 overflow-hidden">
-                                <img src="{{ Storage::url($coverImage) }}" alt="{{ $featuredGallery->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="800" height="400">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#18181B]/80 via-[#18181B]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
-                                <div class="absolute bottom-5 left-5 right-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-400 opacity-0 group-hover:opacity-100">
-                                    <span class="text-white font-bold text-sm flex items-center gap-2 bg-[#F59E0B] px-4 py-2 rounded-full w-fit">
-                                        <span class="material-symbols-outlined text-sm">visibility</span>
-                                        Lihat Galeri
-                                    </span>
-                                </div>
-                                <div class="absolute top-4 right-4 bg-[#18181B]/70 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-xs">photo_library</span>
-                                    {{ $featuredGallery->images->count() }} Foto
-                                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    {{-- Featured: First Gallery (Large, Left) --}}
+                    @if($firstGallery && $firstGallery->images->first())
+                        @php $coverImage = $firstGallery->images->first()->image_path; @endphp
+                        <div class="lg:col-span-7 group cursor-pointer rounded-[1.5rem] overflow-hidden relative fade-up min-h-[420px]" onclick="window.location.href='{{ route('galleries.show.public', $firstGallery->id) }}'">
+                            <img src="{{ Storage::url($coverImage) }}" alt="{{ $firstGallery->title }}"
+                                 class="absolute inset-0 w-full h-full object-cover img-zoom" loading="lazy" width="800" height="420">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400" style="background: linear-gradient(to top, rgba(24,24,27,0.85), rgba(24,24,27,0.2), transparent);"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-7 transform translate-y-3 group-hover:translate-y-0 transition-transform duration-400 opacity-0 group-hover:opacity-100">
+                                <h3 class="font-bold text-2xl text-white mb-2 line-clamp-1">{{ $firstGallery->title }}</h3>
+                                <p class="text-sm text-white/70 line-clamp-2 leading-relaxed mb-4">{{ $firstGallery->description ?? 'Dokumentasi kegiatan resmi.' }}</p>
+                                <span class="text-white font-bold text-xs flex items-center gap-1.5 bg-[#F59E0B] px-4 py-2 rounded-full w-fit">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                    Lihat Galeri
+                                </span>
                             </div>
-                            <div class="p-6">
-                                <h4 class="font-bold text-xl mb-1.5 line-clamp-1 group-hover:text-[#F59E0B] transition-colors duration-200" style="color: #18181B;">{{ $featuredGallery->title }}</h4>
-                                <p class="text-sm line-clamp-2 leading-relaxed" style="color: #71717A;">{{ $featuredGallery->description ?? 'Dokumentasi kegiatan resmi.' }}</p>
+                            <div class="absolute top-4 right-4 bg-[#18181B]/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-xs">photo_library</span>
+                                {{ $firstGallery->images->count() }} Foto
                             </div>
                         </div>
                     @endif
 
-                    {{-- 2 Smaller Galleries --}}
-                    @foreach($restGalleries->take(2) as $gallery)
-                        @php $coverImage = $gallery->images->first()?->image_path; @endphp
-                        @if($coverImage)
-                            <div class="group cursor-pointer bg-white rounded-[1.5rem] overflow-hidden border border-[rgba(226,232,240,0.5)] hover-lift transition-all duration-300 flex flex-col fade-up min-h-[420px]" onclick="openGalleryModal('{{ $gallery->id }}')">
-                                <div class="relative flex-grow bg-slate-100 overflow-hidden">
-                                    <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="400" height="300">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#18181B]/80 via-[#18181B]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
-                                    <div class="absolute bottom-5 left-5 right-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-400 opacity-0 group-hover:opacity-100">
-                                        <span class="text-white font-bold text-sm flex items-center gap-2 bg-[#F59E0B] px-4 py-2 rounded-full w-fit">
-                                            <span class="material-symbols-outlined text-sm">visibility</span>
-                                            Lihat Galeri
-                                        </span>
-                                    </div>
-                                    <div class="absolute top-4 right-4 bg-[#18181B]/70 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                                        <span class="material-symbols-outlined text-xs">photo_library</span>
-                                        {{ $gallery->images->count() }} Foto
-                                    </div>
-                                </div>
-                                <div class="p-5">
-                                    <h4 class="font-bold text-base mb-1 line-clamp-1 group-hover:text-[#F59E0B] transition-colors duration-200" style="color: #18181B;">{{ $gallery->title }}</h4>
-                                    <p class="text-xs line-clamp-2 leading-relaxed" style="color: #71717A;">{{ $gallery->description ?? 'Dokumentasi kegiatan resmi.' }}</p>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-
-                {{-- Remaining Galleries Row (if more than 3) --}}
-                @if($restGalleries->count() > 2)
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        @foreach($restGalleries->skip(2) as $gallery)
+                    {{-- 2 Smaller: Right Column --}}
+                    <div class="lg:col-span-5 flex flex-col gap-5">
+                        @foreach($previewGalleries->skip(1) as $gallery)
                             @php $coverImage = $gallery->images->first()?->image_path; @endphp
                             @if($coverImage)
-                                <div class="group cursor-pointer bg-white rounded-[1.25rem] overflow-hidden border border-[rgba(226,232,240,0.5)] hover-lift transition-all duration-300 flex flex-col fade-up" onclick="openGalleryModal('{{ $gallery->id }}')">
-                                    <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
-                                        <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" width="400" height="300">
-                                        <div class="absolute inset-0 bg-[#18181B]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                            <span class="text-white font-bold text-xs flex items-center gap-1.5 bg-[#F59E0B]/90 px-4 py-2 rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                                <span class="material-symbols-outlined text-sm">visibility</span>
-                                                Lihat Foto
-                                            </span>
-                                        </div>
-                                        <div class="absolute top-3 right-3 bg-[#18181B]/70 backdrop-blur-md text-white text-[9px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-                                            <span class="material-symbols-outlined text-[10px]">photo_library</span>
-                                            {{ $gallery->images->count() }}
-                                        </div>
+                                <div class="group cursor-pointer rounded-[1.25rem] overflow-hidden relative fade-up flex-1 min-h-[200px]" onclick="window.location.href='{{ route('galleries.show.public', $gallery->id) }}'">
+                                    <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}"
+                                         class="absolute inset-0 w-full h-full object-cover img-zoom" loading="lazy" width="400" height="200">
+                                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400" style="background: linear-gradient(to top, rgba(24,24,27,0.85), rgba(24,24,27,0.2), transparent);"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-400 opacity-0 group-hover:opacity-100">
+                                        <h3 class="font-bold text-lg text-white mb-1 line-clamp-1">{{ $gallery->title }}</h3>
+                                        <p class="text-xs text-white/70 line-clamp-1">{{ $gallery->description ?? 'Dokumentasi kegiatan.' }}</p>
                                     </div>
-                                    <div class="p-4">
-                                        <h4 class="font-bold text-sm mb-1 line-clamp-1 group-hover:text-[#F59E0B] transition-colors duration-200" style="color: #18181B;">{{ $gallery->title }}</h4>
-                                        <p class="text-xs line-clamp-1" style="color: #71717A;">{{ $gallery->description ?? 'Dokumentasi kegiatan.' }}</p>
+                                    <div class="absolute top-3 right-3 bg-[#18181B]/60 backdrop-blur-md text-white text-[9px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-[10px]">photo_library</span>
+                                        {{ $gallery->images->count() }} Foto
                                     </div>
                                 </div>
                             @endif
                         @endforeach
-                    </div>
-                @endif
-
-                @foreach($galleries as $gallery)
-                    <div id="gallery-modal-{{ $gallery->id }}" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-6 bg-[#18181B]/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
-                        <div class="bg-white rounded-[1.5rem] w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-transform duration-300">
-                            <div class="px-6 py-5 border-b border-[rgba(226,232,240,0.5)] flex justify-between items-center bg-slate-50">
-                                <div>
-                                    <h3 class="font-bold text-xl" style="color: #18181B;">{{ $gallery->title }}</h3>
-                                    <p class="text-xs mt-1" style="color: #71717A;">Dokumentasi Kegiatan &bull; {{ $gallery->images->count() }} Foto</p>
-                                </div>
-                                <button onclick="closeGalleryModal('{{ $gallery->id }}')" class="w-10 h-10 rounded-full hover:bg-slate-200 flex items-center justify-center transition focus:outline-none" style="color: #18181B;">
-                                    <span class="material-symbols-outlined">close</span>
-                                </button>
-                            </div>
-                            <div class="p-6 md:p-8 overflow-y-auto flex-grow">
-                                @if($gallery->description)
-                                    <p class="text-sm md:text-base mb-6 leading-relaxed border-l-4 border-[#F59E0B] pl-4" style="color: #71717A;">{{ $gallery->description }}</p>
-                                @endif
-                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-                                    @foreach($gallery->images as $index => $image)
-                                        <div class="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition" onclick="openLightbox('{{ $gallery->id }}', {{ $index }})">
-                                            <img src="{{ Storage::url($image->image_path) }}" class="w-full h-full object-cover img-zoom" loading="lazy">
-                                            <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                                                <span class="material-symbols-outlined text-white text-3xl">zoom_in</span>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-                <div id="gallery-lightbox" class="fixed inset-0 z-[110] hidden flex flex-col items-center justify-center bg-black/95 transition-opacity duration-300 opacity-0 select-none">
-                    <button onclick="closeLightbox()" class="absolute top-6 right-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md focus:outline-none">
-                        <span class="material-symbols-outlined text-2xl">close</span>
-                    </button>
-                    <button onclick="prevLightboxImage()" class="absolute left-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md focus:outline-none">
-                        <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
-                    </button>
-                    <button onclick="nextLightboxImage()" class="absolute right-6 z-[120] w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition backdrop-blur-md focus:outline-none">
-                        <span class="material-symbols-outlined text-2xl">arrow_forward_ios</span>
-                    </button>
-                    <div class="w-full max-w-4xl max-h-[80vh] px-4 flex items-center justify-center">
-                        <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-transform duration-300 transform scale-95">
-                    </div>
-                    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-center text-white px-6 py-3 bg-white/5 border border-white/10 rounded-full backdrop-blur-md max-w-md w-[90%]">
-                        <p id="lightbox-caption" class="text-sm font-semibold truncate"></p>
-                        <p id="lightbox-counter" class="text-[10px] text-white/60 mt-0.5 font-bold uppercase tracking-wider"></p>
                     </div>
                 </div>
             </section>

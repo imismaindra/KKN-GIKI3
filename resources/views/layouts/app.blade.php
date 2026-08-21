@@ -50,7 +50,7 @@
                         ['href' => url('/'), 'label' => 'Beranda', 'active' => request()->is('/')],
                         ['href' => request()->is('/') ? '#profil' : url('/#profil'), 'label' => 'Profil', 'active' => false],
                         ['href' => request()->is('/') ? '#akademik' : url('/#akademik'), 'label' => 'Akademik', 'active' => false],
-                        ['href' => request()->is('/') ? '#galeri' : url('/#galeri'), 'label' => 'Galeri', 'active' => false],
+                        ['href' => route('galleries.index.public'), 'label' => 'Galeri', 'active' => request()->routeIs('galleries.*')],
                         ['href' => route('articles.index'), 'label' => 'Berita', 'active' => request()->routeIs('articles.*')],
                         ['href' => route('extracurriculars.index.public'), 'label' => 'Ekskul', 'active' => request()->routeIs('extracurriculars.index.*')],
                         ['href' => route('teachers.index.public'), 'label' => 'Guru & Staff', 'active' => request()->routeIs('teachers.index.public')],
@@ -101,7 +101,7 @@
             <a class="flex items-center gap-3 font-semibold text-on-surface-variant hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ url('/#akademik') }}">
                 <span class="material-symbols-outlined text-lg">menu_book</span> Akademik
             </a>
-            <a class="flex items-center gap-3 font-semibold text-on-surface-variant hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ request()->is('/') ? '#galeri' : url('/#galeri') }}">
+            <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('galleries.*') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('galleries.index.public') }}">
                 <span class="material-symbols-outlined text-lg">photo_library</span> Galeri
             </a>
             <a class="flex items-center gap-3 font-semibold text-on-surface-variant hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('articles.index') }}">
