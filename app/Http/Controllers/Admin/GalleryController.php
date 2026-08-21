@@ -7,14 +7,20 @@ use App\Http\Requests\Admin\StoreGalleryRequest;
 use App\Http\Requests\Admin\UpdateGalleryRequest;
 use App\Models\Gallery;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $galleries = Gallery::with('images')->latest()->paginate(15);
+        $galleries = Gallery::with('images')
+            ->when($request->search, fn ($q, $s) => $q->where('title', 'like', "%{$s}%"))
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
         return view('admin.galleries.index', compact('galleries'));
     }
 
