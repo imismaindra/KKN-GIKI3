@@ -16,7 +16,7 @@ class ExtracurricularController extends Controller
 {
     public function index(): View
     {
-        $extracurriculars = Extracurricular::latest()->get();
+        $extracurriculars = Extracurricular::latest()->paginate(15);
         return view('admin.extracurriculars.index', compact('extracurriculars'));
     }
 
@@ -28,10 +28,20 @@ class ExtracurricularController extends Controller
     public function store(StoreExtracurricularRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $slug = Str::slug($data['name']);
+        $originalSlug = $slug;
+        $counter = 1;
+        while (Extracurricular::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+        $data['slug'] = $slug;
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'extracurriculars', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'extracurriculars', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         }
 
         Extracurricular::create($data);
@@ -47,13 +57,23 @@ class ExtracurricularController extends Controller
     public function update(UpdateExtracurricularRequest $request, Extracurricular $extracurricular): RedirectResponse
     {
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $slug = Str::slug($data['name']);
+        $originalSlug = $slug;
+        $counter = 1;
+        while (Extracurricular::where('slug', $slug)->where('id', '!=', $extracurricular->id)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+        $data['slug'] = $slug;
 
         if ($request->hasFile('image_path')) {
             if ($extracurricular->image_path) {
                 Storage::disk('public')->delete($extracurricular->image_path);
             }
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'extracurriculars', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'extracurriculars', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         } else {
             unset($data['image_path']);
         }

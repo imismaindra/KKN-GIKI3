@@ -126,13 +126,22 @@
                         </span>
                         <span class="text-sm">Pesan Masuk</span>
                     </a>
+
+                    <!-- Profil Akun -->
+                    <a href="{{ route('admin.profile.edit') }}" 
+                       class="flex items-center space-x-3.5 px-3 py-1.5 rounded-2xl transition duration-150 {{ request()->routeIs('admin.profile.edit') ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700 font-medium group' }}">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-2xl transition duration-150 {{ request()->routeIs('admin.profile.edit') ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/10' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600' }}">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </span>
+                        <span class="text-sm">Profil Akun</span>
+                    </a>
                 </nav>
 
                 <!-- Profile and Logout Widget -->
                 <div class="border-t border-slate-100 pt-4 flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="relative w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-sm">
-                            {{ substr(auth()->user()->name, 0, 2) }}
+                            {{ substr(auth()->user()->name ?? '', 0, 2) }}
                             <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-pink-500 border-2 border-white rounded-full"></span>
                         </div>
                         <div class="truncate max-w-[110px]">
@@ -155,7 +164,7 @@
             <!-- Header bar -->
             <header class="h-20 bg-white border-b border-slate-50 flex items-center justify-between px-8">
                 <div>
-                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">@yield('page_title')</h2>
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">@yield('page_title', 'Dashboard')</h2>
                 </div>
                 <!-- Action / Shortcuts widget -->
                 <div class="flex items-center space-x-4">
@@ -163,7 +172,7 @@
                     <div class="hidden sm:flex items-center space-x-2">
                         <span class="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 rounded-full transition cursor-pointer relative">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                            @if(\App\Models\ContactMessage::where('is_read', false)->count() > 0)
+                            @if($unreadMessagesCount > 0)
                                 <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-indigo-500 rounded-full border border-white"></span>
                             @endif
                         </span>

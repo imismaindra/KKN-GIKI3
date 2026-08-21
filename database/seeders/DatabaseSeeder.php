@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin Sekolah',
                 'password' => Hash::make('password'),
+                'is_admin' => true,
             ]
         );
 
@@ -52,6 +53,10 @@ class DatabaseSeeder extends Seeder
                 'maps_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5902137818302!2d112.773000574839!3d-7.287376992720005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa47d22c3291%3A0x92b8e0d77b387367!2sSMP%20%26%20SMA%20Giki%203!5e0!3m2!1sid!2sid!4v1782139832214!5m2!1sid!2sid',
                 'erapor_url' => 'http://36.66.203.29:8239/',
                 'ujian_url' => 'http://36.66.203.29:4610/login/index.php',
+                'stat_students' => 1000,
+                'stat_teachers' => 80,
+                'stat_achievements' => 50,
+                'stat_years' => 25,
             ]
         );
 

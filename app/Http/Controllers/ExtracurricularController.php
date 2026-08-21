@@ -13,6 +13,7 @@ class ExtracurricularController extends Controller
     public function index(): View
     {
         $extracurriculars = Extracurricular::orderBy('name')->get();
-        return view('extracurriculars.index', compact('extracurriculars'));
+        $categories = Extracurricular::distinct()->pluck('category')->filter()->values()->toArray();
+        return view('extracurriculars.index', compact('extracurriculars', 'categories'));
     }
 }

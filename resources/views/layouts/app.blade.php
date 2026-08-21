@@ -8,381 +8,11 @@
     <title>@yield('title', 'SMA GIKI 3 Surabaya')</title>
     @yield('meta')
     
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    "colors": {
-                        /* === Core Brand === */
-                        /* Deep Navy — diambil dari warna biru logo */
-                        "primary": "#0A1F3D",
-                        "on-primary": "#ffffff",
-                        "primary-container": "#1A3366",
-                        "on-primary-container": "#8BA8D4",
-                        "primary-fixed": "#D0DCEE",
-                        "primary-fixed-dim": "#9BB5D4",
-                        "on-primary-fixed": "#071528",
-                        "on-primary-fixed-variant": "#2C4872",
-                        "inverse-primary": "#9BB5D4",
-
-                        /* Amber Gold — selaras kuning logo */
-                        "secondary": "#C8930A",
-                        "on-secondary": "#ffffff",
-                        "secondary-container": "#E5A93C",
-                        "on-secondary-container": "#ffffff",
-                        "secondary-fixed": "#FCEEC4",
-                        "secondary-fixed-dim": "#F5D475",
-                        "on-secondary-fixed": "#3D2600",
-                        "on-secondary-fixed-variant": "#7A5200",
-
-                        /* Crimson Accent — selaras merah logo, dipakai sparingly */
-                        "accent": "#C41E3A",
-                        "accent-light": "#FCEAED",
-                        "accent-muted": "#E57B8A",
-
-                        /* === Surface Tokens === */
-                        "surface": "#FAFAF5",
-                        "surface-bright": "#FFFFFF",
-                        "surface-dim": "#DFE0D8",
-                        "surface-variant": "#E4E7EF",
-                        "surface-container-lowest": "#FFFFFF",
-                        "surface-container-low": "#F3F4EF",
-                        "surface-container": "#ECEDF0",
-                        "surface-container-high": "#E4E5E8",
-                        "surface-container-highest": "#DCDDE0",
-                        "surface-tint": "#4A6A9E",
-
-                        /* === On-Surface === */
-                        "on-surface": "#0A1F3D",
-                        "on-surface-variant": "#3E4452",
-                        "on-background": "#0A1F3D",
-
-                        /* === Neutrals === */
-                        "outline": "#6E7280",
-                        "outline-variant": "#C2C4CF",
-                        "inverse-surface": "#252C38",
-                        "inverse-on-surface": "#ECF0F7",
-
-                        /* === Tertiary / Misc === */
-                        "tertiary": "#1A1C1A",
-                        "tertiary-fixed": "#E3E2E0",
-                        "tertiary-fixed-dim": "#C7C6C4",
-                        "on-tertiary": "#ffffff",
-                        "on-tertiary-container": "#8A8A88",
-                        "on-tertiary-fixed": "#1a1c1a",
-                        "on-tertiary-fixed-variant": "#464745",
-                        "tertiary-container": "#212321",
-
-                        /* === Error === */
-                        "error": "#BA1A1A",
-                        "on-error": "#ffffff",
-                        "error-container": "#FFDAD6",
-                        "on-error-container": "#93000A",
-
-                        /* === Background === */
-                        "background": "#FAFAF5"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "margin-mobile": "16px",
-                        "container-max": "1280px",
-                        "unit": "8px",
-                        "margin-desktop": "48px",
-                        "gutter": "24px"
-                    },
-                    "fontFamily": {
-                        "headline-sm": ["Poppins", "sans-serif"],
-                        "display-lg-mobile": ["Poppins", "sans-serif"],
-                        "title-lg": ["Poppins", "sans-serif"],
-                        "headline-md": ["Poppins", "sans-serif"],
-                        "body-lg": ["Outfit", "sans-serif"],
-                        "label-md": ["Outfit", "sans-serif"],
-                        "display-lg": ["Poppins", "sans-serif"],
-                        "body-md": ["Outfit", "sans-serif"]
-                    },
-                    "fontSize": {
-                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
-                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
-                    }
-                },
-            },
-        }
-    </script>
-    <style>
-        :root {
-            --primary: #0A1F3D;
-            --secondary: #C8930A;
-            --secondary-light: #E5A93C;
-            --accent: #C41E3A;
-            --surface: #FAFAF5;
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            background-color: var(--surface);
-            font-family: 'Outfit', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── Navbar ─────────────────────────────── */
-        .glass-nav-transparent {
-            background: transparent;
-            border-bottom-color: transparent;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
-        }
-        
-        .glass-nav-transparent.scrolled, .glass-nav {
-            background: rgba(250, 250, 245, 0.97);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom-color: rgba(10, 31, 61, 0.08);
-            box-shadow: 0 4px 30px rgba(10, 31, 61, 0.05);
-        }
-
-        /* Mobile menu open → force solid background so dropdown blends in */
-        #navbar.menu-open {
-            background: rgba(250, 250, 245, 0.97);
-            backdrop-filter: blur(20px);
-            border-bottom-color: rgba(10, 31, 61, 0.08);
-            box-shadow: 0 4px 30px rgba(10, 31, 61, 0.05);
-        }
-
-        /* Nav Text Colors Dynamic */
-        /* Transparent State */
-        .glass-nav-transparent:not(.scrolled) .logo-title { color: #ffffff; }
-        .glass-nav-transparent:not(.scrolled) .logo-sub { color: rgba(255, 255, 255, 0.7); }
-        .glass-nav-transparent:not(.scrolled) .nav-link-item { color: rgba(255, 255, 255, 0.85); }
-        .glass-nav-transparent:not(.scrolled) .nav-link-item:hover { color: #ffffff; background-color: rgba(255, 255, 255, 0.1); }
-        .glass-nav-transparent:not(.scrolled) .nav-link-item.active-nav { color: var(--secondary); background-color: rgba(200, 147, 10, 0.15); }
-        .glass-nav-transparent:not(.scrolled) #mobileMenuBtn { color: #ffffff; }
-        
-        .glass-nav-transparent:not(.scrolled) .btn-erapor {
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-        }
-        .glass-nav-transparent:not(.scrolled) .btn-erapor:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .glass-nav-transparent:not(.scrolled) .btn-hubungi {
-            background-color: #ffffff;
-            color: var(--primary);
-        }
-        .glass-nav-transparent:not(.scrolled) .btn-hubungi:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Scrolled & Non-Homepage State */
-        .glass-nav .logo-title, .glass-nav-transparent.scrolled .logo-title { color: var(--primary); }
-        .glass-nav .logo-sub, .glass-nav-transparent.scrolled .logo-sub { color: var(--on-surface-variant); }
-        .glass-nav .nav-link-item, .glass-nav-transparent.scrolled .nav-link-item { color: var(--on-surface-variant); }
-        .glass-nav .nav-link-item:hover, .glass-nav-transparent.scrolled .nav-link-item:hover { color: var(--primary); background-color: rgba(10, 31, 61, 0.05); }
-        .glass-nav .nav-link-item.active-nav, .glass-nav-transparent.scrolled .nav-link-item.active-nav { color: var(--secondary); background-color: rgba(200, 147, 10, 0.08); }
-        .glass-nav #mobileMenuBtn, .glass-nav-transparent.scrolled #mobileMenuBtn { color: var(--primary); }
-        
-        .glass-nav .btn-erapor, .glass-nav-transparent.scrolled .btn-erapor {
-            border-color: rgba(200, 147, 10, 0.4);
-            color: var(--secondary);
-        }
-        .glass-nav .btn-erapor:hover, .glass-nav-transparent.scrolled .btn-erapor:hover {
-            background-color: rgba(200, 147, 10, 0.1);
-        }
-        .glass-nav .btn-hubungi, .glass-nav-transparent.scrolled .btn-hubungi {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-        .glass-nav .btn-hubungi:hover, .glass-nav-transparent.scrolled .btn-hubungi:hover {
-            background-color: rgba(10, 31, 61, 0.9);
-        }
-
-        /* Navbar progress bar */
-        #scroll-progress {
-            position: fixed;
-            top: 0; left: 0;
-            height: 3px;
-            width: 100%;
-            transform: scaleX(0);
-            transform-origin: left;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--secondary-light) 60%, #F5D475 100%);
-            z-index: 9999;
-            transition: transform 0.1s linear;
-            border-radius: 0 2px 2px 0;
-        }
-
-        /* Mobile dropdown animation */
-        #mobileDropdown {
-            overflow: hidden;
-            height: 0;
-            opacity: 0;
-            transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-        }
-        #mobileDropdown.open {
-            opacity: 1;
-        }
-
-        /* ── Cards ───────────────────────────────── */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .fade-up-delay-1 { transition-delay: 100ms; }
-        .fade-up-delay-2 { transition-delay: 200ms; }
-        .fade-up-delay-3 { transition-delay: 300ms; }
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        .img-zoom {
-            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .group:hover .img-zoom,
-        .bento-card:hover .img-zoom {
-            transform: scale(1.04);
-        }
-
-        .bento-card {
-            background-color: #FFFFFF;
-            border-radius: 1.25rem;
-            border: 1px solid rgba(10, 31, 61, 0.06);
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 2px 12px rgba(10, 31, 61, 0.04), 0 1px 3px rgba(10, 31, 61, 0.06);
-        }
-        .bento-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(10, 31, 61, 0.10), 0 4px 12px rgba(10, 31, 61, 0.06);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.55);
-        }
-
-        /* Shimmer utility */
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        .shimmer-gold {
-            background: linear-gradient(90deg,
-                rgba(200, 147, 10, 0) 0%,
-                rgba(200, 147, 10, 0.12) 50%,
-                rgba(200, 147, 10, 0) 100%);
-            background-size: 200% auto;
-            animation: shimmer 3s linear infinite;
-        }
-
-        /* ── Buttons ────────────────────────── */
-        .btn-primary {
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.25s ease;
-        }
-        .btn-primary:hover {
-            box-shadow: 0 8px 24px rgba(10, 31, 61, 0.20);
-        }
-        .btn-primary:active { transform: scale(0.95); }
-
-        /* ── Sticky CTA ──────────────────────────── */
-        #sticky-cta {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 80;
-            opacity: 0;
-            transform: translateY(16px) scale(0.92);
-            pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #sticky-cta.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        /* ── Section Divider Wave ────────────────── */
-        .wave-divider svg { display: block; }
-
-        /* ── Gradient Border Card ────────────────── */
-        .gradient-border {
-            background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, rgba(200,147,10,0.6), rgba(196,30,58,0.3), rgba(10,31,61,0.4)) border-box;
-            border: 1.5px solid transparent;
-        }
-
-        @property --num {
-            syntax: "<integer>";
-            initial-value: 0;
-            inherits: false;
-        }
-
-        /* Section label accent */
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--secondary);
-            padding: 4px 14px 4px 10px;
-            border-radius: 99px;
-            background: rgba(200, 147, 10, 0.10);
-            border: 1px solid rgba(200, 147, 10, 0.20);
-            margin-bottom: 16px;
-        }
-        .section-label::before {
-            content: '';
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--secondary);
-            display: inline-block;
-        }
-
-        /* Accent stripe for cards */
-        .card-accent-red    { border-top: 3px solid #C41E3A; }
-        .card-accent-blue   { border-top: 3px solid #1A3A8F; }
-        .card-accent-gold   { border-top: 3px solid #C8930A; }
-
-        .nav-link-item .nav-indicator {
-            transform: translateX(-50%) scaleX(0);
-            opacity: 0;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-        }
-        .nav-link-item.active-nav .nav-indicator {
-            transform: translateX(-50%) scaleX(1);
-            opacity: 1;
-        }
-    </style>
     @yield('styles')
 </head>
 
@@ -401,15 +31,14 @@
     <nav class="fixed top-0 w-full z-50 transition-all duration-400 border-b border-outline-variant/10 {{ request()->is('/') ? 'glass-nav-transparent' : 'glass-nav scrolled' }}" id="navbar">
         <div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
             <div class="flex items-center gap-4">
-                <a href="{{ url('/') }}" class="flex items-center gap-3 group">
+<a href="{{ url('/') }}" class="flex items-center gap-3 group">
                     <div class="relative">
-                        <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo"
+                        <img alt="{{ $setting?->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo"
                              class="h-11 w-auto img-zoom"
-                             src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}"
-                             onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
-                    </div>
-                    <div class="flex flex-col leading-tight">
-                        <span class="font-black text-base tracking-tight logo-title">SMA GIKI 3</span>
+                             src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}" />
+                      </div>
+                     <div class="flex flex-col leading-tight">
+                         <span class="font-black text-base tracking-tight logo-title">SMA GIKI 3</span>
                         <span class="text-[10px] font-bold tracking-widest uppercase logo-sub">Surabaya</span>
                     </div>
                 </a>
@@ -423,7 +52,7 @@
                         ['href' => request()->is('/') ? '#akademik' : url('/#akademik'), 'label' => 'Akademik', 'active' => false],
                         ['href' => request()->is('/') ? '#galeri' : url('/#galeri'), 'label' => 'Galeri', 'active' => false],
                         ['href' => route('articles.index'), 'label' => 'Berita', 'active' => request()->routeIs('articles.*')],
-                        ['href' => route('ekstrakurikuler.index'), 'label' => 'Ekskul', 'active' => request()->routeIs('ekstrakurikuler.*')],
+                        ['href' => route('extracurriculars.index.public'), 'label' => 'Ekskul', 'active' => request()->routeIs('extracurriculars.index.*')],
                         ['href' => route('teachers.index.public'), 'label' => 'Guru & Staff', 'active' => request()->routeIs('teachers.index.public')],
                     ];
                 @endphp
@@ -478,7 +107,7 @@
             <a class="flex items-center gap-3 font-semibold text-on-surface-variant hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('articles.index') }}">
                 <span class="material-symbols-outlined text-lg">newspaper</span> Berita & Artikel
             </a>
-            <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('ekstrakurikuler.*') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('ekstrakurikuler.index') }}">
+            <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('extracurriculars.index.*') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('extracurriculars.index.public') }}">
                 <span class="material-symbols-outlined text-lg">sports</span> Ekstrakurikuler
             </a>
             <a class="flex items-center gap-3 font-semibold {{ request()->routeIs('teachers.index.public') ? 'text-secondary' : 'text-on-surface-variant' }} hover:text-secondary hover:bg-secondary/5 px-3 py-2.5 rounded-xl transition" href="{{ route('teachers.index.public') }}">
@@ -511,8 +140,8 @@
                 <!-- Column 1: Brand Info -->
                 <div class="flex flex-col gap-6">
                     <div class="flex items-center gap-3">
-                        <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo" class="h-12 w-auto brightness-0 invert" src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}" onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuAqpOf4qKo00Ysfs_kCWG7fEdWOlEicpvIPopKs1JuAxe7nv2OqYrgsT3NQM1QZCp03sMGGXIpbkWyxJSnxzTzJPUQdkvuKyQijzIhdiWaBWkA2UgTuyDe7K4GO2-nzbxcLZfFWY_nOoBGLqV_kaShHAYwqqPp8p8lgYXTmoURQbJ7Sn2oT7cdsAEU95HPop-ZqU8EAPgnKYwSsejw1zZhUpbS34yfLYKmn41mLHJK4hzcK-SQC_nYUOKoZ_gUKcV-E_j-5AUvt-OMz';" />
-                        <span class="font-bold text-headline-sm text-on-primary tracking-tight">{{ $setting->school_name ?? 'SMA GIKI 3 SURABAYA' }}</span>
+                        <img alt="{{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }} Logo" class="h-12 w-auto" src="{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : asset('smagiki3.webp') }}" />
+                        <span class="font-bold text-headline-sm text-on-primary tracking-tight">{{ $setting?->school_name ?? 'SMA GIKI 3 SURABAYA' }}</span>
                     </div>
                     <p class="font-body-md text-on-primary/70 leading-relaxed">
                         Membentuk karakter unggul dan mengukir prestasi gemilang melalui pendidikan holistik berbasis nilai-nilai luhur bangsa.
@@ -555,7 +184,7 @@
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ url('/#profil') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Visi &amp; Misi</a></li>
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ url('/#fasilitas') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Fasilitas</a></li>
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('articles.index') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Berita & Artikel</a></li>
-                        <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('ekstrakurikuler.index') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Ekstrakurikuler</a></li>
+                        <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('extracurriculars.index.public') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Ekstrakurikuler</a></li>
                         <li><a class="text-sm text-white/75 hover:text-secondary flex items-center gap-2 group transition-all duration-200" href="{{ route('teachers.index.public') }}"><span class="w-1 h-1 rounded-full bg-secondary/50 group-hover:bg-secondary transition"></span>Guru &amp; Staff</a></li>
                     </ul>
                 </div>
@@ -575,19 +204,19 @@
                         <div class="w-8 h-8 rounded-xl bg-secondary/15 border border-secondary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <span class="material-symbols-outlined text-secondary text-[16px]">location_on</span>
                         </div>
-                        <p class="text-sm text-white/70 leading-relaxed">{{ $setting->address ?? 'Jl. Klampis Jaya No. 11, Klampis Ngasem, Kec. Sukolilo, Surabaya' }}</p>
+                        <p class="text-sm text-white/70 leading-relaxed">{{ $setting?->address ?? 'Jl. Klampis Jaya No. 11, Klampis Ngasem, Kec. Sukolilo, Surabaya' }}</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-secondary/15 border border-secondary/20 flex items-center justify-center flex-shrink-0">
                             <span class="material-symbols-outlined text-secondary text-[16px]">phone</span>
                         </div>
-                        <a href="tel:{{ $setting->phone ?? '031-5996405' }}" class="text-sm text-white/70 hover:text-secondary transition">{{ $setting->phone ?? '031-5996405' }}</a>
+                        <a href="tel:{{ $setting?->phone ?? '031-5996405' }}" class="text-sm text-white/70 hover:text-secondary transition">{{ $setting?->phone ?? '031-5996405' }}</a>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-secondary/15 border border-secondary/20 flex items-center justify-center flex-shrink-0">
                             <span class="material-symbols-outlined text-secondary text-[16px]">mail</span>
                         </div>
-                        <a href="mailto:{{ $setting->email ?? 'info@smagiki3surabaya.sch.id' }}" class="text-sm text-white/70 hover:text-secondary transition">{{ $setting->email ?? 'info@smagiki3surabaya.sch.id' }}</a>
+                        <a href="mailto:{{ $setting?->email ?? 'info@smagiki3surabaya.sch.id' }}" class="text-sm text-white/70 hover:text-secondary transition">{{ $setting?->email ?? 'info@smagiki3surabaya.sch.id' }}</a>
                     </div>
                 </div>
             </div>
@@ -595,10 +224,10 @@
             <div class="pt-8 border-t border-white/8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex flex-col md:flex-row items-center gap-3">
                     <p class="text-white/35 text-xs">
-                        © {{ date('Y') }} {{ $setting->school_name ?? 'SMA GIKI 3 Surabaya' }}. Hak Cipta Dilindungi.
+                        © {{ date('Y') }} {{ $setting?->school_name ?? 'SMA GIKI 3 Surabaya' }}. Hak Cipta Dilindungi.
                     </p>
                     <span class="hidden md:block w-1 h-1 rounded-full bg-white/20"></span>
-                    <p class="text-white/25 text-xs">Dikembangkan untuk KKN Universitas</p>
+                    <p class="text-white/25 text-xs">Dikembangkan oleh Kelomopok 3 KKN ITATS</p>
                 </div>
                 <button class="flex items-center gap-2 text-white/60 hover:text-secondary text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5" onclick="if(window.lenis) { window.lenis.scrollTo(0); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }">
                     <span class="material-symbols-outlined text-base">arrow_upward</span>
@@ -702,6 +331,16 @@
             const mobileDropdown = document.getElementById('mobileDropdown');
             let menuOpen = false;
 
+            function closeMobileMenu() {
+                menuOpen = false;
+                mobileDropdown.classList.remove('open');
+                mobileDropdown.style.overflowY = 'hidden';
+                mobileDropdown.style.height = '0';
+                navbar.classList.remove('menu-open');
+                if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
+                if (mobileMenuBtn) mobileMenuBtn.focus();
+            }
+
             if (mobileMenuBtn && mobileDropdown) {
                 mobileMenuBtn.addEventListener('click', () => {
                     menuOpen = !menuOpen;
@@ -711,26 +350,28 @@
                         mobileDropdown.style.height = dh + 'px';
                         mobileDropdown.style.overflowY = 'auto';
                         navbar.classList.add('menu-open');
+                        // Focus first link in dropdown
+                        const firstLink = mobileDropdown.querySelector('a');
+                        if (firstLink) firstLink.focus();
                     } else {
-                        mobileDropdown.classList.remove('open');
-                        mobileDropdown.style.overflowY = 'hidden';
-                        mobileDropdown.style.height = '0';
-                        navbar.classList.remove('menu-open');
+                        closeMobileMenu();
                     }
                     if (mobileMenuIcon) {
                         mobileMenuIcon.innerText = menuOpen ? 'close' : 'menu';
                     }
                 });
 
+                // Close on Escape key
+                mobileDropdown.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && menuOpen) {
+                        closeMobileMenu();
+                    }
+                });
+
                 // Close on nav link click
                 mobileDropdown.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        menuOpen = false;
-                        mobileDropdown.classList.remove('open');
-                        mobileDropdown.style.overflowY = 'hidden';
-                        mobileDropdown.style.height = '0';
-                        navbar.classList.remove('menu-open');
-                        if (mobileMenuIcon) mobileMenuIcon.innerText = 'menu';
+                        closeMobileMenu();
                     });
                 });
             }

@@ -44,7 +44,11 @@ class PublicTestimonialController extends Controller
         $data['is_approved'] = false; // Default false for public submission
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            $result = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload avatar. Silakan coba lagi.');
+            }
+            $data['avatar'] = $result;
         }
 
         Testimonial::create($data);

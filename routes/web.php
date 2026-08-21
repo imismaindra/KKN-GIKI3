@@ -13,7 +13,16 @@ use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\ExtracurricularController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Models\Banner;
+
+Route::get('/sitemap.xml', function () {
+    $articles = \App\Models\Article::where('status', 'published')
+        ->orderBy('published_at', 'desc')
+        ->get();
+
+    return response()->view('sitemap', compact('articles'))->header('Content-Type', 'text/xml');
+});
 
 Route::get('/', function () {
     $banners = Banner::where('is_active', true)->orderBy('order')->get();
@@ -24,48 +33,9 @@ Route::get('/', function () {
     $galleries = \App\Models\Gallery::with('images')->latest()->get();
     $testimonials = \App\Models\Testimonial::approved()->latest()->get();
     $extracurriculars = \App\Models\Extracurricular::latest()->get();
-    
-    // Fetch and sort majors
     $majors = \App\Models\Major::orderBy('name')->get();
-    
-    // Fetch facilities
     $facilities = \App\Models\Facility::latest()->get();
-    
-    // Fetch and sort teachers based on predefined positions
-    $predefined = \App\Models\Teacher::getPredefinedPositions();
-    $teachers = \App\Models\Teacher::all()->sort(function ($a, $b) use ($predefined) {
-        $posA = array_map('trim', explode(',', $a->position));
-        $posB = array_map('trim', explode(',', $b->position));
-        
-        $priorityA = 999;
-        foreach ($posA as $p) {
-            $idx = array_search($p, $predefined);
-            if ($idx !== false && $idx < $priorityA) {
-                $priorityA = $idx;
-            }
-        }
-        
-        $priorityB = 999;
-        foreach ($posB as $p) {
-            $idx = array_search($p, $predefined);
-            if ($idx !== false && $idx < $priorityB) {
-                $priorityB = $idx;
-            }
-        }
-        
-        if ($priorityA !== $priorityB) {
-            return $priorityA <=> $priorityB;
-        }
-        
-        $posStringA = implode(', ', $posA);
-        $posStringB = implode(', ', $posB);
-        $posComp = strcasecmp($posStringA, $posStringB);
-        if ($posComp !== 0) {
-            return $posComp;
-        }
-        
-        return strcasecmp($a->name, $b->name);
-    })->values();
+    $teachers = \App\Models\Teacher::sorted();
 
     return view('welcome', compact(
         'banners', 'articles', 'galleries', 'testimonials', 'extracurriculars', 
@@ -74,7 +44,7 @@ Route::get('/', function () {
 });
 
 // Public Contact Form submission
-Route::post('/kontak', [\App\Http\Controllers\PublicContactController::class, 'store'])->name('contact.store');
+Route::post('/kontak', [\App\Http\Controllers\PublicContactController::class, 'store'])->name('contact.store')->middleware('throttle:5,1');
 
 // Public Article Routes
 Route::get('/berita-artikel', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
@@ -82,10 +52,10 @@ Route::get('/berita-artikel/{slug}', [\App\Http\Controllers\ArticleController::c
 
 // Public Testimonial Routes
 Route::get('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'create'])->name('testimonials.create.public');
-Route::post('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'store'])->name('testimonials.store.public');
+Route::post('/testimoni/tulis', [\App\Http\Controllers\PublicTestimonialController::class, 'store'])->name('testimonials.store.public')->middleware('throttle:5,1');
 
 // Public Extracurricular Routes
-Route::get('/ekstrakurikuler', [\App\Http\Controllers\ExtracurricularController::class, 'index'])->name('ekstrakurikuler.index');
+Route::get('/ekstrakurikuler', [\App\Http\Controllers\ExtracurricularController::class, 'index'])->name('extracurriculars.index.public');
 
 // Public Teacher/Staff Routes
 Route::get('/guru-staff', [\App\Http\Controllers\PublicTeacherController::class, 'index'])->name('teachers.index.public');
@@ -93,13 +63,19 @@ Route::get('/guru-staff', [\App\Http\Controllers\PublicTeacherController::class,
 // Admin Authentication Routes (Guest)
 Route::middleware('guest')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+
 });
 
-// Protected Admin Routes (Auth)
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+// Protected Admin Routes (Auth + Admin)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Profile (Ganti Password/Email)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 

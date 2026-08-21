@@ -14,7 +14,7 @@ class GalleryController extends Controller
 {
     public function index(): View
     {
-        $galleries = Gallery::with('images')->latest()->get();
+        $galleries = Gallery::with('images')->latest()->paginate(15);
         return view('admin.galleries.index', compact('galleries'));
     }
 
@@ -97,6 +97,7 @@ class GalleryController extends Controller
     public function destroy(Gallery $gallery): RedirectResponse
     {
         // Delete all associated physical files
+        $gallery->load('images');
         foreach ($gallery->images as $image) {
             if ($image->image_path) {
                 Storage::disk('public')->delete($image->image_path);

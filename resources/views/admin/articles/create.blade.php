@@ -25,6 +25,14 @@
                 @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
+            <!-- Kategori Artikel -->
+            <div>
+                <label for="category" class="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
+                <input type="text" name="category" id="category" value="{{ old('category') }}" placeholder="Contoh: Berita, Pengumuman, Prestasi"
+                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                @error('category') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
             <!-- Status & Tanggal -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
@@ -267,7 +275,7 @@
         });
 
         // Load data lama jika ada (dari validasi Laravel)
-        const oldContent = `{!! old('content') !!}`;
+        const oldContent = {!! json_encode(old('content')) !!};
         if (oldContent) {
             quill.clipboard.dangerouslyPasteHTML(oldContent);
         }

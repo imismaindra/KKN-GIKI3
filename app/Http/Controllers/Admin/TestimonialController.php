@@ -16,7 +16,7 @@ class TestimonialController extends Controller
     public function index(): View
     {
         // Display latest testimonials
-        $testimonials = Testimonial::latest()->get();
+        $testimonials = Testimonial::latest()->paginate(15);
         return view('admin.testimonials.index', compact('testimonials'));
     }
 
@@ -28,10 +28,14 @@ class TestimonialController extends Controller
     public function store(StoreTestimonialRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['is_approved'] = $request->has('is_approved') ? $request->boolean('is_approved') : true; // default true if created by admin
+        $data['is_approved'] = $request->boolean('is_approved');
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            $result = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload avatar. Silakan coba lagi.');
+            }
+            $data['avatar'] = $result;
         }
 
         Testimonial::create($data);
@@ -53,7 +57,11 @@ class TestimonialController extends Controller
             if ($testimonial->avatar) {
                 Storage::disk('public')->delete($testimonial->avatar);
             }
-            $data['avatar'] = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            $result = ImageOptimizer::optimize($request->file('avatar'), 'testimonials', 300, 300, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload avatar. Silakan coba lagi.');
+            }
+            $data['avatar'] = $result;
         } else {
             unset($data['avatar']);
         }

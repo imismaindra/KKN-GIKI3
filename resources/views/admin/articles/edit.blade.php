@@ -26,6 +26,14 @@
                 @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
+            <!-- Kategori Artikel -->
+            <div>
+                <label for="category" class="block text-sm font-semibold text-slate-700 mb-1">Kategori</label>
+                <input type="text" name="category" id="category" value="{{ old('category', $article->category) }}" placeholder="Contoh: Berita, Pengumuman, Prestasi"
+                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 transition duration-150">
+                @error('category') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
             <!-- Status & Tanggal -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
@@ -171,7 +179,7 @@
 
                         <!-- Quill Content Output Renderer -->
                         <div class="prose prose-sm max-w-none text-slate-700 min-h-[120px] text-xs leading-relaxed border-t border-slate-50 pt-4" id="previewContent">
-                            {!! $article->content !!}
+                            {!! app(\App\Helpers\HtmlSanitizer::class)->sanitize($article->content) !!}
                         </div>
                     </div>
                 </div>
@@ -274,7 +282,7 @@
         });
 
         // Load existing content
-        const savedContent = `{!! old('content', $article->content) !!}`;
+        const savedContent = {!! json_encode(old('content', $article->content)) !!};
         if (savedContent) {
             quill.clipboard.dangerouslyPasteHTML(savedContent);
         }

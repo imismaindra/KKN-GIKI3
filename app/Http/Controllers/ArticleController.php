@@ -13,6 +13,7 @@ class ArticleController extends Controller
     public function index(): View
     {
         $articles = Article::where('status', 'published')
+            ->whereNotNull('published_at')
             ->orderBy('published_at', 'desc')
             ->paginate(6);
 

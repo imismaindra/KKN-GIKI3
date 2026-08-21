@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Set null values to a default before making the column non-nullable
+        DB::table('banners')->whereNull('image_path')->update(['image_path' => '']);
         Schema::table('banners', function (Blueprint $table) {
             $table->string('image_path')->nullable(false)->change();
         });

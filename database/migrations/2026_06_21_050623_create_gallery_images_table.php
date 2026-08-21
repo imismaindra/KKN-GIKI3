@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gallery_images', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('gallery_id')->constrained('galleries')->cascadeOnDelete();
-            $table->string('image_path');
-            $table->timestamps();
-        });
+        // Table already exists from partial migration run
+        if (!Schema::hasTable('gallery_images')) {
+            Schema::create('gallery_images', function (Blueprint $table) {
+                $table->uuid('id')->primary();
+                $table->foreignUuid('gallery_id')->constrained('galleries')->cascadeOnDelete();
+                $table->string('image_path');
+                $table->timestamps();
+            });
+        }
 
         // Migrate existing galleries image paths to the new table
         $galleries = DB::table('galleries')->get();
@@ -35,9 +38,11 @@ return new class extends Migration
         }
 
         // Drop image_path column from galleries table
-        Schema::table('galleries', function (Blueprint $table) {
-            $table->dropColumn('image_path');
-        });
+        if (Schema::hasColumn('galleries', 'image_path')) {
+            Schema::table('galleries', function (Blueprint $table) {
+                $table->dropColumn('image_path');
+            });
+        }
     }
 
     /**

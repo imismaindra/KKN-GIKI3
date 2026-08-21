@@ -189,15 +189,15 @@
             {{-- Feature pills --}}
             <div class="flex flex-wrap gap-2 gsap-reveal" id="hero-pills">
                 <div class="feature-pill">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon"><span class="material-symbols-outlined text-lg">dashboard</span></div>
                     Dashboard Lengkap
                 </div>
                 <div class="feature-pill">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon"><span class="material-symbols-outlined text-lg">lock</span></div>
                     Akses Aman
                 </div>
                 <div class="feature-pill">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon"><span class="material-symbols-outlined text-lg">bolt</span></div>
                     Real-time Data
                 </div>
             </div>
@@ -302,7 +302,7 @@
                 </div>
 
                 {{-- Remember me --}}
-                <div class="flex items-center justify-between gsap-reveal" id="form-field-3">
+                <div class="flex items-center gsap-reveal" id="form-field-3">
                     <label class="flex items-center gap-2.5 cursor-pointer group">
                         <input type="checkbox" name="remember"
                             class="w-4 h-4 rounded-md border-slate-300 text-cyan-600 focus:ring-cyan-500 focus:ring-2 accent-cyan-600">
@@ -378,26 +378,31 @@
             tl.fromTo('#form-submit', { opacity: 0, y: 30 }, { opacity: 1, y: 0, ease: 'back.out(1.4)', duration: 1 }, 0.9);
             tl.fromTo('#form-footer', { opacity: 0 }, { opacity: 1, duration: 1.2 }, 1.1);
 
-            // Interactive parallax effect on Left Panel (mouse move)
+            // Interactive parallax effect on Left Panel (mouse move) — skip on touch devices
             const leftPanel = document.getElementById('left-panel');
-            leftPanel.addEventListener('mousemove', (e) => {
-                const { width, height } = leftPanel.getBoundingClientRect();
-                const moveX = (e.clientX - width / 2) / width;
-                const moveY = (e.clientY - height / 2) / height;
+            if (!window.matchMedia('(pointer: coarse)').matches && leftPanel) {
+                leftPanel.addEventListener('mousemove', (e) => {
+                    const { width, height } = leftPanel.getBoundingClientRect();
+                    const moveX = (e.clientX - width / 2) / width;
+                    const moveY = (e.clientY - height / 2) / height;
 
-                gsap.to('#blob1', { x: moveX * 45, y: moveY * 45, duration: 1, ease: 'power2.out' });
-                gsap.to('#blob2', { x: moveX * -35, y: moveY * -35, duration: 1, ease: 'power2.out' });
-                gsap.to('#blob3', { x: moveX * 25, y: moveY * 25, duration: 1, ease: 'power2.out' });
-            });
+                    gsap.to('#blob1', { x: moveX * 45, y: moveY * 45, duration: 1, ease: 'power2.out' });
+                    gsap.to('#blob2', { x: moveX * -35, y: moveY * -35, duration: 1, ease: 'power2.out' });
+                    gsap.to('#blob3', { x: moveX * 25, y: moveY * 25, duration: 1, ease: 'power2.out' });
+                });
+            }
 
             // Interactive submit button animations
             const submitBtn = document.querySelector('.btn-submit');
             const submitArrow = document.getElementById('submit-arrow');
             
+            if (!submitBtn || !submitArrow) return;
+            
             submitBtn.addEventListener('mouseenter', () => {
                 gsap.to(submitArrow, { x: 4, ease: 'power2.out', duration: 0.3 });
             });
             submitBtn.addEventListener('mouseleave', () => {
+
                 gsap.to(submitArrow, { x: 0, ease: 'power2.out', duration: 0.3 });
             });
         });

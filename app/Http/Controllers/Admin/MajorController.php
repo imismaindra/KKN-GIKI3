@@ -16,7 +16,7 @@ class MajorController extends Controller
 {
     public function index(): View
     {
-        $majors = Major::latest()->get();
+        $majors = Major::latest()->paginate(15);
         return view('admin.majors.index', compact('majors'));
     }
 
@@ -28,10 +28,20 @@ class MajorController extends Controller
     public function store(StoreMajorRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $slug = Str::slug($data['name']);
+        $originalSlug = $slug;
+        $counter = 1;
+        while (Major::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+        $data['slug'] = $slug;
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         }
 
         Major::create($data);
@@ -47,13 +57,23 @@ class MajorController extends Controller
     public function update(UpdateMajorRequest $request, Major $major): RedirectResponse
     {
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $slug = Str::slug($data['name']);
+        $originalSlug = $slug;
+        $counter = 1;
+        while (Major::where('slug', $slug)->where('id', '!=', $major->id)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+        $data['slug'] = $slug;
 
         if ($request->hasFile('image_path')) {
             if ($major->image_path) {
                 Storage::disk('public')->delete($major->image_path);
             }
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'majors', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         } else {
             unset($data['image_path']);
         }

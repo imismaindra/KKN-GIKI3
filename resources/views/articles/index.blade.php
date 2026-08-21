@@ -51,11 +51,13 @@
                                     <span class="material-symbols-outlined text-5xl">image</span>
                                 </div>
                             @endif
+                            @if($article->category)
                             <div class="absolute bottom-4 left-4">
                                 <span class="px-3 py-1 bg-primary/95 text-on-primary rounded-full text-[10px] font-bold tracking-wider uppercase">
-                                    Info
+                                    {{ $article->category }}
                                 </span>
                             </div>
+                            @endif
                         </div>
 
                         <!-- Card Body -->
@@ -77,7 +79,7 @@
 
                             <!-- Snippet description -->
                             <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3">
-                                {{ $article->meta_description ?: strip_tags($article->content) }}
+                                {{ $article->meta_description ?: strip_tags($article->content ?? '') }}
                             </p>
 
                             <!-- Call to action button at the bottom -->
@@ -94,7 +96,7 @@
 
             <!-- Custom Styled Laravel Pagination -->
             <div class="mt-16 border-t border-slate-200/50 pt-8 flex justify-center">
-                {{ $articles->links() }}
+                {{ $articles->links('vendor.pagination.custom') }}
             </div>
         @endif
     </div>

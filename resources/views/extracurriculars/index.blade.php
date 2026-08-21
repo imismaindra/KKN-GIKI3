@@ -8,7 +8,7 @@
     <meta property="og:title" content="Ekstrakurikuler - SMA GIKI 3 Surabaya" />
     <meta property="og:description" content="Eksplorasi bakat dan minat siswa melalui berbagai program ekstrakurikuler unggulan di bidang Olahraga, Seni, Teknologi, Kepanduan, dan Keagamaan di SMA GIKI 3 Surabaya." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ route('ekstrakurikuler.index') }}" />
+    <meta property="og:url" content="{{ route('extracurriculars.index.public') }}" />
 @endsection
 
 @section('content')
@@ -39,7 +39,7 @@
         @else
             <!-- Filter Tabs -->
             @php
-                $categories = ['Semua', 'Olahraga', 'Seni & Budaya', 'Sains & Teknologi', 'Kepanduan', 'Sosial & Kesehatan', 'Keagamaan', 'Akademik'];
+                $categories = array_merge(['Semua'], $categories ?? []);
             @endphp
             <div class="flex flex-wrap items-center justify-center gap-2 mb-12 max-w-5xl mx-auto">
                 @foreach($categories as $cat)
@@ -57,9 +57,9 @@
             <!-- Card Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="ekskul-grid">
                 @foreach($extracurriculars as $ekskul)
-                    <div class="ekskul-card bento-card bg-white flex flex-col h-full border border-slate-100/50 hover:shadow-xl transition-all duration-300 cursor-pointer animate-card"
+                    <div                      class="ekskul-card bento-card bg-white flex flex-col h-full border border-slate-100/50 hover:shadow-xl transition-all duration-300 cursor-pointer animate-card"
                          data-category="{{ $ekskul->category ?: 'Akademik' }}"
-                         onclick="openEkskulModal('{{ $ekskul->id }}')">
+                         onclick="if('{{ $ekskul->id }}') openEkskulModal('{{ $ekskul->id }}')">
                         
                         <!-- Image Cover -->
                         <div class="relative aspect-[16/10] overflow-hidden bg-slate-100 flex-shrink-0 group">
@@ -94,7 +94,7 @@
                                     {{ $ekskul->name }}
                                 </h3>
                                 <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3">
-                                    {{ $ekskul->description }}
+                                    {{ $ekskul->description ?? 'Deskripsi belum tersedia.' }}
                                 </p>
                             </div>
 
@@ -117,7 +117,7 @@
             <!-- Modals Detail Data -->
             @foreach($extracurriculars as $ekskul)
                 <div id="ekskul-modal-{{ $ekskul->id }}" 
-                     class="ekskul-modal-overlay fixed inset-0 z-[100] hidden flex items-center justify-center p-4 md:p-6 bg-primary/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
+                     class="ekskul-modal-overlay fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-6 bg-primary/80 backdrop-blur-md opacity-0 transition-opacity duration-300">
                     <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-transform duration-300">
                         
                         <!-- Header -->
@@ -180,7 +180,7 @@
                                     Tentang Kegiatan
                                 </h3>
                                 <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
-                                    {{ $ekskul->description }}
+                                    {{ $ekskul->description ?? 'Deskripsi belum tersedia.' }}
                                 </p>
                             </div>
                         </div>
@@ -223,14 +223,15 @@
         cards.forEach(card => {
             const cardCat = card.getAttribute('data-category');
             if (category === 'Semua' || cardCat === category) {
-                card.style.display = 'flex';
-                // Trigger CSS animation reflow
                 card.style.opacity = '0';
                 card.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'scale(1)';
-                }, 50);
+                card.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    });
+                });
             } else {
                 card.style.display = 'none';
             }
@@ -238,7 +239,18 @@
     }
 
     // Modal Control Logic
+    let openModalCount = 0;
+
     function openEkskulModal(id) {
+        // Close any other open modal first
+        const openModal = document.querySelector('.ekskul-modal-overlay:not(.hidden)');
+        if (openModal) {
+            const openId = openModal.id.replace('ekskul-modal-', '');
+            if (openId !== id.toString()) {
+                closeEkskulModal(openId);
+            }
+        }
+
         const modal = document.getElementById('ekskul-modal-' + id);
         if (!modal) return;
 
@@ -246,10 +258,9 @@
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        // Disable document scroll
+        openModalCount++;
         document.body.classList.add('overflow-hidden');
 
-        // Animation timing
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             if (body) {
@@ -270,8 +281,10 @@
             body.classList.add('scale-95');
         }
 
-        // Re-enable document scroll
-        document.body.classList.remove('overflow-hidden');
+        openModalCount = Math.max(0, openModalCount - 1);
+        if (openModalCount === 0) {
+            document.body.classList.remove('overflow-hidden');
+        }
 
         setTimeout(() => {
             modal.classList.add('hidden');

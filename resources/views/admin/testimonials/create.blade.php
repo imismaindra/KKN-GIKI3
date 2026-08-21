@@ -59,7 +59,8 @@
         </div>
 
         <div class="flex items-center">
-            <input type="checkbox" name="is_approved" id="is_approved" value="1" {{ old('is_approved', '1') ? 'checked' : '' }}
+            <input type="hidden" name="is_approved" value="0">
+            <input type="checkbox" name="is_approved" id="is_approved" value="1" {{ old('is_approved') !== null ? (old('is_approved') ? 'checked' : '') : 'checked' }}
                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded transition duration-150">
             <label for="is_approved" class="ml-2 block text-sm text-slate-700 font-semibold">
                 Setujui testimoni ini (Tampilkan langsung di halaman utama)

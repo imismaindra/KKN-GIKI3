@@ -8,7 +8,7 @@ class UpdateSettingRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->is_admin;
     }
 
     public function rules(): array
@@ -36,9 +36,13 @@ class UpdateSettingRequest extends FormRequest
             'headmaster_photo' => ['nullable', 'image', 'max:2048'],
             'headmaster_speech_title' => ['nullable', 'string', 'max:255'],
             'headmaster_speech' => ['nullable', 'string'],
-            'maps_embed' => ['nullable', 'string'],
+            'maps_embed' => ['nullable', 'string', 'regex:/^https:\/\/www\.google\.com\/maps\/embed/', 'max:1000'],
             'erapor_url' => ['nullable', 'url', 'max:255'],
             'ujian_url' => ['nullable', 'url', 'max:255'],
+            'stat_students' => ['nullable', 'integer', 'min:0'],
+            'stat_teachers' => ['nullable', 'integer', 'min:0'],
+            'stat_achievements' => ['nullable', 'integer', 'min:0'],
+            'stat_years' => ['nullable', 'integer', 'min:0'],
         ];
     }
 
@@ -57,6 +61,8 @@ class UpdateSettingRequest extends FormRequest
             'tiktok_url.url' => 'Format tautan TikTok tidak valid.',
             'instagram_url.url' => 'Format tautan Instagram tidak valid.',
             'youtube_url.url' => 'Format tautan YouTube tidak valid.',
+            'maps_embed.regex' => 'Tautan Google Maps tidak valid. Gunakan opsi "Sematkan peta" dari Google Maps.',
+            'maps_embed.max' => 'Tautan Google Maps terlalu panjang.',
         ];
     }
 }

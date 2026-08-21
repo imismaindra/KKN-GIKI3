@@ -3,7 +3,7 @@
 @section('title', ($article->meta_title ?: $article->title) . ' - SMA GIKI 3 Surabaya')
 
 @section('meta')
-    <meta name="description" content="{{ $article->meta_description ?: strip_tags(Str::limit($article->content, 155)) }}" />
+    <meta name="description" content="{{ $article->meta_description ?: Str::limit(strip_tags($article->content), 155) }}" />
     @if($article->meta_keywords)
         <meta name="keywords" content="{{ $article->meta_keywords }}" />
     @endif
@@ -11,7 +11,7 @@
     <!-- Open Graph (Facebook / LinkedIn) Meta Tags -->
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ $article->meta_title ?: $article->title }}" />
-    <meta property="og:description" content="{{ $article->meta_description ?: strip_tags(Str::limit($article->content, 155)) }}" />
+    <meta property="og:description" content="{{ $article->meta_description ?: Str::limit(strip_tags($article->content), 155) }}" />
     <meta property="og:url" content="{{ route('articles.show', $article->slug) }}" />
     @if($article->thumbnail)
         <meta property="og:image" content="{{ url(Storage::url($article->thumbnail)) }}" />
@@ -22,7 +22,7 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ $article->meta_title ?: $article->title }}" />
-    <meta name="twitter:description" content="{{ $article->meta_description ?: strip_tags(Str::limit($article->content, 155)) }}" />
+    <meta name="twitter:description" content="{{ $article->meta_description ?: Str::limit(strip_tags($article->content), 155) }}" />
     @if($article->thumbnail)
         <meta name="twitter:image" content="{{ url(Storage::url($article->thumbnail)) }}" />
     @endif
@@ -99,7 +99,7 @@
                 <!-- Simple Share trigger -->
                 <div class="flex items-center space-x-3">
                     <span class="text-xs font-bold text-slate-450 uppercase">Bagikan:</span>
-                    <button onclick="window.navigator.clipboard.writeText(window.location.href); alert('Tautan berhasil disalin!');" 
+                    <button onclick="window.navigator.clipboard.writeText(window.location.href); (function(){var t=document.createElement('div');t.className='fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-2xl z-[999] animate-fade-in';t.textContent='Tautan berhasil disalin!';document.body.appendChild(t);setTimeout(function(){t.remove()},2500)})();" 
                             class="p-2 bg-slate-50 border border-slate-200 rounded-xl hover:bg-secondary hover:text-white transition duration-150 flex items-center justify-center text-slate-500" 
                             title="Salin Tautan">
                         <span class="material-symbols-outlined text-lg">content_copy</span>

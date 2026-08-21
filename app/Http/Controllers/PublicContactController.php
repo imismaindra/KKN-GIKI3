@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormMail;
 use App\Models\ContactMessage;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PublicContactController extends Controller
 {
@@ -13,7 +17,7 @@ class PublicContactController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
@@ -38,13 +42,18 @@ class PublicContactController extends Controller
 
         $validated = $validator->validated();
 
-        $message = ContactMessage::create([
+        $contactMessage = ContactMessage::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'subject' => $validated['subject'],
             'message' => $validated['message'],
             'is_read' => false,
         ]);
+
+        $schoolEmail = Setting::value('email');
+        if ($schoolEmail) {
+            Mail::to($schoolEmail)->send(new ContactFormMail($contactMessage));
+        }
 
         return response()->json([
             'success' => true,

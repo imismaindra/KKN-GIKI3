@@ -83,6 +83,16 @@
                     </div>
                     <span class="lg:hidden">Sambutan</span>
                 </button>
+
+                <button type="button" onclick="switchTab('statistik')" id="tab-btn-statistik" 
+                    class="flex-1 lg:flex-none text-left py-3.5 px-4 font-bold text-xs rounded-xl transition flex items-center gap-3 w-full group whitespace-nowrap">
+                    <span class="material-symbols-outlined text-lg flex-shrink-0 group-hover:scale-110 transition duration-150">bar_chart</span>
+                    <div class="hidden lg:block">
+                        <div class="font-bold text-xs">Statistik</div>
+                        <div class="text-[10px] font-normal text-slate-400 group-hover:text-slate-500 mt-0.5">Angka counter landing page</div>
+                    </div>
+                    <span class="lg:hidden">Statistik</span>
+                </button>
             </div>
 
             <!-- Sync Status Dashboard (Desktop Only) -->
@@ -632,6 +642,83 @@
                 </div>
             </div>
 
+            <!-- TAB PANEL 5: STATISTIK -->
+            <div id="tab-panel-statistik" class="tab-panel space-y-6 hidden transition-all duration-300">
+                <div class="bg-white rounded-3xl border border-slate-100/80 p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.015)] space-y-6">
+                    <div class="flex items-center gap-4.5 border-b border-slate-50 pb-5">
+                        <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined text-xl font-bold">bar_chart</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-black text-slate-800 tracking-tight">Statistik Angka Landing Page</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Ubah angka counter yang tampil di bagian statistik pada halaman utama website.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5.5">
+                        <div>
+                            <label for="stat_students" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">Jumlah Siswa Aktif</label>
+                            <div class="relative group">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-350 group-focus-within:text-rose-500 transition-colors duration-150 material-symbols-outlined text-lg">group</span>
+                                <input type="number" name="stat_students" id="stat_students" value="{{ old('stat_students', $setting->stat_students ?? 1000) }}" min="0"
+                                    class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50/90 focus:bg-white border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 text-slate-800 transition duration-150 text-sm">
+                            </div>
+                            @error('stat_students')
+                                <span class="flex items-center gap-1 text-rose-600 text-[11px] mt-1.5 ml-1 font-semibold animate-fade-in">
+                                    <span class="material-symbols-outlined text-xs">error</span>
+                                    <span>{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="stat_teachers" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">Jumlah Tenaga Pengajar</label>
+                            <div class="relative group">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-350 group-focus-within:text-rose-500 transition-colors duration-150 material-symbols-outlined text-lg">school</span>
+                                <input type="number" name="stat_teachers" id="stat_teachers" value="{{ old('stat_teachers', $setting->stat_teachers ?? 80) }}" min="0"
+                                    class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50/90 focus:bg-white border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 text-slate-800 transition duration-150 text-sm">
+                            </div>
+                            @error('stat_teachers')
+                                <span class="flex items-center gap-1 text-rose-600 text-[11px] mt-1.5 ml-1 font-semibold animate-fade-in">
+                                    <span class="material-symbols-outlined text-xs">error</span>
+                                    <span>{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="stat_achievements" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">Jumlah Prestasi</label>
+                            <div class="relative group">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-350 group-focus-within:text-rose-500 transition-colors duration-150 material-symbols-outlined text-lg">workspace_premium</span>
+                                <input type="number" name="stat_achievements" id="stat_achievements" value="{{ old('stat_achievements', $setting->stat_achievements ?? 50) }}" min="0"
+                                    class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50/90 focus:bg-white border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 text-slate-800 transition duration-150 text-sm">
+                            </div>
+                            @error('stat_achievements')
+                                <span class="flex items-center gap-1 text-rose-600 text-[11px] mt-1.5 ml-1 font-semibold animate-fade-in">
+                                    <span class="material-symbols-outlined text-xs">error</span>
+                                    <span>{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="stat_years" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">Lama Berdiri (Tahun)</label>
+                            <div class="relative group">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-350 group-focus-within:text-rose-500 transition-colors duration-150 material-symbols-outlined text-lg">calendar_month</span>
+                                <input type="number" name="stat_years" id="stat_years" value="{{ old('stat_years', $setting->stat_years ?? 25) }}" min="0"
+                                    class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50/90 focus:bg-white border border-slate-200/80 rounded-2xl focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 text-slate-800 transition duration-150 text-sm">
+                            </div>
+                            @error('stat_years')
+                                <span class="flex items-center gap-1 text-rose-600 text-[11px] mt-1.5 ml-1 font-semibold animate-fade-in">
+                                    <span class="material-symbols-outlined text-xs">error</span>
+                                    <span>{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Standard Bottom Sticky Save Bar trigger (fallback action button) -->
             <div class="flex justify-end pt-4">
                 <button type="submit"
@@ -942,6 +1029,7 @@
                 if (tabId === 'visi-misi') icon.classList.add('text-emerald-400');
                 if (tabId === 'tentang') icon.classList.add('text-sky-400');
                 if (tabId === 'sambutan') icon.classList.add('text-purple-400');
+                if (tabId === 'statistik') icon.classList.add('text-rose-400');
             }
         }
         
@@ -958,7 +1046,8 @@
         if (!settingForm) return;
         const inputs = settingForm.querySelectorAll('input, textarea, select');
         inputs.forEach(input => {
-            if (input.type === 'file') return;
+            if (input.type === 'file' || input.type === 'hidden') return;
+            if (!input.id && !input.name) return;
             initialValues[input.id || input.name] = input.value;
             
             input.addEventListener('input', checkDirtyState);
@@ -1027,7 +1116,7 @@
                 if (input.id === 'logo') {
                     const img = document.getElementById('logo-preview-img');
                     const placeholder = document.getElementById('logo-preview-placeholder');
-                    const defaultSrc = "{{ ($setting && $setting->logo) ? Storage::url($setting->logo) : '' }}";
+                    const defaultSrc = {!! json_encode(($setting->logo ?? false) ? Storage::url($setting->logo) : '') !!};
                     if (defaultSrc) {
                         img.src = defaultSrc;
                         img.classList.remove('hidden');
@@ -1041,7 +1130,7 @@
                 if (input.id === 'about_image') {
                     const img = document.getElementById('about-preview-img');
                     const placeholder = document.getElementById('about-preview-placeholder');
-                    const defaultSrc = "{{ ($setting && $setting->about_image) ? Storage::url($setting->about_image) : '' }}";
+                    const defaultSrc = {!! json_encode(($setting->about_image ?? false) ? Storage::url($setting->about_image) : '') !!};
                     if (defaultSrc) {
                         img.src = defaultSrc;
                         img.classList.remove('hidden');
@@ -1055,7 +1144,7 @@
                 if (input.id === 'headmaster_photo') {
                     const img = document.getElementById('headmaster-preview-img');
                     const placeholder = document.getElementById('headmaster-preview-placeholder');
-                    const defaultSrc = "{{ ($setting && $setting->headmaster_photo) ? Storage::url($setting->headmaster_photo) : '' }}";
+                    const defaultSrc = {!! json_encode(($setting->headmaster_photo ?? false) ? Storage::url($setting->headmaster_photo) : '') !!};
                     if (defaultSrc) {
                         img.src = defaultSrc;
                         img.classList.remove('hidden');
@@ -1144,12 +1233,18 @@
 
         // Check if there are active errors to open appropriate tab
         let tabWithError = null;
-        const panels = ['umum', 'visi-misi', 'tentang', 'sambutan'];
+        const panels = ['umum', 'visi-misi', 'tentang', 'sambutan', 'statistik'];
         for (const tab of panels) {
             const panel = document.getElementById(`tab-panel-${tab}`);
-            if (panel && panel.querySelector('.text-rose-600')) {
-                tabWithError = tab;
-                break;
+            const hasError = panel && panel.querySelector('.text-rose-600');
+            const tabBtn = document.getElementById(`tab-btn-${tab}`);
+            if (hasError) {
+                if (!tabWithError) tabWithError = tab;
+                if (tabBtn && !tabBtn.querySelector('.tab-error-badge')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'tab-error-badge w-2 h-2 rounded-full bg-rose-500 ml-1.5 inline-block flex-shrink-0';
+                    tabBtn.querySelector('.flex.items-center.gap-3')?.appendChild(badge);
+                }
             }
         }
         
@@ -1169,7 +1264,7 @@
 @if(session('success'))
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            showToast('success', "{{ session('success') }}");
+            showToast('success', {!! json_encode(session('success')) !!});
         });
     </script>
 @endif

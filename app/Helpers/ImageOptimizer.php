@@ -95,15 +95,21 @@ class ImageOptimizer
         if ($tempFile) {
             $success = imagewebp($dstImage, $tempFile, $quality);
             if ($success) {
-                Storage::disk('public')->put($relativeWebpPath, file_get_contents($tempFile));
-                @unlink($tempFile);
+                Storage::disk('public')->put($relativeWebpPath, fopen($tempFile, 'rb'));
             }
+            @unlink($tempFile);
         }
 
         // Free up memory resources
         imagedestroy($srcImage);
         imagedestroy($dstImage);
 
-        return $success ? $relativeWebpPath : $file->store($directory, 'public');
+        $fallback = $file->store($directory, 'public');
+        if ($fallback === false) {
+            $fallback = $directory . '/' . Str::random(40) . '.' . $file->getClientOriginalExtension();
+            Storage::disk('public')->put($fallback, fopen($file->getRealPath(), 'rb'));
+        }
+
+        return $success ? $relativeWebpPath : $fallback;
     }
 }

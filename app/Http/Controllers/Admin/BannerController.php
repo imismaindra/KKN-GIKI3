@@ -15,7 +15,7 @@ class BannerController extends Controller
 {
     public function index(): View
     {
-        $banners = Banner::orderBy('order')->get();
+        $banners = Banner::orderBy('order')->paginate(20);
         return view('admin.banners.index', compact('banners'));
     }
 
@@ -30,7 +30,11 @@ class BannerController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         }
 
         Banner::create($data);
@@ -52,7 +56,11 @@ class BannerController extends Controller
             if ($banner->image_path) {
                 Storage::disk('public')->delete($banner->image_path);
             }
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'banners', 1920, 1080, 80);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         } else {
             unset($data['image_path']);
         }

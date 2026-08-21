@@ -41,7 +41,7 @@
                                             <img src="{{ Storage::url($teacher->photo) }}" alt="{{ $teacher->name }}" class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center text-xs font-semibold text-slate-400 bg-slate-100">
-                                                {{ substr($teacher->name, 0, 2) }}
+                                                {{ substr($teacher->name ?? '--', 0, 2) }}
                                             </div>
                                         @endif
                                     </div>

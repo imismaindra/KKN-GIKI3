@@ -62,13 +62,13 @@
                                 <span class="material-symbols-outlined text-lg text-slate-400">groups</span>
                                 Status / Hubungan <span class="text-red-500">*</span>
                             </label>
-                            <select id="role_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-secondary/10 focus:border-secondary text-slate-800 transition duration-150">
+                            <select id="role_select" name="relationship_display" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-secondary/10 focus:border-secondary text-slate-800 transition duration-150">
                                 <option value="">Pilih Status</option>
                                 <option value="Siswa Aktif" {{ old('relationship') == 'Siswa Aktif' ? 'selected' : '' }}>Siswa Aktif</option>
-                                <option value="Alumni" {{ str_contains(old('relationship', ''), 'Alumni') ? 'selected' : '' }}>Alumni</option>
+                                <option value="Alumni" {{ old('relationship') == 'Alumni' ? 'selected' : '' }}>Alumni</option>
                                 <option value="Orang Tua / Wali Murid" {{ old('relationship') == 'Orang Tua / Wali Murid' ? 'selected' : '' }}>Orang Tua / Wali Murid</option>
                                 <option value="Guru / Staff" {{ old('relationship') == 'Guru / Staff' ? 'selected' : '' }}>Guru / Staff</option>
-                                <option value="Lainnya" {{ (old('relationship') && !in_array(old('relationship'), ['Siswa Aktif', 'Alumni', 'Orang Tua / Wali Murid', 'Guru / Staff'])) ? 'selected' : '' }}>Lainnya</option>
+                                <option value="Lainnya" {{ old('relationship') && !in_array(old('relationship'), ['Siswa Aktif', 'Alumni', 'Orang Tua / Wali Murid', 'Guru / Staff']) ? 'selected' : '' }}>Lainnya</option>
                             </select>
                             <input type="hidden" name="relationship" id="relationship" value="{{ old('relationship') }}">
                             @error('relationship') 
@@ -96,7 +96,7 @@
                         <div class="flex items-center gap-2" id="star-rating-container">
                             <input type="hidden" name="rating" id="rating-input" value="{{ old('rating', '') }}">
                             @for($i = 1; $i <= 5; $i++)
-                                <button type="button" data-rating="{{ $i }}" class="star-btn text-slate-300 hover:scale-110 transition duration-150 focus:outline-none">
+                                <button type="button" data-rating="{{ $i }}" class="star-btn text-slate-300 hover:scale-110 transition duration-150 focus:outline-none" style="transition: color 0.15s ease, transform 0.15s ease">
                                     <svg class="w-9 h-9 fill-current" viewBox="0 0 24 24">
                                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                                     </svg>
@@ -206,7 +206,7 @@
             const selectedVal = roleSelect.value;
             if (selectedVal === 'Lainnya') {
                 customRelContainer.classList.remove('hidden');
-                customRelInput.value = "{{ old('relationship') }}";
+                customRelInput.value = @json(old('relationship') ?? '');
                 updateRelationship();
             }
         }
@@ -227,13 +227,7 @@
         function setStars(ratingValue) {
             starButtons.forEach(btn => {
                 const val = parseInt(btn.getAttribute('data-rating'));
-                if (val <= ratingValue) {
-                    btn.classList.remove('text-slate-300');
-                    btn.classList.add('text-amber-400');
-                } else {
-                    btn.classList.remove('text-amber-400');
-                    btn.classList.add('text-slate-300');
-                }
+                btn.style.color = val <= ratingValue ? '#fbbf24' : '#cbd5e1';
             });
             ratingText.innerText = ratingLabels[ratingValue] || "Pilih rating";
         }
@@ -277,7 +271,20 @@
                 if (file) {
                     // Check file size (2MB limit)
                     if (file.size > 2 * 1024 * 1024) {
-                        alert("Ukuran file melebihi 2MB. Silakan pilih foto lain.");
+                        const toast = document.getElementById('custom-toast') || (() => {
+                            const t = document.createElement('div');
+                            t.id = 'custom-toast';
+                            t.className = 'fixed top-6 right-6 z-[9999] bg-rose-600 text-white px-5 py-3 rounded-2xl shadow-lg text-sm font-semibold transition-all duration-500 translate-y-[-100px] opacity-0 pointer-events-none';
+                            document.body.appendChild(t);
+                            return t;
+                        })();
+                        toast.textContent = 'Ukuran file melebihi 2MB. Silakan pilih foto lain.';
+                        toast.classList.remove('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+                        toast.classList.add('translate-y-0', 'opacity-100');
+                        setTimeout(() => {
+                            toast.classList.remove('translate-y-0', 'opacity-100');
+                            toast.classList.add('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+                        }, 4000);
                         avatarInput.value = '';
                         return;
                     }
@@ -295,6 +302,12 @@
                     avatarPlaceholder.classList.remove('hidden');
                 }
             });
+        }
+
+        // L7: Guard null submit button
+        const forgotSubmitBtn = document.querySelector('.btn-submit');
+        if (forgotSubmitBtn) {
+            forgotSubmitBtn.addEventListener('mouseenter', () => { /* no-op, GSAP handled */ });
         }
     });
 </script>

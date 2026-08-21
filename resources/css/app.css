@@ -1,9 +1,100 @@
 @import 'tailwindcss';
+@import './layout.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../../resources/views/**/*.blade.php';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-headline-sm: 'Poppins', sans-serif;
+    --font-display-lg-mobile: 'Poppins', sans-serif;
+    --font-title-lg: 'Poppins', sans-serif;
+    --font-headline-md: 'Poppins', sans-serif;
+    --font-body-lg: 'Outfit', sans-serif;
+    --font-label-md: 'Outfit', sans-serif;
+    --font-display-lg: 'Poppins', sans-serif;
+    --font-body-md: 'Outfit', sans-serif;
+
+    --text-headline-sm: 24px/32px;
+    --text-display-lg-mobile: 36px/44px;
+    --text-title-lg: 20px/28px;
+    --text-headline-md: 32px/40px;
+    --text-body-lg: 18px/28px;
+    --text-label-md: 14px/20px;
+    --text-display-lg: 48px/56px;
+    --text-body-md: 16px/24px;
+
+    --color-primary: #0A1F3D;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #1A3366;
+    --color-on-primary-container: #8BA8D4;
+    --color-primary-fixed: #D0DCEE;
+    --color-primary-fixed-dim: #9BB5D4;
+    --color-on-primary-fixed: #071528;
+    --color-on-primary-fixed-variant: #2C4872;
+    --color-inverse-primary: #9BB5D4;
+
+    --color-secondary: #C8930A;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #E5A93C;
+    --color-on-secondary-container: #ffffff;
+    --color-secondary-fixed: #FCEEC4;
+    --color-secondary-fixed-dim: #F5D475;
+    --color-on-secondary-fixed: #3D2600;
+    --color-on-secondary-fixed-variant: #7A5200;
+
+    --color-accent: #C41E3A;
+    --color-accent-light: #FCEAED;
+    --color-accent-muted: #E57B8A;
+
+    --color-surface: #FAFAF5;
+    --color-surface-bright: #FFFFFF;
+    --color-surface-dim: #DFE0D8;
+    --color-surface-variant: #E4E7EF;
+    --color-surface-container-lowest: #FFFFFF;
+    --color-surface-container-low: #F3F4EF;
+    --color-surface-container: #ECEDF0;
+    --color-surface-container-high: #E4E5E8;
+    --color-surface-container-highest: #DCDDE0;
+    --color-surface-tint: #4A6A9E;
+
+    --color-on-surface: #0A1F3D;
+    --color-on-surface-variant: #3E4452;
+    --color-on-background: #0A1F3D;
+
+    --color-outline: #6E7280;
+    --color-outline-variant: #C2C4CF;
+    --color-inverse-surface: #252C38;
+    --color-inverse-on-surface: #ECF0F7;
+
+    --color-tertiary: #1A1C1A;
+    --color-tertiary-fixed: #E3E2E0;
+    --color-tertiary-fixed-dim: #C7C6C4;
+    --color-on-tertiary: #ffffff;
+    --color-on-tertiary-container: #8A8A88;
+    --color-on-tertiary-fixed: #1a1c1a;
+    --color-on-tertiary-fixed-variant: #464745;
+    --color-tertiary-container: #212321;
+
+    --color-error: #BA1A1A;
+    --color-on-error: #ffffff;
+    --color-error-container: #FFDAD6;
+    --color-on-error-container: #93000A;
+
+    --color-background: #FAFAF5;
+
+    --spacing-margin-mobile: 16px;
+    --spacing-container-max: 1280px;
+    --spacing-unit: 8px;
+    --spacing-margin-desktop: 48px;
+    --spacing-gutter: 24px;
+
+    --max-w-container-max: 1280px;
+
+    --radius-default: 0.25rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-full: 9999px;
 }

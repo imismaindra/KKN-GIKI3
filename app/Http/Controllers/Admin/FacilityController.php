@@ -15,7 +15,7 @@ class FacilityController extends Controller
 {
     public function index(): View
     {
-        $facilities = Facility::latest()->get();
+        $facilities = Facility::latest()->paginate(15);
         return view('admin.facilities.index', compact('facilities'));
     }
 
@@ -29,7 +29,11 @@ class FacilityController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image_path')) {
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         }
 
         Facility::create($data);
@@ -50,7 +54,11 @@ class FacilityController extends Controller
             if ($facility->image_path) {
                 Storage::disk('public')->delete($facility->image_path);
             }
-            $data['image_path'] = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
+            $result = ImageOptimizer::optimize($request->file('image_path'), 'facilities', 1000, 1000, 75);
+            if ($result === false) {
+                return back()->withInput()->with('error', 'Gagal mengupload gambar. Silakan coba lagi.');
+            }
+            $data['image_path'] = $result;
         } else {
             unset($data['image_path']);
         }

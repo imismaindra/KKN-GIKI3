@@ -246,6 +246,8 @@
                                 <img alt="{{ $banner->title }}"
                                     class="w-full h-full object-cover scale-100 transition-transform duration-[6000ms] ease-out"
                                     src="{{ Storage::url($banner->image_path) }}"
+                                    {{ $index > 0 ? 'loading="lazy"' : '' }}
+                                    width="1920" height="1080"
                                     onerror="this.onerror=null; this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden');" />
                                 <div class="hidden absolute inset-0 bg-slate-900"></div>
                             @else
@@ -267,7 +269,7 @@
                                         'emerald' => 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-emerald-500/30',
                                         'red'     => 'bg-red-600 text-white hover:bg-red-700 hover:shadow-red-500/30',
                                         'indigo'  => 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30',
-                                        'slate'   => 'bg-slate-750 text-white hover:bg-slate-800 hover:shadow-slate-650/30',
+                                        'slate'   => 'bg-slate-700 text-white hover:bg-slate-800 hover:shadow-slate-700/30',
                                     ][$banner->cta_color ?? 'amber'] ?? 'bg-secondary text-on-secondary hover:shadow-secondary/30 hover:bg-amber-500';
 
                                     $alignmentClasses = [
@@ -355,7 +357,7 @@
                     </div>
                     <div>
                         <div class="flex items-baseline">
-                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="1000">0</h2>
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="{{ $setting->stat_students ?? 1000 }}">0</h2>
                             <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
                         </div>
                         <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Siswa Aktif</p>
@@ -369,7 +371,7 @@
                     </div>
                     <div>
                         <div class="flex items-baseline">
-                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="80">0</h2>
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="{{ $setting->stat_teachers ?? 80 }}">0</h2>
                             <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
                         </div>
                         <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Tenaga Pengajar</p>
@@ -383,7 +385,7 @@
                     </div>
                     <div>
                         <div class="flex items-baseline">
-                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="50">0</h2>
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="{{ $setting->stat_achievements ?? 50 }}">0</h2>
                             <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
                         </div>
                         <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Prestasi</p>
@@ -397,7 +399,7 @@
                     </div>
                     <div>
                         <div class="flex items-baseline">
-                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="25">0</h2>
+                            <h2 class="font-display-lg text-4xl lg:text-5xl text-primary font-black tracking-tight leading-none counter-value" data-target="{{ $setting->stat_years ?? 25 }}">0</h2>
                             <span class="text-secondary font-black text-2xl lg:text-3xl ml-0.5 leading-none">+</span>
                         </div>
                         <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-variant/80 mt-1.5">Tahun Berdiri</p>
@@ -410,10 +412,14 @@
         <section id="profil" class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-32 scroll-mt-24">
             <div class="mb-16 text-center max-w-3xl mx-auto fade-up">
                 <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mb-6 mt-1 leading-tight">
-                    {!! $setting->about_title ?? 'Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>' !!}
+                    @if($setting?->about_title)
+                        {{ $setting->about_title }}
+                    @else
+                        Mendidik dengan Hati,<br><span class="gradient-gold-text">Membangun Karakter Mandiri</span>
+                    @endif
                 </h2>
                 <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                    {{ $setting->about_description ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia.' }}
+                    {{ $setting?->about_description ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia.' }}
                 </p>
             </div>
             
@@ -423,7 +429,7 @@
                     <div class="relative w-full h-[380px] rounded-3xl overflow-hidden shadow-2xl group border border-outline-variant/10">
                         <img alt="SMA GIKI 3 Surabaya Campus"
                             class="w-full h-full object-cover img-zoom"
-                            src="{{ (isset($setting->about_image) && !empty($setting->about_image)) ? Storage::url($setting->about_image) : 'https://lh3.googleusercontent.com/aida/AP1WRLu4U88psAYyd4fbgc6-aLbIJ5EirwXxQ06Dng5_rolXW8Uj455wHUXt1ccq7OZ-lwZqR6BI7GuZqdLYtMtpT7V8Tiz21DZuPeo6g1aoPfmkW4XyipXAZw-3GvVjX43dui0A-6dUh7vwLyHfLw-T-gZFPvnaffjS7bAcJe8-KPT6RVhBZlmKKznSr8kl6AzgKIBHKL_KXrsRsogo_Edgqg16XzKk4CYRO6tWKFIE2jmkNEmi5Tuk_klEz1E' }}"
+                            src="{{ (isset($setting->about_image) && !empty($setting->about_image)) ? Storage::url($setting->about_image) : '' }}"
                             loading="lazy" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
@@ -434,14 +440,14 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Berdiri Sejak</p>
-                                <p class="font-extrabold text-primary text-sm">{{ $setting->about_year_founded ?? '1993' }}</p>
+                                <p class="font-extrabold text-primary text-sm">{{ $setting?->about_year_founded ?? '1993' }}</p>
                             </div>
                         </div>
 
                         <!-- Floating Accreditation Badge -->
                         <div class="absolute top-6 right-6 bg-secondary text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 border border-secondary-fixed/20">
                             <span class="material-symbols-outlined text-base font-bold">verified</span>
-                            <span class="font-black text-sm tracking-wide">{{ $setting->about_accreditation ?? 'Akreditasi A' }}</span>
+                            <span class="font-black text-sm tracking-wide">{{ $setting?->about_accreditation ?? 'Akreditasi A' }}</span>
                         </div>
                     </div>
                     
@@ -455,10 +461,10 @@
                     <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/10 shadow-sm hover-lift flex flex-col gap-4">
                         <div class="flex items-center gap-3 text-primary">
                             <span class="material-symbols-outlined text-3xl font-bold text-secondary">school</span>
-                            <h3 class="font-black text-xl text-primary tracking-tight">{{ $setting->about_card_title ?? 'Pendidikan Holistik & Karakter' }}</h3>
+                            <h3 class="font-black text-xl text-primary tracking-tight">{{ $setting?->about_card_title ?? 'Pendidikan Holistik & Karakter' }}</h3>
                         </div>
                         <p class="text-slate-600 leading-relaxed text-sm md:text-base">
-                            {{ $setting->about_card_desc ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia, berbudaya, serta berwawasan kebangsaan dan lingkungan.' }}
+                            {{ $setting?->about_card_desc ?? 'SMA GIKI 3 Surabaya mendidik siswa secara komprehensif, memadukan ilmu pengetahuan modern dengan nilai ketakwaan demi mewujudkan generasi yang berkepribadian mulia, berbudaya, serta berwawasan kebangsaan dan lingkungan.' }}
                         </p>
                     </div>
 
@@ -469,7 +475,7 @@
                             <h3 class="font-black text-xl text-primary tracking-tight">Visi Sekolah</h3>
                         </div>
                         <p class="text-slate-600 leading-relaxed text-sm md:text-base italic font-medium pl-4 border-l-4 border-secondary">
-                            "{{ $setting->vision ?? 'Beriman dan bertaqwa, berilmu pengetahuan dan teknologi, berprestasi unggul, berkepribadian, berbudaya, berwawasan kebangsaan dan lingkungan demi terwujudnya kedamaian dan kesejahteraan.' }}"
+                            "{{ $setting?->vision ?? 'Beriman dan bertaqwa, berilmu pengetahuan dan teknologi, berprestasi unggul, berkepribadian, berbudaya, berwawasan kebangsaan dan lingkungan demi terwujudnya kedamaian dan kesejahteraan.' }}"
                         </p>
                     </div>
                 </div>
@@ -538,14 +544,14 @@
                             
                             <div class="bg-white p-4.5 rounded-[2.5rem] shadow-2xl border border-outline-variant/15 relative overflow-hidden group">
                                 <div class="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative">
-                                    <img alt="{{ $setting->headmaster_name ?? 'Kepala Sekolah' }} Portrait"
+                                    <img alt="{{ $setting?->headmaster_name ?? 'Kepala Sekolah' }} Portrait"
                                          class="w-full h-full object-cover grayscale-[20%] img-zoom group-hover:grayscale-0"
-                                         src="{{ (isset($setting->headmaster_photo) && !empty($setting->headmaster_photo)) ? Storage::url($setting->headmaster_photo) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDhXniWW-W0QWzCOpI77isbjwqCJLjUmfS5v93yUGM19K2GsljhhLqDAmXHCrT-p4HWVn2JRKDi4j-sPfcQc7u6VrC2KwAE3QAFAMZXOFQKDrpKBiO0pjwEcfm_mDgUwMl_7bwSpLvmSX5xD9CRzIXH3OLl36MhmJIp5SFO36xHOETcSMpbJg53gbUcs8u9_dynsyzWDuk6IaFEzF691bY3WO_AsP_Y9xeb2zIeIIYAVH2ixK7ZMv7oJG8vYBR-4imDPYPtncQ_e_dB' }}"
+                                          src="{{ (isset($setting->headmaster_photo) && !empty($setting->headmaster_photo)) ? Storage::url($setting->headmaster_photo) : '' }}"
                                          loading="lazy" />
                                 </div>
                                 <div class="mt-5 text-center">
-                                    <p class="font-black text-primary text-lg">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</p>
-                                    <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">{{ $setting->headmaster_title ?? 'Kepala Sekolah SMA GIKI 3 Surabaya' }}</p>
+                                    <p class="font-black text-primary text-lg">{{ $setting?->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</p>
+                                    <p class="text-xs text-secondary font-bold uppercase tracking-[0.15em] mt-1">{{ $setting?->headmaster_title ?? 'Kepala Sekolah SMA GIKI 3 Surabaya' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -554,7 +560,11 @@
                     <!-- Right: Speech Content -->
                     <div class="lg:col-span-7 flex flex-col items-start gap-6 fade-up">
                         <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-black mt-1 leading-tight">
-                            {!! $setting->headmaster_speech_title ?? 'Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>' !!}
+                            @if($setting?->headmaster_speech_title)
+                                {{ $setting->headmaster_speech_title }}
+                            @else
+                                Menyiapkan Generasi<br><span class="gradient-gold-text">Unggul &amp; Berkarakter Mulia</span>
+                            @endif
                         </h2>
                         
                         <div class="relative pl-6 md:pl-10 mt-4 border-l-2 border-secondary/35">
@@ -584,10 +594,10 @@
                             <!-- Signature block -->
                             <div class="mt-8 flex flex-col items-start gap-1">
                                 <div class="h-10 w-auto bg-transparent border-b border-primary/20 pb-2 mb-2 flex items-center justify-center font-serif text-primary/30 select-none">
-                                    <span class="italic text-lg tracking-widest font-semibold text-secondary/60">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</span>
+                                    <span class="italic text-lg tracking-widest font-semibold text-secondary/60">{{ $setting?->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</span>
                                 </div>
-                                <h3 class="font-extrabold text-primary text-sm">{{ $setting->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h3>
-                                <p class="text-xs text-on-surface-variant/80">{{ $setting->headmaster_title ?? 'Kepala SMA GIKI 3 Surabaya' }}</p>
+                                <h3 class="font-extrabold text-primary text-sm">{{ $setting?->headmaster_name ?? 'Drs. H. M. Zainuri, M.Si' }}</h3>
+                                <p class="text-xs text-on-surface-variant/80">{{ $setting?->headmaster_title ?? 'Kepala SMA GIKI 3 Surabaya' }}</p>
                             </div>
                         </div>
                     </div>
@@ -819,7 +829,7 @@
             <div id="ekskul-slider" class="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar">
                 @forelse($extracurriculars as $ekskul)
                     <div class="min-w-[320px] md:min-w-[460px] h-[550px] rounded-[2.5rem] overflow-hidden relative group snap-center fade-up shadow-lg cursor-pointer"
-                         onclick="window.location.href='{{ route('ekstrakurikuler.index') }}'">
+                         onclick="window.location.href='{{ route('extracurriculars.index.public') }}'">
                         @if($ekskul->image_path)
                             @if(Str::startsWith($ekskul->image_path, 'http'))
                                 <img alt="{{ $ekskul->name }}" class="w-full h-full object-cover img-zoom" src="{{ $ekskul->image_path }}" loading="lazy" />
@@ -853,9 +863,9 @@
                     <!-- Fallback Extracurriculars -->
                     @php
                         $fallbackEkskuls = [
-                            ['name' => 'Tari Tradisional', 'cat' => 'Seni Budaya', 'desc' => 'Melestarikan warisan budaya nusantara melalui gerak tari tradisional, tampil di berbagai festival.', 'img' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuCO38iPlrza6vYZYAyX7PQAxDVL--q0_tE-V_UCbUGC-pyQolX8VgYMyo6iv_N-B6rc6XSyZRvI-NVKEhJsCU0038zo9-pIL4hcuBmOlUMAt_sjOCELOOTLqqJ01m1mjAqLnLUFZm6ovBKVj0Rf2dFR-TCG6_Joxy3aHzWCp7rQPkq8iazwqK9H-YdIFRWPeFrm7rsDCdyewWEzqCmZWrjfzYsE75wM8OzERM7JgOZbjm05LBnyVqE2G3HdyEpDYrdLah_a6LIItnQH'],
-                            ['name' => 'Klub Basket Giga', 'cat' => 'Olahraga', 'desc' => 'Membangun sportivitas, daya tahan fisik, dan kerja sama tim dalam kompetisi basket regional.', 'img' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuDLT7MEGmBhEANV3w7U9898OXQr0DfDB-zyie1rzCazRqQCp2WDP5C__pIeFuFKDctbpiWNHws6BEY6szXryhToLKbq90tfdE6Y1O6Tn2VuaikLd557R3t7CYRg5y2Zn8RDHsWAysfVM_VGptUagChzGLzg0qNdYxTOerHcCq-UGFxfeKJvymE5ihuagw8igMUdFNuCiTwIonQkf1AcW_gusX6kYXgPFegt2B0KL6lHFNt_mbOpPhOtQNdrgWud58p_QmLn08xv1fi-'],
-                            ['name' => 'Klub Robotika', 'cat' => 'Sains & Teknologi', 'desc' => 'Pengembangan algoritma program, pemecahan logika pemrograman, serta pembuatan alat otomatis.', 'img' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuATkTVQBv3VR4_U_-0KyWt1VrqYlg0Oo46X8_esHSTLqZZwhJ5HjQJxpS5TSZtnrVJl0Q84yo_P66zUvitxlE7LEylw4kMDwPPXETHL878Q6NZTYouQSvswKvvHXMQ2qtIOMui0RTxV7pAxX0iuO5kNG3a0VFxo69QUbMTw087TaDgrdgnpLSQPmjIfyoYqAgVDv7UQMQ1bqbXvzFwulLmxV-bpJkcQaWV1G7QblZZiWCuqa0GpXIMS-6mBtMMG5lVz6S0cQwpf50K2']
+                            ['name' => 'Tari Tradisional', 'cat' => 'Seni Budaya', 'desc' => 'Melestarikan warisan budaya nusantara melalui gerak tari tradisional, tampil di berbagai festival.', 'img' => ''],
+                            ['name' => 'Klub Basket Giga', 'cat' => 'Olahraga', 'desc' => 'Membangun sportivitas, daya tahan fisik, dan kerja sama tim dalam kompetisi basket regional.', 'img' => ''],
+                            ['name' => 'Klub Robotika', 'cat' => 'Sains & Teknologi', 'desc' => 'Pengembangan algoritma program, pemecahan logika pemrograman, serta pembuatan alat otomatis.', 'img' => ''],
                         ];
                     @endphp
                     @foreach($fallbackEkskuls as $ekskul)
@@ -923,13 +933,13 @@
 
                             <!-- Default role badge (fades out on hover) -->
                             <div class="absolute bottom-4 left-4 bg-primary/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 shadow-md transition-opacity duration-300 group-hover:opacity-0 z-10">
-                                <p class="text-[10px] font-bold text-secondary tracking-widest uppercase">GIGA STAFF</p>
+                                <p class="text-[10px] font-bold text-secondary tracking-widest uppercase">{{ $teacher->isStaff ? 'STAFF' : 'GURU' }}</p>
                             </div>
 
                             <!-- Hover Overlay with blur and detail fade/slide up -->
                             <div class="absolute inset-0 bg-primary/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 text-white z-20 hover:backdrop-blur-md">
                                 <span class="text-[10px] font-bold text-secondary tracking-widest uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
-                                    STAFF & GURU
+                                    {{ $teacher->isStaff ? 'STAFF' : 'GURU' }}
                                 </span>
                                 <h3 class="font-bold text-lg text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100 line-clamp-2">
                                     {{ $teacher->name }}
@@ -986,7 +996,7 @@
                                 <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
                                     <img src="{{ Storage::url($coverImage) }}" alt="{{ $gallery->title }}"
                                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                         loading="lazy">
+                                         loading="lazy" width="400" height="300">
                                     <div class="absolute inset-0 bg-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                         <span class="text-white font-bold text-sm flex items-center gap-2 bg-secondary/90 px-5 py-2.5 rounded-full transform translate-y-3 group-hover:translate-y-0 transition-transform duration-300 shadow-lg">
                                             <span class="material-symbols-outlined text-sm">visibility</span>
@@ -1128,7 +1138,7 @@
                                         @if($testimonial->avatar)
                                             <img src="{{ Storage::url($testimonial->avatar) }}" alt="{{ $testimonial->name }}" class="w-full h-full object-cover" loading="lazy">
                                         @else
-                                            <span class="text-sm uppercase">{{ substr($testimonial->name, 0, 2) }}</span>
+                                            <span class="text-sm uppercase">{{ substr($testimonial->name ?? '', 0, 2) }}</span>
                                         @endif
                                     </div>
                                     <div>
@@ -1283,7 +1293,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Contact Details & Map (Left Column) -->
                 <div class="lg:col-span-5 flex flex-col justify-between gap-8 h-full fade-up">
                     <div class="glass-card-light rounded-3xl p-8 border border-outline-variant/20 shadow-sm flex flex-col gap-6 flex-grow">
@@ -1296,7 +1306,7 @@
                             <div>
                                 <h4 class="font-bold text-sm text-primary mb-1">Alamat Sekolah</h4>
                                 <p class="text-sm text-on-surface-variant leading-relaxed">
-                                    {{ $setting->address ?? 'Jl. Klampis Jaya No. 11, Klampis Ngasem, Kec. Sukolilo, Surabaya, Jawa Timur 60117' }}
+                                    {{ $setting?->address ?? 'Jl. Klampis Jaya No. 11, Klampis Ngasem, Kec. Sukolilo, Surabaya, Jawa Timur 60117' }}
                                 </p>
                             </div>
                         </div>
@@ -1308,7 +1318,7 @@
                             <div>
                                 <h4 class="font-bold text-sm text-primary mb-1">Nomor Telepon</h4>
                                 <p class="text-sm text-on-surface-variant leading-relaxed">
-                                    {{ $setting->phone ?? '031-5996405' }}
+                                    {{ $setting?->phone ?? '031-5996405' }}
                                 </p>
                             </div>
                         </div>
@@ -1320,7 +1330,7 @@
                             <div>
                                 <h4 class="font-bold text-sm text-primary mb-1">Email Resmi</h4>
                                 <p class="text-sm text-on-surface-variant leading-relaxed">
-                                    {{ $setting->email ?? 'info@smagiki3surabaya.sch.id' }}
+                                    {{ $setting?->email ?? 'info@smagiki3surabaya.sch.id' }}
                                 </p>
                             </div>
                         </div>
@@ -1329,7 +1339,7 @@
                     <!-- Interactive Google Map Frame -->
                     <div class="rounded-3xl overflow-hidden shadow-md border border-outline-variant/20 h-64 relative bg-slate-100">
                         <iframe 
-                            src="{{ (isset($setting->maps_embed) && !empty($setting->maps_embed)) ? $setting->maps_embed : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5746977797746!2d112.7758784!3d-7.289139399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa6874ca7f79%3A0x6b6c0c29f44ee7bb!2sSMA%20GIKI%203%20Surabaya!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid' }}" 
+                            src="{{ ($setting->maps_embed && str_starts_with($setting->maps_embed, 'https://www.google.com/maps/embed')) ? $setting->maps_embed : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5746977797746!2d112.7758784!3d-7.289139399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fa6874ca7f79%3A0x6b6c0c29f44ee7bb!2sSMA%20GIKI%203%20Surabaya!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid' }}" 
                             class="w-full h-full border-0 absolute inset-0"
                             allowfullscreen="" 
                             loading="lazy" 
@@ -1389,10 +1399,10 @@
 
 @section('scripts')
 {{-- GSAP & ScrollTrigger CDN --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 {{-- Lenis Smooth Scroll CDN --}}
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -1654,10 +1664,10 @@
             @if(isset($galleries))
                 @foreach($galleries as $gallery)
                     '{{ $gallery->id }}': {
-                        title: '{{ addslashes($gallery->title) }}',
+                        title: @json($gallery->title),
                         images: [
                             @foreach($gallery->images as $image)
-                                '{{ Storage::url($image->image_path) }}',
+                                @json(Storage::url($image->image_path)),
                             @endforeach
                         ]
                     },
@@ -1698,6 +1708,7 @@
 
         window.openLightbox = function(galleryId, index) {
             activeGalleryId = galleryId;
+            if (!galleryData[galleryId] || !galleryData[galleryId].images) return;
             activeImages = galleryData[galleryId].images;
             currentLightboxIndex = index;
 

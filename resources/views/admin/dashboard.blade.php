@@ -29,7 +29,7 @@
                 </span>
             </div>
             <div>
-                <h4 class="text-4xl font-extrabold tracking-tight text-indigo-950">{{ \App\Models\ContactMessage::where('is_read', false)->count() }}</h4>
+                <h4 class="text-4xl font-extrabold tracking-tight text-indigo-950">{{ $unreadMessagesCount }}</h4>
                 <p class="text-xs font-semibold text-indigo-900/60 mt-1">Belum ditinjau</p>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 </span>
             </div>
             <div>
-                <h4 class="text-4xl font-extrabold tracking-tight text-emerald-950">{{ \App\Models\Article::count() }}</h4>
+                <h4 class="text-4xl font-extrabold tracking-tight text-emerald-950">{{ $articlesCount }}</h4>
                 <p class="text-xs font-semibold text-emerald-900/60 mt-1">Aktif tayang</p>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 </span>
             </div>
             <div>
-                <h4 class="text-4xl font-extrabold tracking-tight text-rose-950">{{ \App\Models\Teacher::count() }}</h4>
+                <h4 class="text-4xl font-extrabold tracking-tight text-rose-950">{{ $teachersCount }}</h4>
                 <p class="text-xs font-semibold text-rose-900/60 mt-1">Staf akademik</p>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 </span>
             </div>
             <div>
-                <h4 class="text-4xl font-extrabold tracking-tight text-slate-900">{{ \App\Models\Major::count() }}</h4>
+                <h4 class="text-4xl font-extrabold tracking-tight text-slate-900">{{ $majorsCount }}</h4>
                 <p class="text-xs font-semibold text-slate-700/60 mt-1">Keahlian aktif</p>
             </div>
         </div>
@@ -147,7 +147,7 @@
             <div>
                 <h3 class="text-lg font-bold text-slate-800 mb-6">Pesan Terbaru</h3>
                 <div class="space-y-4">
-                    @forelse(\App\Models\ContactMessage::latest()->take(3)->get() as $msg)
+                    @forelse($recentMessages as $msg)
                         <div class="p-4 rounded-2xl border border-slate-50 space-y-1.5 relative">
                             @if(!$msg->is_read)
                                 <span class="absolute top-4 right-4 w-2 h-2 bg-blue-600 rounded-full"></span>

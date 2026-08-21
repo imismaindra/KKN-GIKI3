@@ -35,5 +35,9 @@ class Setting extends Model
         'maps_embed',
         'erapor_url',
         'ujian_url',
+        'stat_students',
+        'stat_teachers',
+        'stat_achievements',
+        'stat_years',
     ];
 }
