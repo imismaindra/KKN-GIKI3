@@ -168,14 +168,20 @@
                 </div>
                 <!-- Action / Shortcuts widget -->
                 <div class="flex items-center space-x-4">
-                    <!-- Quick Notification / Mail trigger (Stylistic) -->
+                    <!-- Quick Notification / Mail trigger -->
                     <div class="hidden sm:flex items-center space-x-2">
-                        <span class="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 rounded-full transition cursor-pointer relative">
+                        <a href="{{ route('admin.contact-messages.index') }}"
+                           class="relative p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 rounded-full transition cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                            @if($unreadMessagesCount > 0)
-                                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-indigo-500 rounded-full border border-white"></span>
+                            @if(isset($unreadMessagesCount) && $unreadMessagesCount > 0)
+                                <span class="absolute -top-0.5 -right-0.5 flex h-4 w-4">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: #EF4444;"></span>
+                                    <span class="relative inline-flex rounded-full h-4 w-4 items-center justify-center text-[9px] font-bold text-white" style="background: #EF4444;">
+                                        {{ $unreadMessagesCount > 9 ? '9+' : $unreadMessagesCount }}
+                                    </span>
+                                </span>
                             @endif
-                        </span>
+                        </a>
                     </div>
 
                     <!-- Upgrade plan / Visit Site style button -->
